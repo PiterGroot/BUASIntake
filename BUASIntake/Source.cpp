@@ -1,21 +1,24 @@
 #include <SFML/Graphics.hpp>
-
+#include "vec2.hpp"
 using namespace sf;
 
-// Define the Ball struct
-struct Ball
+// Define the Boat struct
+struct Boat
 {
     Vector2f position;
     float moveSpeed = 350;
     Vector2f origin = Vector2f(32, 32);
 };
 
-Texture ballTexture;
-Sprite ball;
-Ball player;
+Texture boatTexture;
+Sprite boatSprite;
+Boat player;
+Boat test;
 
 float deltaTime;
 Vector2f GetMovementDirection();
+
+const Color waterColor(3, 165, 252);
 
 int main()
 {
@@ -23,14 +26,16 @@ int main()
     RenderWindow window(VideoMode(800, 600), "Game Window", Style::Titlebar | Style::Close);
 
     //load ball texture
-    ballTexture.loadFromFile("ball.png");
-    ball.setTexture(ballTexture);
+    boatTexture.loadFromFile("ball.png");
+    boatSprite.setTexture(boatTexture);
 
     Vector2u windowSize = window.getSize();
     player.position = Vector2f(windowSize.x / 2, windowSize.y / 2);
+    test.position = player.position;
 
     Clock clock;
-
+    View view = window.getDefaultView();
+    
     // run the program as long as the window is open
     while (window.isOpen())
     {
@@ -44,17 +49,29 @@ int main()
             if (windowEvent.type == Event::Closed)
                 window.close();
         }
-
-        // clear the window with black color
-        window.clear(Color::Black);
-
+        
+        // Update player position
         auto moveDir = GetMovementDirection();
         player.position += moveDir * player.moveSpeed * deltaTime;
 
-        ball.setPosition(player.position - player.origin);
-        window.draw(ball);
+        // Update view center to follow the player
+        Vector2f viewPos = view.getCenter();
+        Vector2f lerpedViewCenter = lerp(viewPos, player.position, 5 * deltaTime);
+        view.setCenter(lerpedViewCenter);
 
-        // end the current frame
+        // Clear the window
+        window.clear(waterColor);
+        window.setView(view);
+
+        // Draw the ball
+        boatSprite.setPosition(player.position - player.origin);
+        window.draw(boatSprite);
+
+        Sprite testSprite = boatSprite;
+        testSprite.setPosition(test.position);
+        window.draw(testSprite);
+        
+        // Display the content
         window.display();
     }
 
@@ -73,7 +90,6 @@ Vector2f Normalize(const Vector2f& source)
 
 Vector2f GetMovementDirection() {
     Vector2f direction;
-
     if (Keyboard::isKeyPressed(Keyboard::W)) {
         direction += Vector2f(0, -1);
     }
