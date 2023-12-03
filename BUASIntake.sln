@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BUASIntake", "BUASIntake\BUASIntake.vcxproj", "{25680566-06E6-4968-9CBC-3698CE18F515}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{25680566-06E6-4968-9CBC-3698CE18F515}.Debug|x64.ActiveCfg = Debug|x64
+		{25680566-06E6-4968-9CBC-3698CE18F515}.Debug|x64.Build.0 = Debug|x64
+		{25680566-06E6-4968-9CBC-3698CE18F515}.Debug|x86.ActiveCfg = Debug|Win32
+		{25680566-06E6-4968-9CBC-3698CE18F515}.Debug|x86.Build.0 = Debug|Win32
+		{25680566-06E6-4968-9CBC-3698CE18F515}.Release|x64.ActiveCfg = Release|x64
+		{25680566-06E6-4968-9CBC-3698CE18F515}.Release|x64.Build.0 = Release|x64
+		{25680566-06E6-4968-9CBC-3698CE18F515}.Release|x86.ActiveCfg = Release|Win32
+		{25680566-06E6-4968-9CBC-3698CE18F515}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2B65D382-01EA-4690-B044-DD16109F7588}
+	EndGlobalSection
+EndGlobal
