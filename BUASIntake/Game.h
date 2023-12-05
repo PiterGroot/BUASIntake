@@ -38,12 +38,12 @@ private:
 //constructor / destructors
 public:
 	Game();
-		virtual ~Game();
+	virtual ~Game();
 
-		const bool isWindowActive() const;
+	const bool isWindowActive() const;
 
-		void OnUpdateWindowEvents();
-		void OnUpdate(float deltaTime);
-		void OnRender();
+	void OnUpdateWindowEvents();
+	void OnUpdate(float deltaTime);
+	void OnRender();
 };
 

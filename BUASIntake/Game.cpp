@@ -1,6 +1,13 @@
 #include "Game.h"
 Vector2f GetMovementDirection();
 
+Texture waterTexture;
+Sprite waterSprite;
+IntRect textureRect(0, 0, 96, 96);
+
+float frameDuration = 1;
+float elapsedTime = 0;
+
 #pragma region 
 Game::Game()
 {
@@ -26,6 +33,11 @@ void Game::OnInitialize()
 
 	this->testRockexture.loadFromFile("Textures/circle.png");
 	this->testRockSprite.setTexture(this->testRockexture);
+
+	waterTexture.loadFromFile("Textures/water.png");
+	waterSprite.setTexture(waterTexture);
+	waterSprite.setTextureRect(textureRect);
+	waterSprite.setScale(Vector2f(1, 1));
 }
 
 //window initialization
@@ -63,6 +75,7 @@ void Game::OnUpdateWindowEvents()
 	}
 }
 
+
 //Update game loop
 void Game::OnUpdate(float deltaTime)
 {
@@ -75,6 +88,22 @@ void Game::OnUpdate(float deltaTime)
 	auto moveDir = GetMovementDirection();
 	this->playerBoat.position += moveDir * this->playerBoat.moveSpeed * deltaTime;
 	this->boatSprite.setPosition(this->playerBoat.position);
+
+	elapsedTime += deltaTime;
+	if (elapsedTime >= frameDuration)
+	{
+		// Move to the next frame
+		textureRect.left += 16; // Assuming each frame is 64 pixels wide
+		if (textureRect.left > waterTexture.getSize().x)
+		{
+			// If at the end of the texture, reset to the beginning
+			textureRect.left = 0;
+		}
+
+		// Update the sprite's texture rectangle
+		waterSprite.setTextureRect(textureRect);
+		elapsedTime = 0.0f;
+	}
 }
 
 //Rendering game
@@ -85,6 +114,8 @@ void Game::OnRender()
 
 	// Draw objects
 	this->window->setView(view);
+
+	this->window->draw(waterSprite);
 	this->window->draw(boatSprite);
 	this->window->draw(testRockSprite);
 
