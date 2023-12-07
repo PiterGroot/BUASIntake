@@ -1,12 +1,12 @@
 #include "Game.h"
+#include "PlayerBoat.h"
+
 Vector2f GetMovementDirection();
 
-Texture waterTexture;
-Sprite waterSprite;
-IntRect textureRect(0, 0, 96, 96);
-
-float frameDuration = 1;
+float frameDuration = 0.01f;
 float elapsedTime = 0;
+
+PlayerBoat playerBoat;
 
 #pragma region 
 Game::Game()
@@ -27,17 +27,8 @@ void Game::OnInitialize()
 	this->window = nullptr;
 	this->waterColor = Color(3, 165, 252);
 
-	this->boatTexture.loadFromFile("Textures/circle.png");
-	this->boatSprite.setTexture(boatTexture);
-	this->boatSprite.setOrigin(this->playerBoat.origin);
-
 	this->testRockexture.loadFromFile("Textures/circle.png");
 	this->testRockSprite.setTexture(this->testRockexture);
-
-	waterTexture.loadFromFile("Textures/water.png");
-	waterSprite.setTexture(waterTexture);
-	waterSprite.setTextureRect(textureRect);
-	waterSprite.setScale(Vector2f(1, 1));
 }
 
 //window initialization
@@ -50,8 +41,8 @@ void Game::OnInitializeWindow()
 	this->view = this->window->getDefaultView();
 	
 	//spawn player on center of screen
-	this->playerBoat.position = Vector2f(this->videoMode.width / 2, this->videoMode.height / 2);
-	this->testRockSprite.setPosition(this->playerBoat.position);
+	playerBoat.position = Vector2f(this->videoMode.width / 2, this->videoMode.height / 2);
+	this->testRockSprite.setPosition(playerBoat.position);
 }
 
 //Check if window is running
@@ -75,35 +66,17 @@ void Game::OnUpdateWindowEvents()
 	}
 }
 
-
 //Update game loop
 void Game::OnUpdate(float deltaTime)
 {
 	this->OnUpdateWindowEvents();
 
 	Vector2f viewPos = view.getCenter();
-	Vector2f lerpedViewCenter = lerp(viewPos, this->playerBoat.position, 5 * deltaTime);
+	Vector2f lerpedViewCenter = lerp(viewPos, playerBoat.position, 5 * deltaTime);
 	this->view.setCenter(lerpedViewCenter);
 
 	auto moveDir = GetMovementDirection();
-	this->playerBoat.position += moveDir * this->playerBoat.moveSpeed * deltaTime;
-	this->boatSprite.setPosition(this->playerBoat.position);
-
-	elapsedTime += deltaTime;
-	if (elapsedTime >= frameDuration)
-	{
-		// Move to the next frame
-		textureRect.left += 16; // Assuming each frame is 64 pixels wide
-		if (textureRect.left > waterTexture.getSize().x)
-		{
-			// If at the end of the texture, reset to the beginning
-			textureRect.left = 0;
-		}
-
-		// Update the sprite's texture rectangle
-		waterSprite.setTextureRect(textureRect);
-		elapsedTime = 0.0f;
-	}
+	playerBoat.MovePlayer(moveDir * playerBoat.moveSpeed * deltaTime);
 }
 
 //Rendering game
@@ -115,8 +88,7 @@ void Game::OnRender()
 	// Draw objects
 	this->window->setView(view);
 
-	this->window->draw(waterSprite);
-	this->window->draw(boatSprite);
+	this->window->draw(playerBoat.boatSprite);
 	this->window->draw(testRockSprite);
 
 	this->window->display();
