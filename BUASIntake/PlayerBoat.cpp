@@ -1,10 +1,12 @@
 #include "PlayerBoat.h"
+#include <iostream>
+#include "Game.h"
 
 #pragma region MyRegion
 
 float startFuelAmount = 250;
 float defaultMoveSpeed = 350;
-String boatTextureFile = "Textures/circle.png";
+float fuelConsumption = 25;
 
 PlayerBoat::PlayerBoat()
 {
@@ -13,7 +15,7 @@ PlayerBoat::PlayerBoat()
 
 	boatTexture.loadFromFile("Textures/circle.png");
 	boatSprite.setTexture(boatTexture);
-	boatSprite.setOrigin(Vector2f(32, 32));
+	boatSprite.setOrigin(playerOrigin);
 }
 
 PlayerBoat::~PlayerBoat()
@@ -23,8 +25,18 @@ PlayerBoat::~PlayerBoat()
 #pragma endregion
 
 
-void PlayerBoat::MovePlayer(Vector2f newPosition) 
+void PlayerBoat::MovePlayer(Vector2f newPosition, float deltaTime)
 {
+	if (fuel <= 0)
+		return;
+
+	Vector2f currentPosition = position;
+
 	this->position += newPosition;
 	boatSprite.setPosition(this->position);
+
+	if (currentPosition != position) {
+		fuel -= deltaTime * fuelConsumption;
+		std::cout << fuel << "\n";
+	}
 }

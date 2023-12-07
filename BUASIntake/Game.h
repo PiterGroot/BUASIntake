@@ -17,15 +17,14 @@ private:
 
 	View view;
 
-	Clock clock;
-	float deltaTime;
-
 	void OnInitialize();
 	void OnInitializeWindow();
 
 
 //constructor / destructors
 public:
+	float deltaTime;
+
 	Game();
 	virtual ~Game();
 

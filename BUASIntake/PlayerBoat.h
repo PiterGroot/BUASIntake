@@ -6,6 +6,7 @@ using namespace sf;
 class PlayerBoat 
 {
 private:
+	Vector2f playerOrigin = Vector2f(32, 32);
 	Texture boatTexture;
 
 public:
@@ -18,5 +19,5 @@ public:
 	PlayerBoat();
 	virtual ~PlayerBoat();
 
-	void MovePlayer(Vector2f newPosition);
+	void MovePlayer(Vector2f newPosition, float deltaTime);
 };

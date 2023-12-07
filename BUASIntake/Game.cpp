@@ -69,14 +69,15 @@ void Game::OnUpdateWindowEvents()
 //Update game loop
 void Game::OnUpdate(float deltaTime)
 {
+	this->deltaTime = deltaTime;
 	this->OnUpdateWindowEvents();
 
 	Vector2f viewPos = view.getCenter();
-	Vector2f lerpedViewCenter = lerp(viewPos, playerBoat.position, 5 * deltaTime);
+	Vector2f lerpedViewCenter = lerp(viewPos, playerBoat.position, 5 * this->deltaTime);
 	this->view.setCenter(lerpedViewCenter);
 
 	auto moveDir = GetMovementDirection();
-	playerBoat.MovePlayer(moveDir * playerBoat.moveSpeed * deltaTime);
+	playerBoat.MovePlayer(moveDir * playerBoat.moveSpeed * this->deltaTime, this->deltaTime);
 }
 
 //Rendering game
