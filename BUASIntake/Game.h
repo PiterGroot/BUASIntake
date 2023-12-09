@@ -15,7 +15,8 @@ private:
 	Sprite testRockSprite;
 	Texture testRockexture;
 
-	View view;
+	View cameraView;
+	View staticView;
 
 	void OnInitialize();
 	void OnInitializeWindow();

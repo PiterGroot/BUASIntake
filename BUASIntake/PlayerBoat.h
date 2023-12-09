@@ -8,6 +8,8 @@ class PlayerBoat
 private:
 	Vector2f playerOrigin = Vector2f(32, 32);
 	Texture boatTexture;
+	
+	void MovePlayer(Vector2f newPosition, float deltaTime);
 
 public:
 	float fuel;
@@ -19,5 +21,5 @@ public:
 	PlayerBoat();
 	virtual ~PlayerBoat();
 
-	void MovePlayer(Vector2f newPosition, float deltaTime);
+	void UpdatePlayer(float deltaTime);
 };

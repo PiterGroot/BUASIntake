@@ -1,18 +1,21 @@
 #include "Game.h"
 #include "PlayerBoat.h"
-
-Vector2f GetMovementDirection();
+#include "Menu.h"
+#include <iostream>
 
 float frameDuration = 0.01f;
 float elapsedTime = 0;
 
 PlayerBoat playerBoat;
+Menu mainMenu;
 
 #pragma region 
 Game::Game()
 {
 	this->OnInitialize();
 	this->OnInitializeWindow();
+
+	mainMenu.CreateButton(Vector2f(this->videoMode.width / 2, this->videoMode.height / 2), "haha");
 }
 
 Game::~Game()
@@ -38,11 +41,14 @@ void Game::OnInitializeWindow()
 	this->videoMode.height = 600;
 
 	this->window = new RenderWindow(this->videoMode, "Game Window", Style::Titlebar | Style::Close);
-	this->view = this->window->getDefaultView();
+	this->cameraView = this->window->getDefaultView();
+	this->staticView = this->window->getDefaultView();
 	
 	//spawn player on center of screen
 	playerBoat.position = Vector2f(this->videoMode.width / 2, this->videoMode.height / 2);
 	this->testRockSprite.setPosition(playerBoat.position);
+
+	this->staticView.setCenter(playerBoat.position);
 }
 
 //Check if window is running
@@ -58,6 +64,7 @@ void Game::OnUpdateWindowEvents()
 	{
 		if (windowEvent.type == Event::Closed)
 			this->window->close();
+
 		if (Event::KeyPressed)
 		{
 			if (this->windowEvent.key.code == Keyboard::Escape)
@@ -72,12 +79,11 @@ void Game::OnUpdate(float deltaTime)
 	this->deltaTime = deltaTime;
 	this->OnUpdateWindowEvents();
 
-	Vector2f viewPos = view.getCenter();
+	Vector2f viewPos = cameraView.getCenter();
 	Vector2f lerpedViewCenter = lerp(viewPos, playerBoat.position, 5 * this->deltaTime);
-	this->view.setCenter(lerpedViewCenter);
+	cameraView.setCenter(lerpedViewCenter);
 
-	auto moveDir = GetMovementDirection();
-	playerBoat.MovePlayer(moveDir * playerBoat.moveSpeed * this->deltaTime, this->deltaTime);
+	playerBoat.UpdatePlayer(deltaTime);
 }
 
 //Rendering game
@@ -86,30 +92,17 @@ void Game::OnRender()
 	// Clear the window
 	this->window->clear(this->waterColor);
 
+	this->window->setView(staticView);
+	for (sf::Sprite& menuButton : mainMenu.menuButtons)
+	{
+		this->window->draw(menuButton);
+	}
+
 	// Draw objects
-	this->window->setView(view);
+	this->window->setView(cameraView);
 
 	this->window->draw(playerBoat.boatSprite);
 	this->window->draw(testRockSprite);
 
 	this->window->display();
-}
-
-//Get normalized movement direction
-Vector2f GetMovementDirection() {
-	Vector2f direction;
-	if (Keyboard::isKeyPressed(Keyboard::W)) {
-		direction += Vector2f(0, -1);
-	}
-	if (Keyboard::isKeyPressed(Keyboard::A)) {
-		direction += Vector2f(-1, 0);
-	}
-	if (Keyboard::isKeyPressed(Keyboard::S)) {
-		direction -= Vector2f(0, -1);
-	}
-	if (Keyboard::isKeyPressed(Keyboard::D)) {
-		direction += Vector2f(1, 0);
-	}
-	
-	return normalized(direction);
 }
