@@ -1,21 +1,17 @@
 #include "Game.h"
 #include "PlayerBoat.h"
-#include "Menu.h"
 #include <iostream>
 
 float frameDuration = 0.01f;
 float elapsedTime = 0;
 
 PlayerBoat playerBoat;
-Menu mainMenu;
 
 #pragma region 
 Game::Game()
 {
 	this->OnInitialize();
 	this->OnInitializeWindow();
-
-	mainMenu.CreateButton(Vector2f(this->videoMode.width / 2, this->videoMode.height / 2), "haha");
 }
 
 Game::~Game()
@@ -28,7 +24,7 @@ Game::~Game()
 void Game::OnInitialize()
 {
 	this->window = nullptr;
-	this->waterColor = Color(3, 165, 252);
+	this->waterColor = sf::Color(3, 165, 252);
 
 	this->testRockexture.loadFromFile("Textures/circle.png");
 	this->testRockSprite.setTexture(this->testRockexture);
@@ -40,12 +36,12 @@ void Game::OnInitializeWindow()
 	this->videoMode.width = 800;
 	this->videoMode.height = 600;
 
-	this->window = new RenderWindow(this->videoMode, "Game Window", Style::Titlebar | Style::Close);
+	this->window = new sf::RenderWindow(this->videoMode, "Game Window", sf::Style::Titlebar | sf::Style::Close);
 	this->cameraView = this->window->getDefaultView();
 	this->staticView = this->window->getDefaultView();
 	
 	//spawn player on center of screen
-	playerBoat.position = Vector2f(this->videoMode.width / 2, this->videoMode.height / 2);
+	playerBoat.position = sf::Vector2f(this->videoMode.width / 2, this->videoMode.height / 2);
 	this->testRockSprite.setPosition(playerBoat.position);
 
 	this->staticView.setCenter(playerBoat.position);
@@ -62,12 +58,12 @@ void Game::OnUpdateWindowEvents()
 {
 	while (this->window->pollEvent(this->windowEvent))
 	{
-		if (windowEvent.type == Event::Closed)
+		if (windowEvent.type == sf::Event::Closed)
 			this->window->close();
 
-		if (Event::KeyPressed)
+		if (sf::Event::KeyPressed)
 		{
-			if (this->windowEvent.key.code == Keyboard::Escape)
+			if (this->windowEvent.key.code == sf::Keyboard::Escape)
 				this->window->close();
 		}
 	}
@@ -79,8 +75,8 @@ void Game::OnUpdate(float deltaTime)
 	this->deltaTime = deltaTime;
 	this->OnUpdateWindowEvents();
 
-	Vector2f viewPos = cameraView.getCenter();
-	Vector2f lerpedViewCenter = lerp(viewPos, playerBoat.position, 5 * this->deltaTime);
+	sf::Vector2f viewPos = cameraView.getCenter();
+	sf::Vector2f lerpedViewCenter = lerp(viewPos, playerBoat.position, 5 * this->deltaTime);
 	cameraView.setCenter(lerpedViewCenter);
 
 	playerBoat.UpdatePlayer(deltaTime);
@@ -93,15 +89,12 @@ void Game::OnRender()
 	this->window->clear(this->waterColor);
 
 	this->window->setView(staticView);
-	for (sf::Sprite& menuButton : mainMenu.menuButtons)
-	{
-		this->window->draw(menuButton);
-	}
+	// Draw screen space
 
-	// Draw objects
+	// Draw objects world space
 	this->window->setView(cameraView);
 
-	this->window->draw(playerBoat.boatSprite);
+	this->window->draw(playerBoat.objectSprite);
 	this->window->draw(testRockSprite);
 
 	this->window->display();

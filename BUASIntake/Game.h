@@ -1,22 +1,20 @@
 #pragma once
-
 #include <SFML/Graphics.hpp>
 #include "vec2.hpp"
-using namespace sf;
 
 class Game
 {
 private:
-	RenderWindow* window;
-	Event windowEvent;
-	VideoMode videoMode;
-	Color waterColor;
+	sf::RenderWindow* window;
+	sf::Event windowEvent;
+	sf::VideoMode videoMode;
+	sf::Color waterColor;
 
-	Sprite testRockSprite;
-	Texture testRockexture;
+	sf::Sprite testRockSprite;
+	sf::Texture testRockexture;
 
-	View cameraView;
-	View staticView;
+	sf::View cameraView;
+	sf::View staticView;
 
 	void OnInitialize();
 	void OnInitializeWindow();

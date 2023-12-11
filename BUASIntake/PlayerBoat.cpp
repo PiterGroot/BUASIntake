@@ -1,8 +1,6 @@
-#include "PlayerBoat.h"
 #include <iostream>
+#include "PlayerBoat.h"
 #include "Game.h"
-
-Vector2f GetMovementDirection();
 
 float startFuelAmount = 250;
 float defaultMoveSpeed = 350;
@@ -15,9 +13,7 @@ PlayerBoat::PlayerBoat()
 	fuel = startFuelAmount;
 	moveSpeed = defaultMoveSpeed;
 
-	boatTexture.loadFromFile("Textures/circle.png");
-	boatSprite.setTexture(boatTexture);
-	boatSprite.setOrigin(playerOrigin);
+	Initialize("Textures/circle.png", sf::Vector2f(32, 32));
 }
 
 PlayerBoat::~PlayerBoat()
@@ -26,22 +22,15 @@ PlayerBoat::~PlayerBoat()
 
 #pragma endregion
 
-
-void PlayerBoat::UpdatePlayer(float deltaTime)
-{
-	auto moveDir = GetMovementDirection();
-	this->MovePlayer(moveDir * this->moveSpeed, deltaTime);
-}
-
-void PlayerBoat::MovePlayer(Vector2f newPosition, float deltaTime)
+void PlayerBoat::MovePlayer(sf::Vector2f newPosition, float deltaTime)
 {
 	if (fuel <= 0)
 		return;
 
-	Vector2f currentPosition = position;
+	sf::Vector2f currentPosition = position;
 
-	this->position += newPosition * deltaTime;
-	boatSprite.setPosition(this->position);
+	position += newPosition * deltaTime;
+	objectSprite.setPosition(position);
 
 	if (currentPosition != position) {
 		fuel -= deltaTime * fuelConsumption;
@@ -50,20 +39,26 @@ void PlayerBoat::MovePlayer(Vector2f newPosition, float deltaTime)
 }
 
 //Get normalized movement direction
-Vector2f GetMovementDirection() {
-	Vector2f direction;
-	if (Keyboard::isKeyPressed(Keyboard::W)) {
-		direction += Vector2f(0, -1);
+sf::Vector2f GetMovementDirection() {
+	sf::Vector2f direction;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+		direction += sf::Vector2f(0, -1);
 	}
-	if (Keyboard::isKeyPressed(Keyboard::A)) {
-		direction += Vector2f(-1, 0);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+		direction += sf::Vector2f(-1, 0);
 	}
-	if (Keyboard::isKeyPressed(Keyboard::S)) {
-		direction -= Vector2f(0, -1);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+		direction -= sf::Vector2f(0, -1);
 	}
-	if (Keyboard::isKeyPressed(Keyboard::D)) {
-		direction += Vector2f(1, 0);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+		direction += sf::Vector2f(1, 0);
 	}
 
 	return normalized(direction);
+}
+
+void PlayerBoat::UpdatePlayer(float deltaTime)
+{
+	auto moveDir = GetMovementDirection();
+	MovePlayer(moveDir * moveSpeed, deltaTime);
 }

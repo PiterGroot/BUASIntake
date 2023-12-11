@@ -1,22 +1,15 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-using namespace sf;
+#include "GameObject.h"
 
-class PlayerBoat 
+class PlayerBoat : public GameObject
 {
-private:
-	Vector2f playerOrigin = Vector2f(32, 32);
-	Texture boatTexture;
-	
-	void MovePlayer(Vector2f newPosition, float deltaTime);
+private:	
+	void MovePlayer(sf::Vector2f newPosition, float deltaTime);
 
 public:
 	float fuel;
 	float moveSpeed;
-
-	Vector2f position;
-	Sprite boatSprite;
 	
 	PlayerBoat();
 	virtual ~PlayerBoat();

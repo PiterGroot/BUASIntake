@@ -3,7 +3,7 @@
 int main()
 {
     Game game;
-    Clock clock;
+    sf::Clock clock;
     
     // run the program as long as the window is open
     while (game.isWindowActive())
