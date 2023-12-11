@@ -24,6 +24,9 @@
     <ClCompile Include="PlayerBoat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FuelMeter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vec2.hpp">
