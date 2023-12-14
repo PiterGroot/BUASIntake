@@ -1,5 +1,6 @@
 #pragma once
 #include "SFML/Graphics.hpp"
+#include "Game.h"
 
 class GameObject 
 {
@@ -13,5 +14,7 @@ public:
 		objectTexture.loadFromFile(texturePath);
 		objectSprite.setTexture(objectTexture);
 		objectSprite.setOrigin(origin);
+
+		Game::gameobjects.push_back(&objectSprite);
 	}
 };

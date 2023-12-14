@@ -1,7 +1,6 @@
 #include <iostream>
 #include "FuelMeter.cpp"
 #include "PlayerBoat.h"
-#include "Game.h"
 
 float startFuelAmount = 250;
 float defaultMoveSpeed = 350;
@@ -11,14 +10,15 @@ float passiveFuelConsumption = 2;
 
 #pragma region Constructor / Deconstructor
 
-FuelMeter fuelMeter;
+//FuelMeter fuelMeter;
 
 PlayerBoat::PlayerBoat()
 {
 	fuel = startFuelAmount;
 	moveSpeed = defaultMoveSpeed;
+	//fuelMeter.Spawn();
 	
-	Initialize("Textures/circle.png", sf::Vector2f(32, 32));
+	GameObject::Initialize("Textures/circle.png", sf::Vector2f(32, 32));
 }
 
 PlayerBoat::~PlayerBoat()

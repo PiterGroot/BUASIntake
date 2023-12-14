@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "vec2.hpp"
+#include <iostream>
+#include <list>
 
 class Game
 {
@@ -22,6 +24,7 @@ private:
 
 //constructor / destructors
 public:
+	static std::list<sf::Sprite*> gameobjects;
 	float deltaTime;
 
 	Game();

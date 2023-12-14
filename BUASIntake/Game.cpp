@@ -1,6 +1,9 @@
 #include "Game.h"
 #include "PlayerBoat.h"
 #include <iostream>
+#include "list"
+
+std::list<sf::Sprite*> Game::gameobjects;
 
 float frameDuration = 0.01f;
 float elapsedTime = 0;
@@ -94,7 +97,12 @@ void Game::OnRender()
 	// Draw objects world space
 	this->window->setView(cameraView);
 
-	this->window->draw(playerBoat.objectSprite);
+	for (sf::Sprite*& sprite : Game::gameobjects) 
+	{
+		this->window->draw(*sprite);
+	}
+
+	//this->window->draw(playerBoat.objectSprite);
 	this->window->draw(testRockSprite);
 
 	this->window->display();
