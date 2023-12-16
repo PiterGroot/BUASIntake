@@ -1,6 +1,5 @@
-#include <iostream>
-#include "FuelMeter.cpp"
 #include "PlayerBoat.h"
+#include <iostream>
 
 float startFuelAmount = 250;
 float defaultMoveSpeed = 350;
@@ -11,14 +10,10 @@ float passiveFuelConsumption = 2;
 #pragma region Constructor / Deconstructor
 
 //FuelMeter fuelMeter;
-
 PlayerBoat::PlayerBoat()
 {
 	fuel = startFuelAmount;
 	moveSpeed = defaultMoveSpeed;
-	//fuelMeter.Spawn();
-	
-	GameObject::Initialize("Textures/circle.png", sf::Vector2f(32, 32));
 }
 
 PlayerBoat::~PlayerBoat()
@@ -26,6 +21,11 @@ PlayerBoat::~PlayerBoat()
 }
 
 #pragma endregion
+
+void PlayerBoat::SpawnPlayer() 
+{
+	GameObject::InitializeGameobject("Textures/circle.png", sf::Vector2f(32, 32));
+}
 
 void PlayerBoat::MovePlayer(sf::Vector2f newPosition, float deltaTime)
 {
@@ -42,7 +42,7 @@ void PlayerBoat::MovePlayer(sf::Vector2f newPosition, float deltaTime)
 	else
 		fuel -= deltaTime * passiveFuelConsumption;
 	
-	std::cout << fuel << "\n";
+	//std::cout << fuel << "\n";
 }
 
 //Get normalized movement direction

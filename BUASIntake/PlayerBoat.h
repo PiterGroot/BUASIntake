@@ -1,5 +1,7 @@
 #pragma once
 
+class Game;
+
 #include "GameObject.h"
 
 class PlayerBoat : public GameObject
@@ -15,4 +17,6 @@ public:
 	virtual ~PlayerBoat();
 
 	void UpdatePlayer(float deltaTime);
+
+	void SpawnPlayer();
 };

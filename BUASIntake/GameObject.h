@@ -1,6 +1,6 @@
 #pragma once
 #include "SFML/Graphics.hpp"
-#include "Game.h"
+#include "vec2.hpp"
 
 class GameObject 
 {
@@ -9,12 +9,5 @@ public:
 	sf::Sprite objectSprite;
 	sf::Vector2f position;
 	
-	void Initialize(sf::String texturePath, sf::Vector2f origin)
-	{
-		objectTexture.loadFromFile(texturePath);
-		objectSprite.setTexture(objectTexture);
-		objectSprite.setOrigin(origin);
-
-		Game::gameobjects.push_back(&objectSprite);
-	}
+	void InitializeGameobject(sf::String texturePath, sf::Vector2f origin, bool isHudObject = false);
 };

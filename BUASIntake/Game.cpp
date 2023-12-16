@@ -1,25 +1,29 @@
 #include "Game.h"
-#include "PlayerBoat.h"
-#include <iostream>
-#include "list"
 
-std::list<sf::Sprite*> Game::gameobjects;
+//std::list<sf::Sprite*> Game::gameobjects;
+//std::list<sf::Sprite*> Game::hudGameobjects;
 
 float frameDuration = 0.01f;
 float elapsedTime = 0;
 
-PlayerBoat playerBoat;
+Game* Game::instance = nullptr;
 
 #pragma region 
 Game::Game()
 {
+	this->playerBoat = new PlayerBoat();
+
 	this->OnInitialize();
 	this->OnInitializeWindow();
+	
+	instance = this;
+	this->playerBoat->SpawnPlayer();
 }
 
 Game::~Game()
 {
 	delete this->window;
+	delete this->playerBoat;
 }
 #pragma endregion
 
@@ -44,10 +48,20 @@ void Game::OnInitializeWindow()
 	this->staticView = this->window->getDefaultView();
 	
 	//spawn player on center of screen
-	playerBoat.position = sf::Vector2f(this->videoMode.width / 2, this->videoMode.height / 2);
-	this->testRockSprite.setPosition(playerBoat.position);
+	playerBoat->position = GetScreenSize();
+	this->testRockSprite.setPosition(playerBoat->position);
 
-	this->staticView.setCenter(playerBoat.position);
+	this->staticView.setCenter(playerBoat->position);
+}
+
+void Game::PrintToConsole(sf::String message)
+{
+	std::cout << message.toAnsiString() << "\n";
+}
+
+sf::Vector2f Game::GetScreenSize() 
+{
+	return sf::Vector2f(videoMode.width / 2, this->videoMode.height / 2);
 }
 
 //Check if window is running
@@ -79,10 +93,10 @@ void Game::OnUpdate(float deltaTime)
 	this->OnUpdateWindowEvents();
 
 	sf::Vector2f viewPos = cameraView.getCenter();
-	sf::Vector2f lerpedViewCenter = lerp(viewPos, playerBoat.position, 5 * this->deltaTime);
+	sf::Vector2f lerpedViewCenter = lerp(viewPos, playerBoat->position, 5 * this->deltaTime);
 	cameraView.setCenter(lerpedViewCenter);
 
-	playerBoat.UpdatePlayer(deltaTime);
+	playerBoat->UpdatePlayer(deltaTime);
 }
 
 //Rendering game
@@ -91,12 +105,15 @@ void Game::OnRender()
 	// Clear the window
 	this->window->clear(this->waterColor);
 
+	// Draw objects that need to be stuck to the screen
 	this->window->setView(staticView);
-	// Draw screen space
+	for (sf::Sprite*& sprite : Game::hudGameobjects)
+	{
+		this->window->draw(*sprite);
+	}
 
-	// Draw objects world space
+	// Draw objects in world space
 	this->window->setView(cameraView);
-
 	for (sf::Sprite*& sprite : Game::gameobjects) 
 	{
 		this->window->draw(*sprite);
