@@ -1,8 +1,5 @@
 #include "Game.h"
 
-//std::list<sf::Sprite*> Game::gameobjects;
-//std::list<sf::Sprite*> Game::hudGameobjects;
-
 float frameDuration = 0.01f;
 float elapsedTime = 0;
 
@@ -17,7 +14,7 @@ Game::Game()
 	this->OnInitializeWindow();
 	
 	instance = this;
-	this->playerBoat->SpawnPlayer();
+	this->playerBoat->InitializePlayer();
 }
 
 Game::~Game()

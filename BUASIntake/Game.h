@@ -19,22 +19,22 @@ private:
 	sf::View cameraView;
 	sf::View staticView;
 
+	float deltaTime;
 	void OnInitialize();
 	void OnInitializeWindow();
 
 //constructor / destructors
 public:
+	Game();
+	virtual ~Game();
+	
 	static Game* instance;
-	float deltaTime;
+	PlayerBoat* playerBoat;
 	
 	std::list<sf::Sprite*> gameobjects;
 	std::list<sf::Sprite*> hudGameobjects;
 	
-	Game();
-	virtual ~Game();
-
-	PlayerBoat* playerBoat;
-
+	
 	sf::Vector2f GetScreenSize();
 	const bool isWindowActive() const;
 

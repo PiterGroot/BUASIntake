@@ -7,23 +7,11 @@ float defaultMoveSpeed = 350;
 float activeFuelConsumption = 25;
 float passiveFuelConsumption = 2;
 
-#pragma region Constructor / Deconstructor
-
-//FuelMeter fuelMeter;
-PlayerBoat::PlayerBoat()
+void PlayerBoat::InitializePlayer()
 {
 	fuel = startFuelAmount;
 	moveSpeed = defaultMoveSpeed;
-}
 
-PlayerBoat::~PlayerBoat()
-{
-}
-
-#pragma endregion
-
-void PlayerBoat::SpawnPlayer() 
-{
 	GameObject::InitializeGameobject("Textures/circle.png", sf::Vector2f(32, 32));
 }
 
@@ -37,10 +25,8 @@ void PlayerBoat::MovePlayer(sf::Vector2f newPosition, float deltaTime)
 	position += newPosition * deltaTime;
 	objectSprite.setPosition(position);
 
-	if (currentPosition != position) 
-		fuel -= deltaTime * activeFuelConsumption;
-	else
-		fuel -= deltaTime * passiveFuelConsumption;
+	if (currentPosition != position) fuel -= deltaTime * activeFuelConsumption;
+	else fuel -= deltaTime * passiveFuelConsumption;
 	
 	//std::cout << fuel << "\n";
 }
