@@ -150,6 +150,9 @@
     <ClInclude Include="PlayerBoat.h" />
     <ClInclude Include="vec2.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="water_shader.frag" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

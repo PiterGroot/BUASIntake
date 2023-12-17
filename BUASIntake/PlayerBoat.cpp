@@ -5,7 +5,7 @@ float startFuelAmount = 250;
 float defaultMoveSpeed = 350;
 
 float activeFuelConsumption = 25;
-float passiveFuelConsumption = 2;
+float passiveFuelConsumption = 1;
 
 sf::Sprite* testSprite;
 
@@ -78,10 +78,8 @@ void PlayerBoat::UpdatePlayer(float deltaTime)
 {
 	auto moveDir = GetMovementDirection();
 
-	if(moveDir == sf::Vector2f(0, 0)) objectSprite.setTexture(upDirection);
-	else objectSprite.setTexture(getDirectionalSprite[moveDir]);
-
-	std::cout << moveDir.x << " " << moveDir.y << " \n";
+	if (moveDir != sf::Vector2f(0, 0))
+		objectSprite.setTexture(getDirectionalSprite[moveDir]);
 
 	MovePlayer(normalized(moveDir) * moveSpeed, deltaTime);
 }

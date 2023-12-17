@@ -1,9 +1,7 @@
 #include "Game.h"
 
-float frameDuration = 0.01f;
-float elapsedTime = 0;
-
 Game* Game::instance = nullptr;
+sf::Shader shader;
 
 #pragma region 
 Game::Game()
@@ -12,9 +10,15 @@ Game::Game()
 
 	this->OnInitialize();
 	this->OnInitializeWindow();
+
+	playerBoat->position = GetScreenCenter();
+	this->staticView.setCenter(playerBoat->position);
 	
 	instance = this;
 	this->playerBoat->InitializePlayer();
+
+	shader.loadFromFile("water_shader.frag", sf::Shader::Fragment);
+	//shader.setUniform("iResolution", sf::Vector2f(window->getSize()));
 }
 
 Game::~Game()
@@ -29,9 +33,6 @@ void Game::OnInitialize()
 {
 	this->window = nullptr;
 	this->waterColor = sf::Color(3, 165, 252);
-
-	this->testRockexture.loadFromFile("Textures/circle.png");
-	this->testRockSprite.setTexture(this->testRockexture);
 }
 
 //window initialization
@@ -40,15 +41,9 @@ void Game::OnInitializeWindow()
 	this->videoMode.width = 800;
 	this->videoMode.height = 600;
 
-	this->window = new sf::RenderWindow(this->videoMode, "Game Window", sf::Style::Titlebar | sf::Style::Close);
+	this->window = new sf::RenderWindow(this->videoMode, "Untitled boat game", sf::Style::Titlebar | sf::Style::Close);
 	this->cameraView = this->window->getDefaultView();
 	this->staticView = this->window->getDefaultView();
-	
-	//spawn player on center of screen
-	playerBoat->position = GetScreenSize();
-	this->testRockSprite.setPosition(playerBoat->position);
-
-	this->staticView.setCenter(playerBoat->position);
 }
 
 void Game::PrintToConsole(sf::String message)
@@ -56,7 +51,8 @@ void Game::PrintToConsole(sf::String message)
 	std::cout << message.toAnsiString() << "\n";
 }
 
-sf::Vector2f Game::GetScreenSize() 
+//Gets the current center of the screen
+sf::Vector2f Game::GetScreenCenter() 
 {
 	return sf::Vector2f(videoMode.width / 2, this->videoMode.height / 2);
 }
@@ -87,6 +83,8 @@ void Game::OnUpdateWindowEvents()
 void Game::OnUpdate(float deltaTime)
 {
 	this->deltaTime = deltaTime;
+	this->elapsedTime += deltaTime;
+
 	this->OnUpdateWindowEvents();
 
 	sf::Vector2f viewPos = cameraView.getCenter();
@@ -94,6 +92,7 @@ void Game::OnUpdate(float deltaTime)
 	cameraView.setCenter(lerpedViewCenter);
 
 	playerBoat->UpdatePlayer(deltaTime);
+	shader.setUniform("iTime", elapsedTime);
 }
 
 //Rendering game
@@ -108,16 +107,21 @@ void Game::OnRender()
 	{
 		this->window->draw(*sprite);
 	}
+	
+	this->window->setView(cameraView);
+	
+	sf::RectangleShape fullscreenRect(sf::Vector2f(videoMode.width, videoMode.height));
+	fullscreenRect.setFillColor(sf::Color::White);
+	fullscreenRect.setOrigin(videoMode.width / 2, videoMode.height / 2);
+	fullscreenRect.setPosition(videoMode.width / 2, videoMode.height / 2);
+	this->window->draw(fullscreenRect, &shader);
 
 	// Draw objects in world space
-	this->window->setView(cameraView);
 	for (sf::Sprite*& sprite : Game::gameobjects) 
 	{
 		this->window->draw(*sprite);
 	}
 
-	//this->window->draw(playerBoat.objectSprite);
-	this->window->draw(testRockSprite);
 
 	this->window->display();
 }

@@ -13,13 +13,12 @@ private:
 	sf::VideoMode videoMode;
 	sf::Color waterColor;
 
-	sf::Sprite testRockSprite;
-	sf::Texture testRockexture;
-
 	sf::View cameraView;
 	sf::View staticView;
 
 	float deltaTime;
+	float elapsedTime;
+
 	void OnInitialize();
 	void OnInitializeWindow();
 
@@ -34,8 +33,7 @@ public:
 	std::list<sf::Sprite*> gameobjects;
 	std::list<sf::Sprite*> hudGameobjects;
 	
-	
-	sf::Vector2f GetScreenSize();
+	sf::Vector2f GetScreenCenter();
 	const bool isWindowActive() const;
 
 	void PrintToConsole(sf::String message);
