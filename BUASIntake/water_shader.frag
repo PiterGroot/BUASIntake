@@ -2,6 +2,8 @@
 // https://github.com/ashima/webgl-noise
 
 uniform float iTime;
+uniform float scrollDirX;
+uniform float scrollDirY;
 
 vec3 mod289(vec3 x) {
   return x - floor(x * (1.0 / 289.0)) * 289.0;
@@ -100,16 +102,16 @@ void main()
     vec2 uv = gl_FragCoord.xy / resolution;
 
     // Pixelation factor (adjust this to control the size of the pixels)
-    float pixelationFactor = 100.0;
+    float pixelationFactor = 250.0f;
 
     // Quantize UV coordinates to create pixelation effect
     vec2 quantizedUV = floor(uv * pixelationFactor) / pixelationFactor;
 
     // Use the Perlin noise function on quantized UV coordinates
-    float noiseValue = snoise(vec3(quantizedUV * 10.0, vec3(iTime * 0.5)));
+    float noiseValue = snoise(vec3(quantizedUV * 10.0 + vec2(scrollDirX * 0.0085f, scrollDirY * 0.0085f), iTime * 0.1f));
 
     // Threshold the noise value to create sharp edges
-    float threshold = 0.2;
+    float threshold = 0.7;
     float binaryValue = step(noiseValue, threshold);
 
     // Map the binary value to color (dark blue and light blue)

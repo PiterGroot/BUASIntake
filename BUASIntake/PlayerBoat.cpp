@@ -76,10 +76,10 @@ sf::Vector2f PlayerBoat::GetMovementDirection() {
 
 void PlayerBoat::UpdatePlayer(float deltaTime)
 {
-	auto moveDir = GetMovementDirection();
+	currentMoveDir = GetMovementDirection();
 
-	if (moveDir != sf::Vector2f(0, 0))
-		objectSprite.setTexture(getDirectionalSprite[moveDir]);
+	if (currentMoveDir != sf::Vector2f(0, 0))
+		objectSprite.setTexture(getDirectionalSprite[currentMoveDir]);
 
-	MovePlayer(normalized(moveDir) * moveSpeed, deltaTime);
+	MovePlayer(normalized(currentMoveDir) * moveSpeed, deltaTime);
 }

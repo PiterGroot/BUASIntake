@@ -26,6 +26,7 @@ public:
 
 	float fuel;
 	float moveSpeed;
+	sf::Vector2f currentMoveDir;
 
 	void UpdatePlayer(float deltaTime);
 	void InitializePlayer();

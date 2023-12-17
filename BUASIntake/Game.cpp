@@ -93,6 +93,12 @@ void Game::OnUpdate(float deltaTime)
 
 	playerBoat->UpdatePlayer(deltaTime);
 	shader.setUniform("iTime", elapsedTime);
+
+	/*if (playerBoat->currentMoveDir == sf::Vector2f(0, 0))
+		return;*/
+
+	shader.setUniform("scrollDirX", (playerBoat->position.x + (-playerBoat->currentMoveDir.x)));
+	shader.setUniform("scrollDirY", (-playerBoat->position.y + (playerBoat->currentMoveDir.y)));
 }
 
 //Rendering game
@@ -108,20 +114,18 @@ void Game::OnRender()
 		this->window->draw(*sprite);
 	}
 	
-	this->window->setView(cameraView);
-	
 	sf::RectangleShape fullscreenRect(sf::Vector2f(videoMode.width, videoMode.height));
 	fullscreenRect.setFillColor(sf::Color::White);
 	fullscreenRect.setOrigin(videoMode.width / 2, videoMode.height / 2);
 	fullscreenRect.setPosition(videoMode.width / 2, videoMode.height / 2);
 	this->window->draw(fullscreenRect, &shader);
-
+	
 	// Draw objects in world space
+	this->window->setView(cameraView);
 	for (sf::Sprite*& sprite : Game::gameobjects) 
 	{
 		this->window->draw(*sprite);
 	}
-
 
 	this->window->display();
 }
