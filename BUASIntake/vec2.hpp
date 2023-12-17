@@ -15,6 +15,12 @@
 
 typedef sf::Vector2f Vec2;
 
+struct Vector2fEquals {
+    bool operator()(const Vec2& vecA, const Vec2& vecB) const {
+        return std::tie(vecA.x, vecA.y) < std::tie(vecB.x, vecB.y);
+    }
+};
+
 /**
  * @brief dot
  * @param a vector
