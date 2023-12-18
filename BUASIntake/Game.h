@@ -16,6 +16,8 @@ private:
 	sf::View cameraView;
 	sf::View staticView;
 
+	sf::RectangleShape waterShaderRect;
+
 	float deltaTime;
 	float elapsedTime;
 

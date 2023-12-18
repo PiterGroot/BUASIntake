@@ -4,8 +4,8 @@
 float startFuelAmount = 250;
 float defaultMoveSpeed = 350;
 
-float activeFuelConsumption = 25;
-float passiveFuelConsumption = 1;
+float activeFuelConsumption = 0;
+float passiveFuelConsumption = 0;
 
 sf::Sprite* testSprite;
 

@@ -1,9 +1,10 @@
 // Perlin noise function by Stefan Gustavson
 // https://github.com/ashima/webgl-noise
 
-uniform float iTime;
+uniform float time;
 uniform float scrollDirX;
 uniform float scrollDirY;
+uniform vec2 resolution;
 
 vec3 mod289(vec3 x) {
   return x - floor(x * (1.0 / 289.0)) * 289.0;
@@ -96,7 +97,7 @@ float snoise(vec3 v)
 void main()
 {
     // Define the resolution of the screen
-    vec2 resolution = vec2(1920, 1080);
+    vec2 resolution = resolution;
 
     // Normalize the coordinates to the range [0, 1]
     vec2 uv = gl_FragCoord.xy / resolution;
@@ -108,7 +109,7 @@ void main()
     vec2 quantizedUV = floor(uv * pixelationFactor) / pixelationFactor;
 
     // Use the Perlin noise function on quantized UV coordinates
-    float noiseValue = snoise(vec3(quantizedUV * 10.0 + vec2(scrollDirX * 0.0085f, scrollDirY * 0.0085f), iTime * 0.1f));
+    float noiseValue = snoise(vec3(quantizedUV * 10.0 + vec2(scrollDirX * 0.005f, scrollDirY * 0.005f), time * 0.1f));
 
     // Threshold the noise value to create sharp edges
     float threshold = 0.7;

@@ -1,7 +1,7 @@
 #include "Game.h"
 
 Game* Game::instance = nullptr;
-sf::Shader shader;
+sf::Shader waterShader;
 
 #pragma region 
 Game::Game()
@@ -16,9 +16,6 @@ Game::Game()
 	
 	instance = this;
 	this->playerBoat->InitializePlayer();
-
-	shader.loadFromFile("water_shader.frag", sf::Shader::Fragment);
-	//shader.setUniform("iResolution", sf::Vector2f(window->getSize()));
 }
 
 Game::~Game()
@@ -38,12 +35,21 @@ void Game::OnInitialize()
 //window initialization
 void Game::OnInitializeWindow()
 {
-	this->videoMode.width = 800;
-	this->videoMode.height = 600;
+	this->videoMode.width = 900;
+	this->videoMode.height = 700;
 
 	this->window = new sf::RenderWindow(this->videoMode, "Untitled boat game", sf::Style::Titlebar | sf::Style::Close);
 	this->cameraView = this->window->getDefaultView();
 	this->staticView = this->window->getDefaultView();
+
+	//initialize rect for water shader
+	waterShaderRect = sf::RectangleShape(sf::Vector2f(videoMode.width, videoMode.height));
+	waterShaderRect.setOrigin(GetScreenCenter());
+	waterShaderRect.setPosition(GetScreenCenter());
+
+	//load water shader
+	waterShader.loadFromFile("water_shader.frag", sf::Shader::Fragment);
+	waterShader.setUniform("resolution", sf::Vector2f(window->getSize()));
 }
 
 void Game::PrintToConsole(sf::String message)
@@ -87,18 +93,16 @@ void Game::OnUpdate(float deltaTime)
 
 	this->OnUpdateWindowEvents();
 
-	sf::Vector2f viewPos = cameraView.getCenter();
-	sf::Vector2f lerpedViewCenter = lerp(viewPos, playerBoat->position, 5 * this->deltaTime);
-	cameraView.setCenter(lerpedViewCenter);
+	//update "camera" movement
+	cameraView.setCenter(playerBoat->position);
 
+	//update player logic
 	playerBoat->UpdatePlayer(deltaTime);
-	shader.setUniform("iTime", elapsedTime);
 
-	/*if (playerBoat->currentMoveDir == sf::Vector2f(0, 0))
-		return;*/
-
-	shader.setUniform("scrollDirX", (playerBoat->position.x + (-playerBoat->currentMoveDir.x)));
-	shader.setUniform("scrollDirY", (-playerBoat->position.y + (playerBoat->currentMoveDir.y)));
+	//pass necessary variables to the water shader
+	waterShader.setUniform("time", elapsedTime);
+	waterShader.setUniform("scrollDirX", (playerBoat->position.x + (-playerBoat->currentMoveDir.x)));
+	waterShader.setUniform("scrollDirY", (-playerBoat->position.y + (playerBoat->currentMoveDir.y)));
 }
 
 //Rendering game
@@ -114,11 +118,8 @@ void Game::OnRender()
 		this->window->draw(*sprite);
 	}
 	
-	sf::RectangleShape fullscreenRect(sf::Vector2f(videoMode.width, videoMode.height));
-	fullscreenRect.setFillColor(sf::Color::White);
-	fullscreenRect.setOrigin(videoMode.width / 2, videoMode.height / 2);
-	fullscreenRect.setPosition(videoMode.width / 2, videoMode.height / 2);
-	this->window->draw(fullscreenRect, &shader);
+	//draw water shader with static view
+	this->window->draw(waterShaderRect, &waterShader);
 	
 	// Draw objects in world space
 	this->window->setView(cameraView);
