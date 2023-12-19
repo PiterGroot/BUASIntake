@@ -1,5 +1,7 @@
 #include "Game.h"
+#include "BoxCollider.h"
 
+BoxCollider* boxCollider = nullptr;
 Game* Game::instance = nullptr;
 sf::Shader waterShader;
 
@@ -16,6 +18,8 @@ Game::Game()
 	
 	instance = this;
 	this->playerBoat->InitializePlayer();
+
+	boxCollider = new BoxCollider("Textures/circle.png", playerBoat->position + sf::Vector2f(0, 15), sf::Vector2f(1, 1));
 }
 
 Game::~Game()
@@ -110,6 +114,12 @@ void Game::OnRender()
 {
 	// Clear the window
 	this->window->clear(this->waterColor);
+
+	//testing simple box collisions
+	auto playerCollider = playerBoat->GetCollider();
+	if (boxCollider->GetCollider().CheckCollision(playerCollider, 1)) {
+		std::cout << "Player collided!!" << "\n";
+	}
 
 	// Draw objects that need to be stuck to the screen
 	this->window->setView(staticView);

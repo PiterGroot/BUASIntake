@@ -1,13 +1,11 @@
 #include "PlayerBoat.h"
 #include <iostream>
 
-float startFuelAmount = 250;
+float startFuelAmount = 1000;
 float defaultMoveSpeed = 350;
 
-float activeFuelConsumption = 0;
-float passiveFuelConsumption = 0;
-
-sf::Sprite* testSprite;
+float activeFuelConsumption = 25;
+float passiveFuelConsumption = 1;
 
 void PlayerBoat::InitializePlayer()
 {
@@ -44,16 +42,13 @@ void PlayerBoat::MovePlayer(sf::Vector2f newPosition, float deltaTime)
 		return;
 
 	sf::Vector2f currentPosition = position;
-
-	position += newPosition * deltaTime;
-	objectSprite.setPosition(position);
+	MoveGameObject(position += newPosition * deltaTime);
 
 	if (currentPosition != position) fuel -= deltaTime * activeFuelConsumption;
 	else fuel -= deltaTime * passiveFuelConsumption;
 	
-	//std::cout << fuel << "\n";
+	std::cout << "fuel: " << fuel << "\n";
 }
-
 
 //Get normalized movement direction
 sf::Vector2f PlayerBoat::GetMovementDirection() {

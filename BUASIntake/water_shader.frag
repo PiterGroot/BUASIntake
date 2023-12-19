@@ -119,5 +119,5 @@ void main()
     vec3 color = mix(vec3(0.294, 0.471, 0.98), vec3(0.118, 0.282, 0.671), binaryValue);
 
     // Output the final color
-    gl_FragColor = vec4(color, 1.0);
+    gl_FragColor = vec4(color, 1);
 }
