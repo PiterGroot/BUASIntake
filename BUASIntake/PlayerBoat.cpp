@@ -46,8 +46,6 @@ void PlayerBoat::MovePlayer(sf::Vector2f newPosition, float deltaTime)
 
 	if (currentPosition != position) fuel -= deltaTime * activeFuelConsumption;
 	else fuel -= deltaTime * passiveFuelConsumption;
-	
-	std::cout << "fuel: " << fuel << "\n";
 }
 
 //Get normalized movement direction

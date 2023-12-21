@@ -96,12 +96,18 @@ void Game::OnUpdate(float deltaTime)
 	this->elapsedTime += deltaTime;
 
 	this->OnUpdateWindowEvents();
+	
+	//update player logic
+	playerBoat->UpdatePlayer(deltaTime);
+
+	//testing simple box collisions
+	auto playerCollider = playerBoat->GetCollider();
+	if (boxCollider->GetCollider().CheckCollision(playerCollider, 1)) {
+		std::cout << "Player collided!!" << "\n";
+	}
 
 	//update "camera" movement
 	cameraView.setCenter(playerBoat->position);
-
-	//update player logic
-	playerBoat->UpdatePlayer(deltaTime);
 
 	//pass necessary variables to the water shader
 	waterShader.setUniform("time", elapsedTime);
@@ -114,12 +120,6 @@ void Game::OnRender()
 {
 	// Clear the window
 	this->window->clear(this->waterColor);
-
-	//testing simple box collisions
-	auto playerCollider = playerBoat->GetCollider();
-	if (boxCollider->GetCollider().CheckCollision(playerCollider, 1)) {
-		std::cout << "Player collided!!" << "\n";
-	}
 
 	// Draw objects that need to be stuck to the screen
 	this->window->setView(staticView);

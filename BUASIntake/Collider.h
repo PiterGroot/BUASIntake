@@ -8,7 +8,7 @@ public:
 	Collider(GameObject& object);
 
 	bool CheckCollision(Collider& other, float pushBack);
-	void MoveBody(sf::Vector2f deltaPosition) { object.position += deltaPosition; }
+	void MoveBody(sf::Vector2f deltaPosition) { object.MoveGameObject(object.position += deltaPosition); }
 	void MoveBodies(Collider& other, float thisDeltaX, float thisDeltaY, float otherDeltaX, float otherDeltaY);
 	void AdjustPositions(Collider& other, sf::Vector2f intersect, sf::Vector2f deltaPosition, float pushBack);
 
