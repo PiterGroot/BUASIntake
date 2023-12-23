@@ -7,7 +7,7 @@ float defaultMoveSpeed = 350;
 float activeFuelConsumption = 25;
 float passiveFuelConsumption = 1;
 
-void PlayerBoat::InitializePlayer()
+void PlayerBoat::InitializePlayer(sf::Vector2f spawnPosition)
 {
 	fuel = startFuelAmount;
 	moveSpeed = defaultMoveSpeed;
@@ -33,7 +33,7 @@ void PlayerBoat::InitializePlayer()
 	};
 
 	objectSprite.setScale(sf::Vector2f(2, 2));
-	GameObject::InitializeGameobject("Textures/Ship/ship1.png", sf::Vector2f(32, 32));
+	GameObject::InitializeGameobject("Textures/Ship/ship1.png", spawnPosition);
 }
 
 void PlayerBoat::MovePlayer(sf::Vector2f newPosition, float deltaTime)

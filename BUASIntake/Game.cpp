@@ -13,13 +13,11 @@ Game::Game()
 	this->OnInitialize();
 	this->OnInitializeWindow();
 
-	playerBoat->position = GetScreenCenter();
-	this->staticView.setCenter(playerBoat->position);
-	
 	instance = this;
-	this->playerBoat->InitializePlayer();
+	sf::Vector2f screenCenter = sf::Vector2f(GetScreenCenter());
 
-	boxCollider = new BoxCollider("Textures/circle.png", playerBoat->position + sf::Vector2f(0, 15), sf::Vector2f(1, 1));
+	this->playerBoat->InitializePlayer(sf::Vector2f(0,0));
+	boxCollider = new BoxCollider("Textures/circle.png", sf::Vector2f(0, 15), false);
 }
 
 Game::~Game()
@@ -102,7 +100,7 @@ void Game::OnUpdate(float deltaTime)
 
 	//testing simple box collisions
 	auto playerCollider = playerBoat->GetCollider();
-	if (boxCollider->GetCollider().CheckCollision(playerCollider, 1)) {
+	if (boxCollider->CheckCollision(playerCollider, 1)) {
 		std::cout << "Player collided!!" << "\n";
 	}
 

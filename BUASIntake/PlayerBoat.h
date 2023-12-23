@@ -31,5 +31,5 @@ public:
 	sf::Vector2f currentMoveDir;
 
 	void UpdatePlayer(float deltaTime);
-	void InitializePlayer();
+	void InitializePlayer(sf::Vector2f spawnPosition);
 };

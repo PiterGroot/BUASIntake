@@ -7,6 +7,8 @@ class Collider
 public:
 	Collider(GameObject& object);
 
+	void SetTrigger(bool isTrigger) { isTriggerCollider = isTrigger; }
+
 	bool CheckCollision(Collider& other, float pushBack);
 	void MoveBody(sf::Vector2f deltaPosition) { object.MoveGameObject(object.position += deltaPosition); }
 	void MoveBodies(Collider& other, float thisDeltaX, float thisDeltaY, float otherDeltaX, float otherDeltaY);
@@ -17,5 +19,6 @@ public:
 
 private:
 	GameObject& object;
+	bool isTriggerCollider = false;
 };
 

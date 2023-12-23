@@ -1,6 +1,8 @@
 #include "BoxCollider.h"
 
-BoxCollider::BoxCollider(sf::String texturePath, sf::Vector2f position, sf::Vector2f size) 
+BoxCollider::BoxCollider(sf::String texturePath, sf::Vector2f position, bool isTrigger)
+	: Collider(GetGameObject()) // Call the Collider constructor
 {
-	InitializeGameobject(texturePath, sf::Vector2f(32, 32));
+	SetTrigger(isTrigger);
+	InitializeGameobject(texturePath, this->position = position);
 }
