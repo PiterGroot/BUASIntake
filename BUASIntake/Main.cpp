@@ -8,8 +8,11 @@ int main()
     // run the program as long as the window is open
     while (game.isWindowActive())
     {
-        game.OnUpdate(clock.restart().asSeconds());
+        float deltaTime = clock.restart().asSeconds();
+
+        game.OnUpdate(deltaTime);
         game.OnRender();
+        game.OnLateUpdate(deltaTime);
     }
 
     return 0;

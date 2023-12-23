@@ -10,6 +10,8 @@
 class Game
 {
 private:
+	std::list<GameObject*> objectsToDelete;
+
 	sf::RenderWindow* window;
 	sf::Event windowEvent;
 	sf::VideoMode videoMode;
@@ -43,6 +45,6 @@ public:
 	void PrintToConsole(sf::String message);
 	void OnUpdateWindowEvents();
 	void OnUpdate(float deltaTime);
+	void OnLateUpdate(float deltaTime);
 	void OnRender();
 };
-

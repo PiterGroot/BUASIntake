@@ -17,7 +17,7 @@ Game::Game()
 	sf::Vector2f screenCenter = sf::Vector2f(GetScreenCenter());
 
 	this->playerBoat->InitializePlayer(sf::Vector2f(0,0));
-	boxCollider = new BoxCollider("Textures/circle.png", sf::Vector2f(0, 15), false);
+	boxCollider = new BoxCollider("Textures/circle.png", sf::Vector2f(100, 0), true);
 }
 
 Game::~Game()
@@ -98,10 +98,15 @@ void Game::OnUpdate(float deltaTime)
 	//update player logic
 	playerBoat->UpdatePlayer(deltaTime);
 
-	//testing simple box collisions
 	auto playerCollider = playerBoat->GetCollider();
-	if (boxCollider->CheckCollision(playerCollider, 1)) {
-		std::cout << "Player collided!!" << "\n";
+	if (boxCollider != nullptr) {
+		if (boxCollider->CheckCollision(playerCollider, 1)) {
+			std::cout << "Player collided!!" << "\n";
+
+			// mark collider object for deletion
+			objectsToDelete.push_back(boxCollider);
+			boxCollider = nullptr;
+		}
 	}
 
 	//update "camera" movement
@@ -111,6 +116,19 @@ void Game::OnUpdate(float deltaTime)
 	waterShader.setUniform("time", elapsedTime);
 	waterShader.setUniform("scrollDirX", (playerBoat->position.x + (-playerBoat->currentMoveDir.x)));
 	waterShader.setUniform("scrollDirY", (-playerBoat->position.y + (playerBoat->currentMoveDir.y)));
+}
+
+//Update loop after the render pass
+void Game::OnLateUpdate(float deltaTime) 
+{
+	// remove objects marked for deletion
+	for (auto& objectToDelete : objectsToDelete) {
+		auto iterator = std::remove(Game::gameobjects.begin(), Game::gameobjects.end(), objectToDelete);
+		Game::gameobjects.erase(iterator, Game::gameobjects.end());
+
+		delete objectToDelete;
+	}
+	objectsToDelete.clear(); // clear the list for the next frame
 }
 
 //Rendering game

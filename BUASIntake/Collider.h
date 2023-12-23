@@ -21,4 +21,3 @@ private:
 	GameObject& object;
 	bool isTriggerCollider = false;
 };
-
