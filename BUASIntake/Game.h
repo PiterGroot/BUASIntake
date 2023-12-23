@@ -1,9 +1,11 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "vec2.hpp"
 #include <iostream>
 #include <list>
+
+#include "vec2.hpp"
 #include "PlayerBoat.h"
+#include "GameObject.h"
 
 class Game
 {
@@ -32,8 +34,8 @@ public:
 	static Game* instance;
 	PlayerBoat* playerBoat;
 	
-	std::list<sf::Sprite*> gameobjects;
-	std::list<sf::Sprite*> hudGameobjects;
+	std::list<GameObject*> gameobjects;
+	std::list<GameObject*> hudGameobjects;
 	
 	sf::Vector2f GetScreenCenter();
 	const bool isWindowActive() const;

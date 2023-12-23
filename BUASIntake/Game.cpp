@@ -121,9 +121,9 @@ void Game::OnRender()
 
 	// Draw objects that need to be stuck to the screen
 	this->window->setView(staticView);
-	for (sf::Sprite*& sprite : Game::hudGameobjects)
+	for (GameObject* object : Game::hudGameobjects)
 	{
-		this->window->draw(*sprite);
+		this->window->draw(object->objectSprite);
 	}
 	
 	//draw water shader with static view
@@ -131,9 +131,9 @@ void Game::OnRender()
 	
 	// Draw objects in world space
 	this->window->setView(cameraView);
-	for (sf::Sprite*& sprite : Game::gameobjects) 
+	for (GameObject* object : Game::gameobjects)
 	{
-		this->window->draw(*sprite);
+		this->window->draw(object->objectSprite);
 	}
 
 	this->window->display();
