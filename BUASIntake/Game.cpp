@@ -5,6 +5,9 @@ BoxCollider* boxCollider = nullptr;
 Game* Game::instance = nullptr;
 sf::Shader waterShader;
 
+GameObject* testBaseWaypoint = nullptr;
+GameObject* testBase = nullptr;
+
 #pragma region 
 Game::Game()
 {
@@ -18,6 +21,15 @@ Game::Game()
 
 	this->playerBoat->InitializePlayer(sf::Vector2f(0,0));
 	boxCollider = new BoxCollider("Textures/circle.png", sf::Vector2f(100, 0), true);
+	
+	testBase = new GameObject();
+	testBase->objectSprite.setScale(sf::Vector2f(6, 6));
+	testBase->InitializeGameobject("Textures/rock.png", sf::Vector2f(-300, 65));
+	
+	testBaseWaypoint = new GameObject();
+	testBaseWaypoint->objectSprite.setColor(sf::Color(255, 0, 0, 255));
+	testBaseWaypoint->InitializeGameobject("Textures/circle.png", sf::Vector2f(0, 0));
+
 }
 
 Game::~Game()
@@ -52,11 +64,6 @@ void Game::OnInitializeWindow()
 	//load water shader
 	waterShader.loadFromFile("water_shader.frag", sf::Shader::Fragment);
 	waterShader.setUniform("resolution", sf::Vector2f(window->getSize()));
-}
-
-void Game::PrintToConsole(sf::String message)
-{
-	std::cout << message.toAnsiString() << "\n";
 }
 
 //Gets the current center of the screen
@@ -108,6 +115,12 @@ void Game::OnUpdate(float deltaTime)
 			boxCollider = nullptr;
 		}
 	}
+
+	//testing clamped "waypoint" to screen
+	testBaseWaypoint->objectSprite.setPosition(testBaseWaypoint->position = sf::Vector2f(-300, 0));
+	
+	sf::Vector2f clampedPosition = clampVec2(testBaseWaypoint->position, cameraView.getCenter() + sf::Vector2f(-450, -350), cameraView.getCenter() + sf::Vector2f(450, 350));
+	testBaseWaypoint->objectSprite.setPosition(testBaseWaypoint->position = clampedPosition);
 
 	//update "camera" movement
 	cameraView.setCenter(playerBoat->position);

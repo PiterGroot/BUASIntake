@@ -21,6 +21,13 @@ struct Vector2fEquals {
     }
 };
 
+static inline Vec2 clampVec2(const sf::Vector2f& vector, const sf::Vector2f& min, const sf::Vector2f& max) {
+    float clampedX = std::max(min.x, std::min(vector.x, max.x));
+    float clampedY = std::max(min.y, std::min(vector.y, max.y));
+
+    return sf::Vector2f(clampedX, clampedY);
+}
+
 /**
  * @brief dot
  * @param a vector
