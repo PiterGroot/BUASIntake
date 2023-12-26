@@ -7,11 +7,14 @@ float defaultMoveSpeed = 350;
 float activeFuelConsumption = 25;
 float passiveFuelConsumption = 1;
 
-void PlayerBoat::InitializePlayer(sf::Vector2f spawnPosition)
-{
+// Call the Collider constructor
+PlayerBoat::PlayerBoat() : Collider(GetGameObject()) {}
+
+void PlayerBoat::InitializePlayer(sf::Vector2f spawnPosition) 
+{ 
 	fuel = startFuelAmount;
 	moveSpeed = defaultMoveSpeed;
-
+	
 	upDirection.loadFromFile("Textures/Ship/ship1.png");
 	upRightDirection.loadFromFile("Textures/Ship/ship15.png");
 	rightDirection.loadFromFile("Textures/Ship/ship13.png");

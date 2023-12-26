@@ -1,4 +1,5 @@
 #include "Collider.h"
+#include <iostream>
 
 Collider::Collider(GameObject& object) : object(object)
 {
@@ -43,6 +44,7 @@ void Collider::AdjustPositions(Collider& other, sf::Vector2f intersect, sf::Vect
 
 void Collider::MoveBodies(Collider& other, float thisDeltaX, float thisDeltaY, float otherDeltaX, float otherDeltaY)
 {
+    std::cout << isTriggerCollider << "\n";
     if (isTriggerCollider)
         return;
 

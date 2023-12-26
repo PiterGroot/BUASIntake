@@ -6,10 +6,20 @@ class Game;
 #include "Collider.h"
 #include <map>
 
-class PlayerBoat : public GameObject
+class PlayerBoat : public GameObject, public Collider
 {
+public:
+	PlayerBoat();
+
+	sf::Vector2f currentMoveDir;
+
+	void UpdatePlayer(float deltaTime);
+	void InitializePlayer(sf::Vector2f spawnPosition);
+
 private:	
-	void MovePlayer(sf::Vector2f newPosition, float deltaTime);
+	float fuel = 0;
+	float moveSpeed = 0;
+
 	sf::Vector2f GetMovementDirection();
 	
 	sf::Texture upDirection;
@@ -22,14 +32,5 @@ private:
 	sf::Texture leftUpDirection;
 
 	std::map<sf::Vector2f, sf::Texture, Vector2fEquals> getDirectionalSprite;
-
-public:
-	Collider GetCollider() { return Collider(GetGameObject()); }
-
-	float fuel;
-	float moveSpeed;
-	sf::Vector2f currentMoveDir;
-
-	void UpdatePlayer(float deltaTime);
-	void InitializePlayer(sf::Vector2f spawnPosition);
+	void MovePlayer(sf::Vector2f newPosition, float deltaTime);
 };

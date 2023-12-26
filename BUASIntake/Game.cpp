@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "BoxCollider.h"
+#include "CollisionManager.h"
 
 BoxCollider* boxCollider = nullptr;
 Game* Game::instance = nullptr;
@@ -7,6 +8,8 @@ sf::Shader waterShader;
 
 GameObject* testBaseWaypoint = nullptr;
 GameObject* testBase = nullptr;
+
+CollisionManager* collisionManager = nullptr;
 
 #pragma region 
 Game::Game()
@@ -30,6 +33,8 @@ Game::Game()
 	testBaseWaypoint->objectSprite.setColor(sf::Color(255, 0, 0, 255));
 	testBaseWaypoint->InitializeGameobject("Textures/circle.png", sf::Vector2f(0, 0));
 
+	activeColliders.push_back(playerBoat);
+	activeColliders.push_back(boxCollider);
 }
 
 Game::~Game()
@@ -67,32 +72,6 @@ void Game::OnInitializeWindow()
 }
 
 //Gets the current center of the screen
-sf::Vector2f Game::GetScreenCenter() 
-{
-	return sf::Vector2f(videoMode.width / 2, this->videoMode.height / 2);
-}
-
-//Check if window is running
-const bool Game::isWindowActive() const
-{
-	return this->window->isOpen();
-}
-
-//Handle window polling events
-void Game::OnUpdateWindowEvents()
-{
-	while (this->window->pollEvent(this->windowEvent))
-	{
-		if (windowEvent.type == sf::Event::Closed)
-			this->window->close();
-
-		if (sf::Event::KeyPressed)
-		{
-			if (this->windowEvent.key.code == sf::Keyboard::Escape)
-				this->window->close();
-		}
-	}
-}
 
 //Update game loop
 void Game::OnUpdate(float deltaTime)
@@ -105,16 +84,18 @@ void Game::OnUpdate(float deltaTime)
 	//update player logic
 	playerBoat->UpdatePlayer(deltaTime);
 
-	auto playerCollider = playerBoat->GetCollider();
-	if (boxCollider != nullptr) {
-		if (boxCollider->CheckCollision(playerCollider, 1)) {
-			std::cout << "Player collided!!" << "\n";
+	collisionManager->ResolveCollisions(activeColliders);
 
-			// mark collider object for deletion
-			objectsToDelete.push_back(boxCollider);
-			boxCollider = nullptr;
-		}
-	}
+	//auto playerCollider = playerBoat->GetCollider();
+	//if (boxCollider != nullptr) {
+	//	if (boxCollider->CheckCollision(playerCollider, 1)) {
+	//		std::cout << "Player collided!!" << "\n";
+
+	//		// mark collider object for deletion
+	//		objectsToDelete.push_back(boxCollider);
+	//		boxCollider = nullptr;
+	//	}
+	//}
 
 	//testing clamped "waypoint" to screen
 	testBaseWaypoint->objectSprite.setPosition(testBaseWaypoint->position = sf::Vector2f(-300, 0));
@@ -168,4 +149,31 @@ void Game::OnRender()
 	}
 
 	this->window->display();
+}
+
+//Handle window polling events
+void Game::OnUpdateWindowEvents()
+{
+	while (this->window->pollEvent(this->windowEvent))
+	{
+		if (windowEvent.type == sf::Event::Closed)
+			this->window->close();
+
+		if (sf::Event::KeyPressed)
+		{
+			if (this->windowEvent.key.code == sf::Keyboard::Escape)
+				this->window->close();
+		}
+	}
+}
+
+sf::Vector2f Game::GetScreenCenter() 
+{
+	return sf::Vector2f(videoMode.width / 2, this->videoMode.height / 2);
+}
+
+//Check if window is running
+const bool Game::isWindowActive() const
+{
+	return this->window->isOpen();
 }

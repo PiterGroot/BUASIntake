@@ -38,11 +38,11 @@ public:
 	
 	std::list<GameObject*> gameobjects;
 	std::list<GameObject*> hudGameobjects;
+	std::list<Collider*> activeColliders;
 	
 	sf::Vector2f GetScreenCenter();
 	const bool isWindowActive() const;
 
-	void PrintToConsole(sf::String message);
 	void OnUpdateWindowEvents();
 	void OnUpdate(float deltaTime);
 	void OnLateUpdate(float deltaTime);
