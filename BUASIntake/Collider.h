@@ -1,23 +1,25 @@
 #pragma once
-#include "GameObject.h"
 #include"SFML/Graphics.hpp"
+#include "GameObject.h"
 
 class Collider
 {
 public:
-	Collider(GameObject& object);
-
-	void SetTrigger(bool isTrigger) { isTriggerCollider = isTrigger; }
+	Collider(GameObject* object, bool isTrigger);
 
 	bool CheckCollision(Collider& other, float pushBack);
-	void MoveBody(sf::Vector2f deltaPosition) { object.MoveGameObject(object.position += deltaPosition); }
 	void MoveBodies(Collider& other, float thisDeltaX, float thisDeltaY, float otherDeltaX, float otherDeltaY);
+	void SetTrigger(bool isTrigger) { isTriggerCollider = isTrigger; }
 	void AdjustPositions(Collider& other, sf::Vector2f intersect, sf::Vector2f deltaPosition, float pushBack);
 
-	sf::Vector2f GetBodyPosition() { return object.position; }
-	sf::Vector2f GetHalfBodySize() { return sf::Vector2f(object.objectTexture.getSize()) * .5f; }
+	void MoveBody(sf::Vector2f deltaPosition) { object->MoveGameObject(object->position += deltaPosition); }
+	void OnCollision(Collider* collider);
 
+	sf::Vector2f GetBodyPosition() { return object->position; }
+	sf::Vector2f GetHalfBodySize() { return sf::Vector2f(object->objectTexture.getSize()) * .5f; }
+
+	GameObject* object;
 private:
-	GameObject& object;
-	bool isTriggerCollider = false;
+	//NOTE: trigger colliders are currently broken, need to determine if actually needed otherwise just remove it
+	bool isTriggerCollider = false; 
 };

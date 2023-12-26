@@ -1,5 +1,6 @@
 #include "PlayerBoat.h"
 #include <iostream>
+#include "Game.h"
 
 float startFuelAmount = 1000;
 float defaultMoveSpeed = 350;
@@ -8,7 +9,7 @@ float activeFuelConsumption = 25;
 float passiveFuelConsumption = 1;
 
 // Call the Collider constructor
-PlayerBoat::PlayerBoat() : Collider(GetGameObject()) {}
+PlayerBoat::PlayerBoat() : Collider(GetGameObject(), false) {}
 
 void PlayerBoat::InitializePlayer(sf::Vector2f spawnPosition) 
 { 
@@ -36,7 +37,7 @@ void PlayerBoat::InitializePlayer(sf::Vector2f spawnPosition)
 	};
 
 	objectSprite.setScale(sf::Vector2f(2, 2));
-	GameObject::InitializeGameobject("Textures/Ship/ship1.png", spawnPosition);
+	GameObject::InitializeGameobject("Player", "Textures/Ship/ship1.png", spawnPosition);
 }
 
 void PlayerBoat::MovePlayer(sf::Vector2f newPosition, float deltaTime)
@@ -78,4 +79,12 @@ void PlayerBoat::UpdatePlayer(float deltaTime)
 		objectSprite.setTexture(getDirectionalSprite[currentMoveDir]);
 
 	MovePlayer(normalized(currentMoveDir) * moveSpeed, deltaTime);
+}
+
+void Collider::OnCollision(Collider* collision) 
+{
+	std::cout << "Player collided with: " << collision->object->name.toAnsiString() << "\n";
+
+	Game::instance->activeColliders.remove(collision);
+	Game::instance->objectsToDelete.push_back(collision->object);
 }

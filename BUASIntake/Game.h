@@ -3,14 +3,13 @@
 #include <iostream>
 #include <list>
 
-#include "vec2.hpp"
-#include "PlayerBoat.h"
 #include "GameObject.h"
+#include "PlayerBoat.h"
+#include "vec2.hpp"
 
 class Game
 {
 private:
-	std::list<GameObject*> objectsToDelete;
 
 	sf::RenderWindow* window;
 	sf::Event windowEvent;
@@ -36,6 +35,7 @@ public:
 	static Game* instance;
 	PlayerBoat* playerBoat;
 	
+	std::list<GameObject*> objectsToDelete;
 	std::list<GameObject*> gameobjects;
 	std::list<GameObject*> hudGameobjects;
 	std::list<Collider*> activeColliders;

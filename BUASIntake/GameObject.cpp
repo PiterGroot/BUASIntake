@@ -1,8 +1,9 @@
-#include "Game.h"
 #include "GameObject.h"
+#include "Game.h"
 
-void GameObject::InitializeGameobject(sf::String texturePath, sf::Vector2f position, bool isHudObject)
+void GameObject::InitializeGameobject(sf::String name, sf::String texturePath, sf::Vector2f position, bool isHudObject)
 {
+    this->name = name;
     this->position = position;
 
     objectTexture.loadFromFile(texturePath);

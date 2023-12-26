@@ -1,6 +1,6 @@
-#include "Game.h"
-#include "BoxCollider.h"
 #include "CollisionManager.h"
+#include "BoxCollider.h"
+#include "Game.h"
 
 BoxCollider* boxCollider = nullptr;
 Game* Game::instance = nullptr;
@@ -23,18 +23,20 @@ Game::Game()
 	sf::Vector2f screenCenter = sf::Vector2f(GetScreenCenter());
 
 	this->playerBoat->InitializePlayer(sf::Vector2f(0,0));
-	boxCollider = new BoxCollider("Textures/circle.png", sf::Vector2f(100, 0), true);
+	boxCollider = new BoxCollider("TestCollider", "Textures/circle.png", sf::Vector2f(100, 0), true);
 	
 	testBase = new GameObject();
 	testBase->objectSprite.setScale(sf::Vector2f(6, 6));
-	testBase->InitializeGameobject("Textures/rock.png", sf::Vector2f(-300, 65));
+	testBase->InitializeGameobject("TestBase", "Textures/rock.png", sf::Vector2f(-300, 65));
 	
 	testBaseWaypoint = new GameObject();
 	testBaseWaypoint->objectSprite.setColor(sf::Color(255, 0, 0, 255));
-	testBaseWaypoint->InitializeGameobject("Textures/circle.png", sf::Vector2f(0, 0));
+	testBaseWaypoint->InitializeGameobject("TestWaypoint", "Textures/circle.png", sf::Vector2f(0, 0));
 
 	activeColliders.push_back(playerBoat);
 	activeColliders.push_back(boxCollider);
+
+	collisionManager = new CollisionManager();
 }
 
 Game::~Game()
@@ -84,22 +86,11 @@ void Game::OnUpdate(float deltaTime)
 	//update player logic
 	playerBoat->UpdatePlayer(deltaTime);
 
+	//resolve collisions
 	collisionManager->ResolveCollisions(activeColliders);
-
-	//auto playerCollider = playerBoat->GetCollider();
-	//if (boxCollider != nullptr) {
-	//	if (boxCollider->CheckCollision(playerCollider, 1)) {
-	//		std::cout << "Player collided!!" << "\n";
-
-	//		// mark collider object for deletion
-	//		objectsToDelete.push_back(boxCollider);
-	//		boxCollider = nullptr;
-	//	}
-	//}
 
 	//testing clamped "waypoint" to screen
 	testBaseWaypoint->objectSprite.setPosition(testBaseWaypoint->position = sf::Vector2f(-300, 0));
-	
 	sf::Vector2f clampedPosition = clampVec2(testBaseWaypoint->position, cameraView.getCenter() + sf::Vector2f(-450, -350), cameraView.getCenter() + sf::Vector2f(450, 350));
 	testBaseWaypoint->objectSprite.setPosition(testBaseWaypoint->position = clampedPosition);
 
@@ -115,7 +106,7 @@ void Game::OnUpdate(float deltaTime)
 //Update loop after the render pass
 void Game::OnLateUpdate(float deltaTime) 
 {
-	// remove objects marked for deletion
+	// remove objects marked for deletion (needs to be done AFTER we have have passed the update loop)
 	for (auto& objectToDelete : objectsToDelete) {
 		auto iterator = std::remove(Game::gameobjects.begin(), Game::gameobjects.end(), objectToDelete);
 		Game::gameobjects.erase(iterator, Game::gameobjects.end());
@@ -167,6 +158,7 @@ void Game::OnUpdateWindowEvents()
 	}
 }
 
+//Get center of the screen resolution
 sf::Vector2f Game::GetScreenCenter() 
 {
 	return sf::Vector2f(videoMode.width / 2, this->videoMode.height / 2);

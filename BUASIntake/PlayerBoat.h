@@ -1,7 +1,4 @@
 #pragma once
-
-class Game;
-
 #include "GameObject.h"
 #include "Collider.h"
 #include <map>

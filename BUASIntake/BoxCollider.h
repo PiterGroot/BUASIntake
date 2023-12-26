@@ -5,5 +5,5 @@
 class BoxCollider : public GameObject, public Collider
 {
 public:
-	BoxCollider(sf::String texturePath, sf::Vector2f position, bool isTrigger);
+	BoxCollider(sf::String name, sf::String texturePath, sf::Vector2f position, bool isTrigger);
 };

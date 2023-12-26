@@ -1,42 +1,33 @@
-#include <iostream>
 #include "CollisionManager.h"
+#include <iostream>
 
 void CollisionManager::ResolveCollisions(std::list<Collider*> activeColliders)
 {
-    auto iterator1 = activeColliders.begin();
-    auto end = activeColliders.end();
+    //Get list iterators
+    auto startIterator = activeColliders.begin();
+    auto endIterator = activeColliders.end();
 
-    for (; iterator1 != end; ++iterator1) {
-        Collider* collA = *iterator1;
+    //Loop over all colliders while startIterator hasn't reached the end of the list
+    for (; startIterator != endIterator; ++startIterator) {
+        Collider* collA = *startIterator;
 
         if (collA == nullptr)
             continue;
 
         // Iterate over the rest of the colliders
-        auto iterator2 = std::next(iterator1);
-        while (iterator2 != end) {
-            Collider* collB = *iterator2;
+        auto nextColliderIterator = std::next(startIterator);
+        while (nextColliderIterator != endIterator) {
+            Collider* collB = *nextColliderIterator;
 
             if (collB == nullptr)
                 continue;
-
+            
+            // Actual collision check and collision resolve
             if (collA->CheckCollision(*collB, 0)) {
-                // Collision detected
-                //std::cout << "Collision between collider1 and collider2!\n";
+                collA->OnCollision(collB);
             }
-
-            ++iterator2;
+            
+            ++nextColliderIterator;
         }
     }
-
-	//auto playerCollider = playerBoat->GetCollider();
-	//if (boxCollider != nullptr) {
-	//	if (boxCollider->CheckCollision(playerCollider, 1)) {
-	//		std::cout << "Player collided!!" << "\n";
-
-	//		// mark collider object for deletion
-	//		objectsToDelete.push_back(boxCollider);
-	//		boxCollider = nullptr;
-	//	}
-	//}
 }
