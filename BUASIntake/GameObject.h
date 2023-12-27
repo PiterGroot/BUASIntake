@@ -4,14 +4,23 @@
 
 class GameObject 
 {
+	
 public:
+	enum ObjectTag
+	{
+		Default,
+		Pickup,
+	};
+
 	sf::String name;
 	sf::Texture objectTexture;
 	sf::Sprite objectSprite;
 	sf::Vector2f position;
 
-	void InitializeGameobject(sf::String name, sf::String texturePath, sf::Vector2f position, bool isHudObject = false);
+	ObjectTag tag = ObjectTag::Default;
+
 	void MoveGameObject(sf::Vector2f newPosition);
+	void InitializeGameobject(sf::String name, sf::String texturePath, sf::Vector2f position, bool isHudObject = false);
 
 	GameObject* GetGameObject() { return this; }
 };

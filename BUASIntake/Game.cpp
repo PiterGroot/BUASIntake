@@ -24,6 +24,7 @@ Game::Game()
 
 	this->playerBoat->InitializePlayer(sf::Vector2f(0,0));
 	boxCollider = new BoxCollider("TestCollider", "Textures/circle.png", sf::Vector2f(100, 0), true);
+	boxCollider->tag = boxCollider->Pickup;
 	
 	testBase = new GameObject();
 	testBase->objectSprite.setScale(sf::Vector2f(6, 6));

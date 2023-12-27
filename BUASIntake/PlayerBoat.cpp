@@ -83,8 +83,10 @@ void PlayerBoat::UpdatePlayer(float deltaTime)
 
 void Collider::OnCollision(Collider* collision) 
 {
-	std::cout << "Player collided with: " << collision->object->name.toAnsiString() << "\n";
-
-	Game::instance->activeColliders.remove(collision);
-	Game::instance->objectsToDelete.push_back(collision->object);
+	//check if object is a pickup
+	if (collision->GetObject()->tag == GameObject::ObjectTag::Pickup) 
+	{
+		Game::instance->activeColliders.remove(collision);
+		Game::instance->objectsToDelete.push_back(collision->object);
+	}
 }
