@@ -91,6 +91,7 @@ void Collider::OnCollision(Collider* collision)
 	//check if object is a pickup
 	if (collision->GetObject()->tag == GameObject::ObjectTag::Pickup) 
 	{
+		std::cout << "Player collided with pickup!" << "\n";
 		Game::instance->activeColliders.remove(collision);
 		Game::instance->objectsToDelete.push_back(collision->object);
 	}

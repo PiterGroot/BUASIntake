@@ -22,6 +22,5 @@ public:
 
 private:
 	GameObject* object;
-	//NOTE: trigger colliders are currently broken, need to determine if actually needed otherwise just remove it
 	bool isTriggerCollider = false; 
 };

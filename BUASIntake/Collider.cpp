@@ -45,7 +45,7 @@ void Collider::AdjustPositions(Collider& other, sf::Vector2f intersect, sf::Vect
 
 void Collider::MoveBodies(Collider& other, float thisDeltaX, float thisDeltaY, float otherDeltaX, float otherDeltaY)
 {
-    if (isTriggerCollider)
+    if (isTriggerCollider || other.isTriggerCollider)
         return;
 
     MoveBody(sf::Vector2f(thisDeltaX, thisDeltaY));
