@@ -159,6 +159,9 @@
   <ItemGroup>
     <None Include="water_shader.frag" />
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="VCR_OSD_MONO_1.001.ttf" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

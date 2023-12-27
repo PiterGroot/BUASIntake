@@ -1,8 +1,12 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <sstream>
+#include <iomanip>
 #include <list>
 
+#include "CollisionManager.h"
+#include "BoxCollider.h"
 #include "GameObject.h"
 #include "PlayerBoat.h"
 #include "vec2.hpp"
@@ -10,7 +14,6 @@
 class Game
 {
 private:
-
 	sf::RenderWindow* window;
 	sf::Event windowEvent;
 	sf::VideoMode videoMode;
@@ -20,6 +23,7 @@ private:
 	sf::View staticView;
 
 	sf::RectangleShape waterShaderRect;
+	sf::Font textFont;
 
 	float deltaTime;
 	float elapsedTime;

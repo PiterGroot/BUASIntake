@@ -1,5 +1,3 @@
-#include "CollisionManager.h"
-#include "BoxCollider.h"
 #include "Game.h"
 
 BoxCollider* boxCollider = nullptr;
@@ -10,6 +8,7 @@ GameObject* testBaseWaypoint = nullptr;
 GameObject* testBase = nullptr;
 
 CollisionManager* collisionManager = nullptr;
+sf::Text testText;
 
 #pragma region 
 Game::Game()
@@ -52,6 +51,13 @@ void Game::OnInitialize()
 {
 	this->window = nullptr;
 	this->waterColor = sf::Color(3, 165, 252);
+	this->textFont.loadFromFile("VCR_OSD_MONO_1.001.ttf");
+	this->textFont.setSmooth(false);
+
+	testText.setFont(this->textFont);
+	testText.setFillColor(sf::Color::Black);
+	testText.setCharacterSize(24); // in pixels, not points!
+	testText.setStyle(sf::Text::Bold);
 }
 
 //window initialization
@@ -73,8 +79,6 @@ void Game::OnInitializeWindow()
 	waterShader.loadFromFile("water_shader.frag", sf::Shader::Fragment);
 	waterShader.setUniform("resolution", sf::Vector2f(window->getSize()));
 }
-
-//Gets the current center of the screen
 
 //Update game loop
 void Game::OnUpdate(float deltaTime)
@@ -129,9 +133,16 @@ void Game::OnRender()
 	{
 		this->window->draw(object->objectSprite);
 	}
-	
+
 	//draw water shader with static view
 	this->window->draw(waterShaderRect, &waterShader);
+
+	//test rendering player fuel amount on the screen
+	std::ostringstream fuelStringStream;
+	fuelStringStream << std::fixed << std::setprecision(2) << playerBoat->GetCurrentFuelAmount();
+	testText.setString("Fuel: " + fuelStringStream.str());
+
+	this->window->draw(testText);
 	
 	// Draw objects in world space
 	this->window->setView(cameraView);

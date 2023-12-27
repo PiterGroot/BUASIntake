@@ -81,6 +81,11 @@ void PlayerBoat::UpdatePlayer(float deltaTime)
 	MovePlayer(normalized(currentMoveDir) * moveSpeed, deltaTime);
 }
 
+float PlayerBoat::GetCurrentFuelAmount() 
+{
+	return fuel;
+}
+
 void Collider::OnCollision(Collider* collision) 
 {
 	//check if object is a pickup
