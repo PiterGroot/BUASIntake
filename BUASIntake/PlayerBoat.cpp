@@ -9,7 +9,7 @@ float activeFuelConsumption = 25;
 float passiveFuelConsumption = 1;
 
 // Call the Collider constructor
-PlayerBoat::PlayerBoat() : Collider(GetGameObject(), false) {}
+PlayerBoat::PlayerBoat() : Collider(this, false) {}
 
 void PlayerBoat::InitializePlayer(sf::Vector2f spawnPosition) 
 { 
@@ -37,6 +37,7 @@ void PlayerBoat::InitializePlayer(sf::Vector2f spawnPosition)
 	};
 
 	objectSprite.setScale(sf::Vector2f(2, 2));
+	Game::instance->activeColliders.push_back(this);
 	GameObject::InitializeGameobject("Player", "Textures/Ship/ship1.png", spawnPosition);
 }
 

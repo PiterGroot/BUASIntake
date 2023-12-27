@@ -33,9 +33,6 @@ Game::Game()
 	testBaseWaypoint->objectSprite.setColor(sf::Color(255, 0, 0, 255));
 	testBaseWaypoint->InitializeGameobject("TestWaypoint", "Textures/circle.png", sf::Vector2f(0, 0));
 
-	activeColliders.push_back(playerBoat);
-	activeColliders.push_back(boxCollider);
-
 	collisionManager = new CollisionManager();
 }
 
