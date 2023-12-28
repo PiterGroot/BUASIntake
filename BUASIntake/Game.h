@@ -37,7 +37,7 @@ public:
 	virtual ~Game();
 	
 	static Game* instance;
-	PlayerBoat* playerBoat;
+	PlayerBoat* playerBoat = nullptr;
 	
 	std::list<GameObject*> objectsToDelete;
 	std::list<GameObject*> gameobjects;

@@ -19,11 +19,13 @@ Game::Game()
 	this->OnInitializeWindow();
 
 	instance = this;
-	sf::Vector2f screenCenter = sf::Vector2f(GetScreenCenter());
-
 	this->playerBoat->InitializePlayer(sf::Vector2f(0,0));
+	
 	boxCollider = new BoxCollider("TestCollider", "Textures/circle.png", sf::Vector2f(100, 0), true);
 	boxCollider->tag = boxCollider->ObjectTag::Pickup;
+
+	BoxCollider* collider = new BoxCollider("Pickup 1", "Textures/circle.png", sf::Vector2f(200, 0), false);
+	collider->tag = collider->ObjectTag::Pickup;
 	
 	testBase = new GameObject();
 	testBase->objectSprite.setScale(sf::Vector2f(6, 6));
@@ -95,7 +97,7 @@ void Game::OnUpdate(float deltaTime)
 	testBaseWaypoint->objectSprite.setPosition(testBaseWaypoint->position = sf::Vector2f(-300, 0));
 	sf::Vector2f clampedPosition = clampVec2(testBaseWaypoint->position, cameraView.getCenter() + sf::Vector2f(-450, -350), cameraView.getCenter() + sf::Vector2f(450, 350));
 	testBaseWaypoint->objectSprite.setPosition(testBaseWaypoint->position = clampedPosition);
-
+	
 	//update "camera" movement
 	cameraView.setCenter(playerBoat->position);
 

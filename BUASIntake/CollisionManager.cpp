@@ -3,7 +3,6 @@
 
 void CollisionManager::ResolveCollisions(std::list<Collider*> activeColliders)
 {
-    //Get list iterators
     auto startIterator = activeColliders.begin();
     auto endIterator = activeColliders.end();
 
@@ -11,22 +10,18 @@ void CollisionManager::ResolveCollisions(std::list<Collider*> activeColliders)
     for (; startIterator != endIterator; ++startIterator) {
         Collider* collA = *startIterator;
 
-        if (collA == nullptr)
-            continue;
-
         // Iterate over the rest of the colliders
         auto nextColliderIterator = std::next(startIterator);
         while (nextColliderIterator != endIterator) {
             Collider* collB = *nextColliderIterator;
 
-            if (collB == nullptr)
-                continue;
-            
             // Actual collision check and collision resolve
-            if (collA->CheckCollision(*collB, 0)) {
-                collA->OnCollision(collB);
+            if (collA->CheckCollision(*collB, 1)) {
+                // Collision occurred, invoke the callback for each collider
+                collA->InvokeCollisionCallback(*collB);
+                collB->InvokeCollisionCallback(*collA);
             }
-            
+
             ++nextColliderIterator;
         }
     }

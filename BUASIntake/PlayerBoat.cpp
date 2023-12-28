@@ -2,6 +2,8 @@
 #include <iostream>
 #include "Game.h"
 
+void OnCollision(Collider& other);
+
 float startFuelAmount = 1000;
 float defaultMoveSpeed = 350;
 
@@ -37,8 +39,14 @@ void PlayerBoat::InitializePlayer(sf::Vector2f spawnPosition)
 	};
 
 	objectSprite.setScale(sf::Vector2f(2, 2));
-	Game::instance->activeColliders.push_back(this);
 	GameObject::InitializeGameobject("Player", "Textures/Ship/ship1.png", spawnPosition);
+
+	SetCollisionCallback([this](Collider& other) {
+		OnCollision(other);
+	});
+
+	Game::instance->activeColliders.push_back(this);
+	std::cout << name.toAnsiString() << "\n";
 }
 
 void PlayerBoat::MovePlayer(sf::Vector2f newPosition, float deltaTime)
@@ -87,13 +95,12 @@ float PlayerBoat::GetCurrentFuelAmount()
 	return fuel;
 }
 
-void Collider::OnCollision(Collider* collision) 
+void OnCollision(Collider& other) 
 {
-	//check if object is a pickup
-	if (collision->GetObject()->tag == GameObject::ObjectTag::Pickup) 
+	if (other.GetObject()->tag == GameObject::ObjectTag::Pickup)
 	{
 		std::cout << "Player collided with pickup!" << "\n";
-		Game::instance->activeColliders.remove(collision);
-		Game::instance->objectsToDelete.push_back(collision->object);
+		Game::instance->activeColliders.remove(&other);
+		Game::instance->objectsToDelete.push_back(other.GetObject());
 	}
 }
