@@ -46,7 +46,6 @@ void PlayerBoat::InitializePlayer(sf::Vector2f spawnPosition)
 	});
 
 	Game::instance->activeColliders.push_back(this);
-	std::cout << name.toAnsiString() << "\n";
 }
 
 void PlayerBoat::MovePlayer(sf::Vector2f newPosition, float deltaTime)
