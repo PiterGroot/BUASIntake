@@ -1,3 +1,4 @@
+#include "AudioManager.h"
 #include "PlayerBoat.h"
 #include <iostream>
 #include "Game.h"
@@ -5,7 +6,7 @@
 void OnCollision(Collider& other);
 
 float startFuelAmount = 1000;
-float defaultMoveSpeed = 350;
+float defaultMoveSpeed = 250;
 
 float activeFuelConsumption = 25;
 float passiveFuelConsumption = 1;
@@ -99,6 +100,8 @@ void OnCollision(Collider& other)
 	if (other.GetObject()->tag == GameObject::ObjectTag::Pickup)
 	{
 		std::cout << "Player collided with pickup!" << "\n";
+		AudioManager::instance->PlaySound(AudioManager::SoundTypes::Pickup);
+
 		Game::instance->activeColliders.remove(&other);
 		Game::instance->objectsToDelete.push_back(other.GetObject());
 	}

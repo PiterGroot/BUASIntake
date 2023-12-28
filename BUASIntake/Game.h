@@ -6,6 +6,7 @@
 #include <list>
 
 #include "CollisionManager.h"
+#include "AudioManager.h"
 #include "BoxCollider.h"
 #include "GameObject.h"
 #include "PlayerBoat.h"
@@ -38,6 +39,7 @@ public:
 	
 	static Game* instance;
 	PlayerBoat* playerBoat = nullptr;
+	AudioManager* audioManager = nullptr;
 	
 	std::list<GameObject*> objectsToDelete;
 	std::list<GameObject*> gameobjects;

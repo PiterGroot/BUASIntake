@@ -31,6 +31,7 @@ Game::Game()
 	testBaseWaypoint->InitializeGameobject("TestWaypoint", "Textures/circle.png", sf::Vector2f(0, 0));
 
 	collisionManager = new CollisionManager();
+	audioManager = new AudioManager();
 
 	for (int i = 0; i < 250; i++)
 	{

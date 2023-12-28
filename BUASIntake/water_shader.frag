@@ -109,7 +109,7 @@ void main()
     vec2 quantizedUV = floor(uv * pixelationFactor) / pixelationFactor;
 
     // Use the Perlin noise function on quantized UV coordinates
-    float noiseValue = snoise(vec3(quantizedUV * 10.0 + vec2(scrollDirX * 0.005f, scrollDirY * 0.005f), time * 0.1f));
+    float noiseValue = snoise(vec3(quantizedUV * 10.0 + vec2(scrollDirX * 0.011f, scrollDirY * 0.011f), time * 0.1f));
 
     // Threshold the noise value to create sharp edges
     float threshold = 0.7;
