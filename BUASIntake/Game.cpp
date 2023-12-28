@@ -1,5 +1,7 @@
 #include "Game.h"
 
+sf::Vector2f RandomPointInCircle(float centerX, float centerY, float radius);
+
 BoxCollider* boxCollider = nullptr;
 Game* Game::instance = nullptr;
 sf::Shader waterShader;
@@ -36,6 +38,13 @@ Game::Game()
 	testBaseWaypoint->InitializeGameobject("TestWaypoint", "Textures/circle.png", sf::Vector2f(0, 0));
 
 	collisionManager = new CollisionManager();
+
+	for (int i = 0; i < 250; i++)
+	{
+		auto randPoint = RandomPointInCircle(0, 0, 5000);
+		BoxCollider* collider = new BoxCollider("Pickup " + i, "Textures/circle.png", randPoint, true);
+		collider->tag = collider->ObjectTag::Pickup;
+	}
 }
 
 Game::~Game()
@@ -179,4 +188,15 @@ sf::Vector2f Game::GetScreenCenter()
 const bool Game::isWindowActive() const
 {
 	return this->window->isOpen();
+}
+
+//returns a point inside an arbitrary circle
+sf::Vector2f RandomPointInCircle(float centerX, float centerY, float radius) {
+	float angle = static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX) * 2.0f * PI;
+	float randomRadius = std::sqrt(static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX)) * radius;
+
+	float x = centerX + randomRadius * std::cos(angle);
+	float y = centerY + randomRadius * std::sin(angle);
+
+	return sf::Vector2f(x, y);
 }
