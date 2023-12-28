@@ -33,6 +33,8 @@ Game::Game()
 	collisionManager = new CollisionManager();
 	audioManager = new AudioManager();
 
+	audioManager->PlayMusicSong(AudioManager::SoundTypes::MainMusic);
+
 	for (int i = 0; i < 250; i++)
 	{
 		auto randPoint = RandomPointInCircle(0, 0, 5000);
