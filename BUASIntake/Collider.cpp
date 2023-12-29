@@ -1,9 +1,11 @@
 #include "Collider.h"
 #include <iostream>
+#include "Game.h"
 
 Collider::Collider(GameObject* object, bool isTrigger) : object(object)
 {
     isTriggerCollider = isTrigger;
+    Game::instance->activeColliders.push_back(this);
 }
 
 void Collider::InvokeCollisionCallback(Collider& other)

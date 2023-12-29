@@ -8,18 +8,17 @@ sf::Shader waterShader;
 GameObject* testBaseWaypoint = nullptr;
 GameObject* testBase = nullptr;
 
-CollisionManager* collisionManager = nullptr;
 sf::Text testText;
 
 #pragma region 
 Game::Game()
 {
-	playerBoat = new PlayerBoat();
+	instance = this;
 
 	OnInitialize();
 	OnInitializeWindow();
 
-	instance = this;
+	playerBoat = new PlayerBoat();
 	playerBoat->InitializePlayer(sf::Vector2f(0,0));
 
 	testBase = new GameObject();
@@ -32,6 +31,7 @@ Game::Game()
 
 	collisionManager = new CollisionManager();
 	audioManager = new AudioManager();
+	textManager = new TextManager();
 
 	audioManager->PlayMusicSong(AudioManager::SoundTypes::MainMusic);
 
@@ -55,14 +55,7 @@ void Game::OnInitialize()
 	window = nullptr;
 	waterColor = sf::Color(3, 165, 252); //out of bounds background color
 
-	//Set necessary text info
-	textFont.loadFromFile("VCR_OSD_MONO_1.001.ttf");
-	textFont.setSmooth(false);
-
-	testText.setFont(this->textFont);
-	testText.setFillColor(sf::Color::Black);
-	testText.setCharacterSize(24); // in pixels, not points!
-	testText.setStyle(sf::Text::Bold);
+	srand(time(0)); //set random seed
 }
 
 //window initialization
@@ -103,7 +96,9 @@ void Game::OnUpdate(float deltaTime)
 
 	//Testing clamped "waypoint" to screen
 	testBaseWaypoint->objectSprite.setPosition(testBaseWaypoint->position = sf::Vector2f(-300, 0));
-	sf::Vector2f clampedPosition = clampVec2(testBaseWaypoint->position, cameraView.getCenter() + sf::Vector2f(-450, -350), cameraView.getCenter() + sf::Vector2f(450, 350));
+
+	sf::Vector2f screenCenter = GetScreenCenter();
+	sf::Vector2f clampedPosition = clampVec2(testBaseWaypoint->position, cameraView.getCenter() + -screenCenter, cameraView.getCenter() + screenCenter);
 	testBaseWaypoint->objectSprite.setPosition(testBaseWaypoint->position = clampedPosition);
 	
 	//Update "camera" movement
@@ -144,10 +139,7 @@ void Game::OnRender()
 	//Draw water shader with static view
 	window->draw(waterShaderRect, &waterShader);
 
-	//Test rendering player fuel amount on the screen
-	std::ostringstream fuelStringStream;
-	fuelStringStream << std::fixed << std::setprecision(2) << playerBoat->GetCurrentFuelAmount();
-	testText.setString("Fuel: " + fuelStringStream.str());
+	textManager->Draw(window);
 
 	window->draw(testText);
 	

@@ -7,6 +7,7 @@
 
 #include "CollisionManager.h"
 #include "AudioManager.h"
+#include "TextManager.h"
 #include "BoxCollider.h"
 #include "GameObject.h"
 #include "PlayerBoat.h"
@@ -39,8 +40,11 @@ public:
 	
 	static Game* instance;
 	PlayerBoat* playerBoat = nullptr;
+
 	AudioManager* audioManager = nullptr;
-	
+	CollisionManager* collisionManager = nullptr;
+	TextManager* textManager = nullptr;
+
 	std::list<GameObject*> objectsToDelete;
 	std::list<GameObject*> gameobjects;
 	std::list<GameObject*> hudGameobjects;

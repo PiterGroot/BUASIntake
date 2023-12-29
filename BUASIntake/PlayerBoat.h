@@ -1,6 +1,8 @@
 #pragma once
 #include "GameObject.h"
 #include "Collider.h"
+#include "AudioManager.h"
+#include <iostream>
 #include <map>
 
 class PlayerBoat : public GameObject, public Collider
@@ -12,7 +14,6 @@ public:
 
 	void UpdatePlayer(float deltaTime);
 	void InitializePlayer(sf::Vector2f spawnPosition);
-	float GetCurrentFuelAmount();
 
 private:	
 	float fuel = 0;

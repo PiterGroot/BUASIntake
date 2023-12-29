@@ -147,6 +147,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PlayerBoat.cpp" />
+    <ClCompile Include="TextManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioManager.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="PlayerBoat.h" />
+    <ClInclude Include="TextManager.h" />
     <ClInclude Include="vec2.hpp" />
   </ItemGroup>
   <ItemGroup>

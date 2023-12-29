@@ -1,6 +1,4 @@
-#include "AudioManager.h"
 #include "PlayerBoat.h"
-#include <iostream>
 #include "Game.h"
 
 void OnCollision(Collider& other);
@@ -42,11 +40,9 @@ void PlayerBoat::InitializePlayer(sf::Vector2f spawnPosition)
 	objectSprite.setScale(sf::Vector2f(2, 2));
 	GameObject::InitializeGameobject("Player", "Textures/Ship/ship1.png", spawnPosition);
 
-	SetCollisionCallback([this](Collider& other) {
+	Collider::SetCollisionCallback([this](Collider& other) {
 		OnCollision(other);
 	});
-
-	Game::instance->activeColliders.push_back(this);
 }
 
 void PlayerBoat::MovePlayer(sf::Vector2f newPosition, float deltaTime)
@@ -87,12 +83,20 @@ void PlayerBoat::UpdatePlayer(float deltaTime)
 	if (currentMoveDir != sf::Vector2f(0, 0))
 		objectSprite.setTexture(getDirectionalSprite[currentMoveDir]);
 
-	MovePlayer(normalized(currentMoveDir) * moveSpeed, deltaTime);
-}
+	//Update fuel text label
+	std::ostringstream fuelStringStream;
+	fuelStringStream << std::fixed << std::setprecision(2) << fuel;
+	TextManager::instance->UpdateTextLabel("Fuel", "Fuel " + fuelStringStream.str());
 
-float PlayerBoat::GetCurrentFuelAmount() 
-{
-	return fuel;
+	//Update distance text label
+	std::ostringstream distanceStream;
+	sf::Vector2f diff = position - sf::Vector2f(-300, 65); //hardcoded testbase coords for testing
+	float distance = magnitude(diff) / 100;
+	
+	distanceStream << std::fixed << std::setprecision(2) << distance;
+	TextManager::instance->UpdateTextLabel("Distance", "Distance " + distanceStream.str() + " m");
+
+	MovePlayer(normalized(currentMoveDir) * moveSpeed, deltaTime);
 }
 
 void OnCollision(Collider& other) 
