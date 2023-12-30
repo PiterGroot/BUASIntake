@@ -28,7 +28,7 @@ Game::Game()
 
 	audioManager->PlayMusicSong(AudioManager::SoundTypes::MainMusic);
 	
-	Waypoint* waypoint = new Waypoint("BaseWaypoint", "Textures/circle.png", sf::Vector2f(-300, 0));
+	Waypoint* waypoint = new Waypoint("BaseWaypoint", "Textures/waypoint.png", sf::Vector2f(-300, 0));
 	waypoint->objectSprite.setColor(sf::Color::Green);
 
 	for (int i = 0; i < 250; i++)
