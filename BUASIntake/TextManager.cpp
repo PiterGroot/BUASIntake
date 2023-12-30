@@ -10,9 +10,9 @@ TextManager::TextManager()
 	CreateTextLabel("Distance", "Dist ", sf::Vector2f(0, 30), 24);
 }
 
-void TextManager::CreateTextLabel(sf::String id, sf::String initText, sf::Vector2f position, int fontSize, sf::Color textColor)
+void TextManager::CreateTextLabel(sf::String labelId, sf::String initText, sf::Vector2f position, int fontSize, sf::Color textColor)
 {
-	textLabels.insert(std::pair<sf::String, TextLabelContainer*>(id, new TextLabelContainer(initText, position, fontSize, textColor)));
+	textLabels.insert(std::pair<sf::String, TextLabelContainer*>(labelId, new TextLabelContainer(initText, position, fontSize, textColor)));
 }
 
 void TextManager::UpdateTextLabel(sf::String labelId, sf::String newText) 

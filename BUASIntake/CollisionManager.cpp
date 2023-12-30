@@ -1,5 +1,4 @@
 #include "CollisionManager.h"
-#include <iostream>
 
 void CollisionManager::ResolveCollisions(std::list<Collider*> activeColliders)
 {

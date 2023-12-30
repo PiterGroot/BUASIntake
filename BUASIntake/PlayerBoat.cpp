@@ -1,7 +1,9 @@
 #include "PlayerBoat.h"
 #include "Game.h"
 
-void OnCollision(Collider& other);
+//forward declaration update methods
+void UpdateFuelLabel(float currentFuel);
+void UpdateDistanceLabel(sf::Vector2f currentPosition);
 
 float startFuelAmount = 1000;
 float defaultMoveSpeed = 250;
@@ -14,9 +16,11 @@ PlayerBoat::PlayerBoat() : Collider(this, false) {}
 
 void PlayerBoat::InitializePlayer(sf::Vector2f spawnPosition) 
 { 
+	//initialize player stats
 	fuel = startFuelAmount;
 	moveSpeed = defaultMoveSpeed;
 	
+	//load necessary direction texturess
 	upDirection.loadFromFile("Textures/Ship/ship1.png");
 	upRightDirection.loadFromFile("Textures/Ship/ship15.png");
 	rightDirection.loadFromFile("Textures/Ship/ship13.png");
@@ -39,6 +43,7 @@ void PlayerBoat::InitializePlayer(sf::Vector2f spawnPosition)
 
 	objectSprite.setScale(sf::Vector2f(2, 2));
 	GameObject::InitializeGameobject("Player", "Textures/Ship/ship1.png", spawnPosition);
+	Game::instance->updatingGameobjects.push_back(this);
 }
 
 void PlayerBoat::MovePlayer(sf::Vector2f newPosition, float deltaTime)
@@ -53,44 +58,15 @@ void PlayerBoat::MovePlayer(sf::Vector2f newPosition, float deltaTime)
 	else fuel -= deltaTime * passiveFuelConsumption;
 }
 
-//Get normalized movement direction
-sf::Vector2f PlayerBoat::GetMovementDirection() {
-	sf::Vector2f direction;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		direction += sf::Vector2f(0, -1);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		direction += sf::Vector2f(-1, 0);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		direction -= sf::Vector2f(0, -1);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		direction += sf::Vector2f(1, 0);
-	}
-	
-	return direction;
-}
-
-void PlayerBoat::UpdatePlayer(float deltaTime)
+void PlayerBoat::OnUpdate(float deltaTime)
 {
 	currentMoveDir = GetMovementDirection();
 
 	if (currentMoveDir != sf::Vector2f(0, 0))
 		objectSprite.setTexture(getDirectionalSprite[currentMoveDir]);
 
-	//Update fuel text label
-	std::ostringstream fuelStringStream;
-	fuelStringStream << std::fixed << std::setprecision(2) << fuel;
-	TextManager::instance->UpdateTextLabel("Fuel", "Fuel " + fuelStringStream.str());
-
-	//Update distance text label
-	std::ostringstream distanceStream;
-	sf::Vector2f diff = position - sf::Vector2f(-300, 65); //hardcoded testbase coords for testing
-	float distance = magnitude(diff) / 100;
-	
-	distanceStream << std::fixed << std::setprecision(2) << distance;
-	TextManager::instance->UpdateTextLabel("Distance", "Distance " + distanceStream.str() + " m");
+	UpdateFuelLabel(fuel);
+	UpdateDistanceLabel(position);
 
 	MovePlayer(normalized(currentMoveDir) * moveSpeed, deltaTime);
 }
@@ -105,4 +81,41 @@ void PlayerBoat::OnCollision(Collider& other)
 		Game::instance->activeColliders.remove(&other);
 		Game::instance->objectsToDelete.push_back(other.GetObject());
 	}
+}
+
+//Update fuel text label
+void UpdateFuelLabel(float currentFuel) {
+	std::ostringstream fuelStringStream;
+	fuelStringStream << std::fixed << std::setprecision(2) << currentFuel;
+	TextManager::instance->UpdateTextLabel("Fuel", "Fuel " + fuelStringStream.str());
+}
+
+//Update distance text label
+void UpdateDistanceLabel(sf::Vector2f currentPosition) 
+{
+	std::ostringstream distanceStream;
+	sf::Vector2f diff = currentPosition - sf::Vector2f(-300, 65); //hardcoded testbase coords for testing
+	float distance = magnitude(diff) / 100;
+
+	distanceStream << std::fixed << std::setprecision(2) << distance;
+	TextManager::instance->UpdateTextLabel("Distance", "Distance " + distanceStream.str() + " m");
+}
+
+//Get movement direction
+sf::Vector2f PlayerBoat::GetMovementDirection() {
+	sf::Vector2f direction;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+		direction += sf::Vector2f(0, -1);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+		direction += sf::Vector2f(-1, 0);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+		direction -= sf::Vector2f(0, -1);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+		direction += sf::Vector2f(1, 0);
+	}
+
+	return direction;
 }

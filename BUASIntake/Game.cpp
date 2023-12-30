@@ -83,10 +83,8 @@ void Game::OnUpdate(float deltaTime)
 
 	//Update window polling events
 	OnUpdateWindowEvents();
-	
-	//Update player logic
-	playerBoat->UpdatePlayer(deltaTime);
 
+	//Update gameobjects that needs to be updated
 	for (GameObject* object : Game::updatingGameobjects)
 	{
 		object->OnUpdate(deltaTime);

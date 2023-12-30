@@ -12,10 +12,10 @@ public:
 
 	sf::Vector2f currentMoveDir;
 
-	void UpdatePlayer(float deltaTime);
 	void InitializePlayer(sf::Vector2f spawnPosition);
 
 	void OnCollision(Collider& other) override;
+	void OnUpdate(float deltaTime) override;
 
 private:	
 	float fuel = 0;
