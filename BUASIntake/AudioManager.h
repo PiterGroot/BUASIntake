@@ -14,9 +14,10 @@ public:
 	{
         MainMusic,
 		Pickup,
-		Sink,
-		Engine,
-		Deposit
+
+		Cleanup,
+        Cleanup1,
+        Cleanup2
 	};
 
 	AudioManager();

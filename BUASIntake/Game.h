@@ -54,6 +54,7 @@ public:
 	sf::Vector2f GetScreenCenter();
 	const bool isWindowActive() const;
 
+	sf::Event* GetWindowEvent();
 	sf::View* GetCameraView();
 	void OnUpdateWindowEvents();
 	void OnUpdate(float deltaTime);

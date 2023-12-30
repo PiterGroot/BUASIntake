@@ -17,7 +17,7 @@ public:
 			textFont = new sf::Font();
 			
 			textFont->setSmooth(false);
-			if (textFont->loadFromFile("VCR_OSD_MONO_1.001.ttf"))
+			if (textFont->loadFromFile("Resources/Font/VCR_OSD_MONO_1.001.ttf"))
 			{
 				text = new sf::Text();
 				text->setFont(*textFont);

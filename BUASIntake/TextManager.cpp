@@ -8,6 +8,7 @@ TextManager::TextManager()
 
 	CreateTextLabel("Fuel", "Fuel ", sf::Vector2f(0, 0), 24);
 	CreateTextLabel("Distance", "Dist ", sf::Vector2f(0, 30), 24);
+	CreateTextLabel("PlasticStatus", "Lake cleanup %", sf::Vector2f(0, 60), 24);
 }
 
 void TextManager::CreateTextLabel(sf::String labelId, sf::String initText, sf::Vector2f position, int fontSize, sf::Color textColor)

@@ -1,10 +1,11 @@
 #include "Game.h"
 
+//forward declaration random helper method
 sf::Vector2f RandomPointInCircle(float centerX, float centerY, float radius);
 
 Game* Game::instance = nullptr;
-sf::Shader waterShader;
 
+sf::Shader waterShader;
 BoxCollider* testBase = nullptr;
 
 #pragma region 
@@ -71,7 +72,7 @@ void Game::OnInitializeWindow()
 	waterShaderRect.setPosition(GetScreenCenter());
 
 	//Load water shader
-	waterShader.loadFromFile("water_shader.frag", sf::Shader::Fragment);
+	waterShader.loadFromFile("Resources/Shader/water_shader.frag", sf::Shader::Fragment);
 	waterShader.setUniform("resolution", sf::Vector2f(window->getSize()));
 }
 
@@ -164,6 +165,11 @@ void Game::OnUpdateWindowEvents()
 sf::Vector2f Game::GetScreenCenter() 
 {
 	return sf::Vector2f(videoMode.width / 2, videoMode.height / 2);
+}
+
+sf::Event* Game::GetWindowEvent() 
+{
+	return &windowEvent;
 }
 
 //Gets the camera view

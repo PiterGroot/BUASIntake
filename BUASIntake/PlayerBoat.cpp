@@ -11,6 +11,10 @@ float defaultMoveSpeed = 250;
 float activeFuelConsumption = 25;
 float passiveFuelConsumption = 1;
 
+bool cleanupPressed = false;
+bool isInsidePickup = false;
+int randCleanupTries = 0;
+
 // Call the Collider constructor
 PlayerBoat::PlayerBoat() : Collider(this, false) {}
 
@@ -75,11 +79,33 @@ void PlayerBoat::OnCollision(Collider& other)
 {
 	if (other.GetObject()->tag == GameObject::ObjectTag::Pickup)
 	{
-		std::cout << "Player collided with pickup!" << "\n";
-		AudioManager::instance->PlaySound(AudioManager::SoundTypes::Pickup);
+		if (!isInsidePickup)
+			randCleanupTries = std::rand() % 3 + 1;
 
-		Game::instance->activeColliders.remove(&other);
-		Game::instance->objectsToDelete.push_back(other.GetObject());
+		isInsidePickup = true;
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E) && cleanupPressed) {
+			randCleanupTries--;
+
+			AudioManager::instance->PlaySound(AudioManager::SoundTypes::Cleanup);
+			std::cout << "cleanup" << "\n";
+			cleanupPressed = false;
+		}
+		if (sf::Event::KeyReleased) {
+			if (Game::instance->GetWindowEvent()->key.code == sf::Keyboard::E) {
+				cleanupPressed = true;
+			}
+		}
+
+		if (randCleanupTries == 0) {
+			isInsidePickup = false;
+
+			std::cout << "Player collided with pickup!" << "\n";
+			AudioManager::instance->PlaySound(AudioManager::SoundTypes::Pickup);
+
+			Game::instance->activeColliders.remove(&other);
+			Game::instance->objectsToDelete.push_back(other.GetObject());
+		}
 	}
 }
 
