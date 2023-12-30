@@ -15,6 +15,8 @@ public:
 	void UpdatePlayer(float deltaTime);
 	void InitializePlayer(sf::Vector2f spawnPosition);
 
+	void OnCollision(Collider& other) override;
+
 private:	
 	float fuel = 0;
 	float moveSpeed = 0;

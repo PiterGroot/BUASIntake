@@ -5,10 +5,7 @@ sf::Vector2f RandomPointInCircle(float centerX, float centerY, float radius);
 Game* Game::instance = nullptr;
 sf::Shader waterShader;
 
-GameObject* testBaseWaypoint = nullptr;
-GameObject* testBase = nullptr;
-
-sf::Text testText;
+BoxCollider* testBase = nullptr;
 
 #pragma region 
 Game::Game()
@@ -21,19 +18,18 @@ Game::Game()
 	playerBoat = new PlayerBoat();
 	playerBoat->InitializePlayer(sf::Vector2f(0,0));
 
-	testBase = new GameObject();
+	testBase = new BoxCollider("TestBase", "Textures/rock.png", sf::Vector2f(-300, 65), false);
+	testBase->tag = testBase->ObjectTag::Default;
 	testBase->objectSprite.setScale(sf::Vector2f(6, 6));
-	testBase->InitializeGameobject("TestBase", "Textures/rock.png", sf::Vector2f(-300, 65));
-	
-	testBaseWaypoint = new GameObject();
-	testBaseWaypoint->objectSprite.setColor(sf::Color(255, 0, 0, 255));
-	testBaseWaypoint->InitializeGameobject("TestWaypoint", "Textures/circle.png", sf::Vector2f(0, 0));
 
 	collisionManager = new CollisionManager();
 	audioManager = new AudioManager();
 	textManager = new TextManager();
 
 	audioManager->PlayMusicSong(AudioManager::SoundTypes::MainMusic);
+	
+	Waypoint* waypoint = new Waypoint("BaseWaypoint", "Textures/circle.png", sf::Vector2f(-300, 0));
+	waypoint->objectSprite.setColor(sf::Color::Green);
 
 	for (int i = 0; i < 250; i++)
 	{
@@ -91,15 +87,13 @@ void Game::OnUpdate(float deltaTime)
 	//Update player logic
 	playerBoat->UpdatePlayer(deltaTime);
 
+	for (GameObject* object : Game::updatingGameobjects)
+	{
+		object->OnUpdate(deltaTime);
+	}
+
 	//Resolve possible collisions
 	collisionManager->ResolveCollisions(activeColliders);
-
-	//Testing clamped "waypoint" to screen
-	testBaseWaypoint->objectSprite.setPosition(testBaseWaypoint->position = sf::Vector2f(-300, 0));
-
-	sf::Vector2f screenCenter = GetScreenCenter();
-	sf::Vector2f clampedPosition = clampVec2(testBaseWaypoint->position, cameraView.getCenter() + -screenCenter, cameraView.getCenter() + screenCenter);
-	testBaseWaypoint->objectSprite.setPosition(testBaseWaypoint->position = clampedPosition);
 	
 	//Update "camera" movement
 	cameraView.setCenter(playerBoat->position);
@@ -139,9 +133,8 @@ void Game::OnRender()
 	//Draw water shader with static view
 	window->draw(waterShaderRect, &waterShader);
 
+	//Draw active text labels
 	textManager->Draw(window);
-
-	window->draw(testText);
 	
 	// Draw objects in world space
 	window->setView(cameraView);
@@ -173,6 +166,12 @@ void Game::OnUpdateWindowEvents()
 sf::Vector2f Game::GetScreenCenter() 
 {
 	return sf::Vector2f(videoMode.width / 2, videoMode.height / 2);
+}
+
+//Gets the camera view
+sf::View* Game::GetCameraView() 
+{
+	return &cameraView;
 }
 
 //Check if window is running

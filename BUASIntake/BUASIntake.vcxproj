@@ -148,6 +148,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PlayerBoat.cpp" />
     <ClCompile Include="TextManager.cpp" />
+    <ClCompile Include="Waypoint.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioManager.h" />
@@ -159,6 +160,7 @@
     <ClInclude Include="PlayerBoat.h" />
     <ClInclude Include="TextManager.h" />
     <ClInclude Include="vec2.hpp" />
+    <ClInclude Include="Waypoint.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="water_shader.frag" />

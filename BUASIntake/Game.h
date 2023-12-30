@@ -11,6 +11,7 @@
 #include "BoxCollider.h"
 #include "GameObject.h"
 #include "PlayerBoat.h"
+#include "Waypoint.h"
 #include "vec2.hpp"
 
 class Game
@@ -33,7 +34,6 @@ private:
 	void OnInitialize();
 	void OnInitializeWindow();
 
-//constructor / destructors
 public:
 	Game();
 	virtual ~Game();
@@ -45,14 +45,16 @@ public:
 	CollisionManager* collisionManager = nullptr;
 	TextManager* textManager = nullptr;
 
-	std::list<GameObject*> objectsToDelete;
 	std::list<GameObject*> gameobjects;
 	std::list<GameObject*> hudGameobjects;
 	std::list<Collider*> activeColliders;
+	std::list<GameObject*> updatingGameobjects;
+	std::list<GameObject*> objectsToDelete;
 	
 	sf::Vector2f GetScreenCenter();
 	const bool isWindowActive() const;
 
+	sf::View* GetCameraView();
 	void OnUpdateWindowEvents();
 	void OnUpdate(float deltaTime);
 	void OnLateUpdate(float deltaTime);

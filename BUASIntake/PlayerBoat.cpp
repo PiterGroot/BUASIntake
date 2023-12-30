@@ -39,10 +39,6 @@ void PlayerBoat::InitializePlayer(sf::Vector2f spawnPosition)
 
 	objectSprite.setScale(sf::Vector2f(2, 2));
 	GameObject::InitializeGameobject("Player", "Textures/Ship/ship1.png", spawnPosition);
-
-	Collider::SetCollisionCallback([this](Collider& other) {
-		OnCollision(other);
-	});
 }
 
 void PlayerBoat::MovePlayer(sf::Vector2f newPosition, float deltaTime)
@@ -99,7 +95,7 @@ void PlayerBoat::UpdatePlayer(float deltaTime)
 	MovePlayer(normalized(currentMoveDir) * moveSpeed, deltaTime);
 }
 
-void OnCollision(Collider& other) 
+void PlayerBoat::OnCollision(Collider& other) 
 {
 	if (other.GetObject()->tag == GameObject::ObjectTag::Pickup)
 	{

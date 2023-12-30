@@ -8,17 +8,6 @@ Collider::Collider(GameObject* object, bool isTrigger) : object(object)
     Game::instance->activeColliders.push_back(this);
 }
 
-void Collider::InvokeCollisionCallback(Collider& other)
-{
-    if (collisionCallback)
-        collisionCallback(other);
-}
-
-void Collider::SetCollisionCallback(CollisionCallback callback)
-{
-    collisionCallback = std::move(callback);
-}
-
 bool Collider::CheckCollision(Collider& other, float pushBack)
 {
     sf::Vector2f otherPosition = other.GetBodyPosition();

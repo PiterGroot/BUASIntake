@@ -16,10 +16,10 @@ void CollisionManager::ResolveCollisions(std::list<Collider*> activeColliders)
             Collider* collB = *nextColliderIterator;
 
             // Actual collision check and collision resolve
-            if (collA->CheckCollision(*collB, 1)) {
+            if (collA->CheckCollision(*collB, 0)) {
                 // Collision occurred, invoke the callback for each collider
-                collA->InvokeCollisionCallback(*collB);
-                collB->InvokeCollisionCallback(*collA);
+                collA->OnCollision(*collB);
+                collB->OnCollision(*collA);
             }
 
             ++nextColliderIterator;

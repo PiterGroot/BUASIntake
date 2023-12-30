@@ -21,4 +21,5 @@ public:
 
 	void MoveGameObject(sf::Vector2f newPosition);
 	void InitializeGameobject(sf::String name, sf::String texturePath, sf::Vector2f position, bool isHudObject = false);
+	virtual void OnUpdate(float deltaTime) {};
 };
