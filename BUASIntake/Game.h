@@ -37,6 +37,9 @@ private:
 public:
 	Game();
 	virtual ~Game();
+
+	int plasticDebris = 300;
+	int cleanedUpDebris = 0;
 	
 	static Game* instance;
 	PlayerBoat* playerBoat = nullptr;

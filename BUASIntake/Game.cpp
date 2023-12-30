@@ -1,7 +1,7 @@
 #include "Game.h"
 
 //forward declaration random helper method
-sf::Vector2f RandomPointInCircle(float centerX, float centerY, float radius);
+sf::Vector2f RandomPointInCircle(float radius);
 
 Game* Game::instance = nullptr;
 
@@ -32,9 +32,9 @@ Game::Game()
 	Waypoint* waypoint = new Waypoint("BaseWaypoint", "Textures/waypoint.png", sf::Vector2f(-300, 0));
 	waypoint->objectSprite.setColor(sf::Color::Green);
 
-	for (int i = 0; i < 250; i++)
+	for (int i = 0; i < plasticDebris; i++)
 	{
-		auto randPoint = RandomPointInCircle(0, 0, 5000);
+		auto randPoint = RandomPointInCircle(5000);
 		BoxCollider* collider = new BoxCollider("Pickup " + i, "Textures/circle.png", randPoint, true);
 	}
 }
@@ -185,12 +185,12 @@ const bool Game::isWindowActive() const
 }
 
 //Gets a point inside an arbitrary circle
-sf::Vector2f RandomPointInCircle(float centerX, float centerY, float radius) {
+sf::Vector2f RandomPointInCircle(float radius) {
 	float angle = static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX) * 2.0f * PI;
 	float randomRadius = std::sqrt(static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX)) * radius;
 
-	float x = centerX + randomRadius * std::cos(angle);
-	float y = centerY + randomRadius * std::sin(angle);
+	float x = randomRadius * std::cos(angle);
+	float y = randomRadius * std::sin(angle);
 
 	return sf::Vector2f(x, y);
 }

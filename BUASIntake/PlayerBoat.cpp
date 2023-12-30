@@ -4,6 +4,9 @@
 //forward declaration update methods
 void UpdateFuelLabel(float currentFuel);
 void UpdateDistanceLabel(sf::Vector2f currentPosition);
+void UpdateCleanupLabel();
+
+void TryCleanupDebris();
 
 float startFuelAmount = 1000;
 float defaultMoveSpeed = 250;
@@ -11,7 +14,7 @@ float defaultMoveSpeed = 250;
 float activeFuelConsumption = 25;
 float passiveFuelConsumption = 1;
 
-bool cleanupPressed = false;
+bool canCleanup = true;
 bool isInsidePickup = false;
 int randCleanupTries = 0;
 
@@ -71,6 +74,7 @@ void PlayerBoat::OnUpdate(float deltaTime)
 
 	UpdateFuelLabel(fuel);
 	UpdateDistanceLabel(position);
+	UpdateCleanupLabel();
 
 	MovePlayer(normalized(currentMoveDir) * moveSpeed, deltaTime);
 }
@@ -80,33 +84,53 @@ void PlayerBoat::OnCollision(Collider& other)
 	if (other.GetObject()->tag == GameObject::ObjectTag::Pickup)
 	{
 		if (!isInsidePickup)
-			randCleanupTries = std::rand() % 3 + 1;
+			randCleanupTries = std::rand() % 5 + 1;
 
 		isInsidePickup = true;
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E) && cleanupPressed) {
-			randCleanupTries--;
-
-			AudioManager::instance->PlaySound(AudioManager::SoundTypes::Cleanup);
-			std::cout << "cleanup" << "\n";
-			cleanupPressed = false;
-		}
-		if (sf::Event::KeyReleased) {
-			if (Game::instance->GetWindowEvent()->key.code == sf::Keyboard::E) {
-				cleanupPressed = true;
-			}
-		}
+		TryCleanupDebris();
 
 		if (randCleanupTries == 0) {
 			isInsidePickup = false;
+			canCleanup = true;
 
 			std::cout << "Player collided with pickup!" << "\n";
 			AudioManager::instance->PlaySound(AudioManager::SoundTypes::Pickup);
+			Game::instance->cleanedUpDebris++;
 
 			Game::instance->activeColliders.remove(&other);
 			Game::instance->objectsToDelete.push_back(other.GetObject());
 		}
 	}
+}
+
+//Cleanup "minigame" when floating ontop of debris
+void TryCleanupDebris() 
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E) && canCleanup) {
+		randCleanupTries--;
+		std::cout << "cleanup" << "\n";
+
+		AudioManager::instance->PlaySound(AudioManager::SoundTypes::Cleanup);
+		canCleanup = false;
+	}
+	if (sf::Event::KeyReleased) {
+		if (Game::instance->GetWindowEvent()->key.code == sf::Keyboard::E) {
+			canCleanup = true;
+		}
+	}
+}
+
+//Update cleanup label based on how dirty the lake is
+void UpdateCleanupLabel() 
+{
+	float startDebris = Game::instance->plasticDebris;
+	float cleanedUp = Game::instance->cleanedUpDebris;
+	float dirtyPerc = 100 - ((cleanedUp / startDebris) * 100);
+
+	std::ostringstream cleanupStringStream;
+	cleanupStringStream << std::fixed << std::setprecision(2) << dirtyPerc;
+	TextManager::instance->UpdateTextLabel("PlasticStatus", "Lake cleanup " + cleanupStringStream.str() + " %");
 }
 
 //Update fuel text label
