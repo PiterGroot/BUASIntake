@@ -10,7 +10,8 @@ public:
 	{
 		Default,
 		Pickup,
-		Enemy
+		Hurricane,
+		Kraken
 	};
 
 	sf::String name;

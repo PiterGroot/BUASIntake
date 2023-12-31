@@ -81,10 +81,6 @@ void PlayerBoat::OnUpdate(float deltaTime)
 
 void PlayerBoat::OnCollision(Collider& other) 
 {
-	if (other.GetObject()->tag == ObjectTag::Enemy) {
-		std::cout << "Collided with ENEMY!" << "\n";
-	}
-
 	if (other.GetObject()->tag == ObjectTag::Pickup)
 	{
 		if (!isInsidePickup)
