@@ -13,6 +13,7 @@
 #include "PlayerBoat.h"
 #include "Waypoint.h"
 #include "vec2.hpp"
+#include "Enemy.h"
 
 class Game
 {

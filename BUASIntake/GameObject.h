@@ -10,6 +10,7 @@ public:
 	{
 		Default,
 		Pickup,
+		Enemy
 	};
 
 	sf::String name;

@@ -9,10 +9,7 @@ public:
     Collider(GameObject* object, bool isTrigger);
 
     bool CheckCollision(Collider& other, float pushBack);
-    void MoveBodies(Collider& other, float thisDeltaX, float thisDeltaY, float otherDeltaX, float otherDeltaY);
     void SetTrigger(bool isTrigger) { isTriggerCollider = isTrigger; }
-    void AdjustPositions(Collider& other, sf::Vector2f intersect, sf::Vector2f deltaPosition, float pushBack);
-    void MoveBody(sf::Vector2f deltaPosition) { object->MoveGameObject(object->position += deltaPosition); };
     virtual void OnCollision(Collider& other) {};
 
     sf::Vector2f GetBodyPosition() { return object->position; }
@@ -22,4 +19,8 @@ public:
 private:
     GameObject* object;
     bool isTriggerCollider = false;
+    
+    void MoveBodies(Collider& other, float thisDeltaX, float thisDeltaY, float otherDeltaX, float otherDeltaY);
+    void MoveBody(sf::Vector2f deltaPosition) { object->MoveGameObject(object->position += deltaPosition); };
+    void AdjustPositions(Collider& other, sf::Vector2f intersect, sf::Vector2f deltaPosition, float pushBack);
 };
