@@ -26,6 +26,7 @@ Game::Game()
 	collisionManager = new CollisionManager();
 	audioManager = new AudioManager();
 	textManager = new TextManager();
+	inputManager = new InputManager();
 
 	//audioManager->PlayMusicSong(AudioManager::SoundTypes::MainMusic);
 	
@@ -34,7 +35,7 @@ Game::Game()
 	
 	VortexEnemy* vortex = new VortexEnemy("Vortex", "Textures/vortex.png", sf::Vector2f(0, -250));
 	KrakenEnemy* kraken = new KrakenEnemy("Kraken", "Textures/tentacle.png", sf::Vector2f(0, 250));
-
+	
 	for (int i = 0; i < plasticDebris; i++)
 	{
 		auto randPoint = RandomPointInCircle(5000);
@@ -73,7 +74,7 @@ void Game::OnInitializeWindow()
 	waterShaderRect = sf::RectangleShape(sf::Vector2f(videoMode.width, videoMode.height));
 	waterShaderRect.setOrigin(GetScreenCenter());
 	waterShaderRect.setPosition(GetScreenCenter());
-
+	
 	//Load water shader
 	waterShader.loadFromFile("Resources/Shader/water_shader.frag", sf::Shader::Fragment);
 	waterShader.setUniform("resolution", sf::Vector2f(window->getSize()));

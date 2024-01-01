@@ -148,6 +148,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="VortexEnemy.cpp" />
     <ClCompile Include="KrakenEnemy.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="VortexEnemy.h" />
     <ClInclude Include="KrakenEnemy.h" />
     <ClInclude Include="PlayerBoat.h" />

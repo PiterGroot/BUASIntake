@@ -15,7 +15,6 @@ float defaultMoveSpeed = 250;
 float activeFuelConsumption = 25;
 float passiveFuelConsumption = 1;
 
-bool canCleanup = true;
 bool isInsidePickup = false;
 int randCleanupTries = 0;
 
@@ -98,7 +97,7 @@ void PlayerBoat::OnCollision(Collider& other)
 
 		if (randCleanupTries == 0) {
 			isInsidePickup = false;
-			canCleanup = true;
+			InputManager::instance->Reset();
 
 			std::cout << "Player collided with pickup!" << "\n";
 			AudioManager::instance->PlaySound(AudioManager::SoundTypes::Pickup);
@@ -115,16 +114,10 @@ void PlayerBoat::OnCollision(Collider& other)
 //Cleanup "minigame" when floating ontop of debris
 bool TryCleanupDebris() 
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E) && canCleanup) {
+	if (InputManager::instance->GetKeyDown(sf::Keyboard::E)) 
+	{
 		randCleanupTries--;
-		
-		canCleanup = false;
 		return true;
-	}
-	if (sf::Event::KeyReleased) {
-		if (Game::instance->GetWindowEvent()->key.code == sf::Keyboard::E) {
-			canCleanup = true;
-		}
 	}
 	return false;
 }

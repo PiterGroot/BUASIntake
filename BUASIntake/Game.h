@@ -6,6 +6,7 @@
 #include <list>
 
 #include "CollisionManager.h"
+#include "InputManager.h"
 #include "AudioManager.h"
 #include "TextManager.h"
 #include "KrakenEnemy.h"
@@ -49,6 +50,7 @@ public:
 	AudioManager* audioManager = nullptr;
 	CollisionManager* collisionManager = nullptr;
 	TextManager* textManager = nullptr;
+	InputManager* inputManager = nullptr;
 
 	std::list<GameObject*> gameobjects;
 	std::list<GameObject*> hudGameobjects;
