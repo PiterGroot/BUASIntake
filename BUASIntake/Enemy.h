@@ -8,6 +8,8 @@ public:
     Enemy(sf::String name, sf::String texture, sf::Vector2f position);
 
     virtual void OnUpdate(float deltaTime) override = 0;
+    virtual void HandleDespawn(float deltaTime) {};
+    
     sf::Vector2f GetPlayerDirection();
 
 protected:

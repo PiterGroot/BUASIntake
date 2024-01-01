@@ -116,6 +116,13 @@ void Game::OnLateUpdate(float deltaTime)
 {
 	// Remove objects marked for deletion (needs to be done AFTER we have have passed the update loop)
 	for (auto& objectToDelete : objectsToDelete) {
+
+		// Remove from updatingGameobjects if it contains the object
+		auto updatingIterator = std::remove(updatingGameobjects.begin(), updatingGameobjects.end(), objectToDelete);
+		if (updatingIterator != updatingGameobjects.end()) {
+			updatingGameobjects.erase(updatingIterator);
+		}
+
 		auto iterator = std::remove(Game::gameobjects.begin(), Game::gameobjects.end(), objectToDelete);
 		Game::gameobjects.erase(iterator, Game::gameobjects.end());
 
