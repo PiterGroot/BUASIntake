@@ -73,6 +73,7 @@ void PlayerBoat::OnUpdate(float deltaTime)
 	if (currentMoveDir != sf::Vector2f(0, 0))
 		objectSprite.setTexture(getDirectionalSprite[currentMoveDir]);
 	
+	//Update UI info labelss
 	UpdateFuelLabel(fuel);
 	UpdateDistanceLabel(position);
 	UpdateCleanupLabel();
@@ -84,7 +85,6 @@ void PlayerBoat::OnCollision(Collider& other)
 {
 	if (other.GetObject()->tag == ObjectTag::Pickup)
 	{
-		
 		if (!isInsidePickup)
 			randCleanupTries = std::rand() % 5 + 1;
 
@@ -92,14 +92,17 @@ void PlayerBoat::OnCollision(Collider& other)
 
 		if (TryCleanupDebris()) {
 			std::cout << "cleanup" << "\n";
-			AudioManager::instance->PlaySound(AudioManager::SoundTypes::Cleanup);
+
+			//play random cleanup sound effect
+			int randomCleanUpSound = std::rand() % 3 + 2;
+			AudioManager::instance->PlaySound(static_cast<AudioManager::SoundTypes>(randomCleanUpSound));
 		}
 
 		if (randCleanupTries == 0) {
 			isInsidePickup = false;
 			InputManager::instance->Reset();
 
-			std::cout << "Player collided with pickup!" << "\n";
+			std::cout << "\nPlayer pickedup debris!" << "\n";
 			AudioManager::instance->PlaySound(AudioManager::SoundTypes::Pickup);
 			
 			Game::instance->cleanedUpDebris++;

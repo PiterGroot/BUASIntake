@@ -39,7 +39,11 @@ Game::Game()
 	for (int i = 0; i < plasticDebris; i++)
 	{
 		auto randPoint = RandomPointInCircle(5000);
-		BoxCollider* collider = new BoxCollider("Pickup " + i, "Textures/circle.png", randPoint, true);
+		BoxCollider* collider = new BoxCollider("Pickup " + i, "Textures/trash.png", randPoint, true);
+		collider->objectSprite.setRotation(rand() % 360);
+
+		float randomScaler = 1.0f + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / 0.4f));
+		collider->objectSprite.setScale(sf::Vector2f(1, 1) * randomScaler);
 	}
 }
 
