@@ -17,7 +17,10 @@ public:
 	void OnCollision(Collider& other) override;
 	void OnUpdate(float deltaTime) override;
 
-private:	
+private:
+	float debrisCapacity = 0;
+	float currentDebrisAmount = 0;
+
 	float fuel = 0;
 	float moveSpeed = 0;
 

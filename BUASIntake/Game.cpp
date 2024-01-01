@@ -27,13 +27,12 @@ Game::Game()
 	audioManager = new AudioManager();
 	textManager = new TextManager();
 
-	audioManager->PlayMusicSong(AudioManager::SoundTypes::MainMusic);
+	//audioManager->PlayMusicSong(AudioManager::SoundTypes::MainMusic);
 	
 	Waypoint* waypoint = new Waypoint("BaseWaypoint", "Textures/waypoint.png", sf::Vector2f(-300, 0));
 	waypoint->objectSprite.setColor(sf::Color::Green);
-
-	HurricaneEnemy* enemy = new HurricaneEnemy("Hurricane", "Textures/circle.png", sf::Vector2f(0, -250));
-	enemy->objectSprite.setColor(sf::Color::Red);
+	
+	HurricaneEnemy* enemy = new HurricaneEnemy("Hurricane", "Textures/vortex.png", sf::Vector2f(0, -250));
 
 	for (int i = 0; i < plasticDebris; i++)
 	{

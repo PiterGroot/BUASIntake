@@ -8,6 +8,7 @@ void UpdateCleanupLabel();
 
 bool TryCleanupDebris();
 
+float startDebrisCapacity = 6;
 float startFuelAmount = 1000;
 float defaultMoveSpeed = 250;
 
@@ -26,6 +27,7 @@ void PlayerBoat::InitializePlayer(sf::Vector2f spawnPosition)
 	//initialize player stats
 	fuel = startFuelAmount;
 	moveSpeed = defaultMoveSpeed;
+	debrisCapacity = startDebrisCapacity;
 	
 	//load necessary direction texturess
 	upDirection.loadFromFile("Textures/Ship/ship1.png");
@@ -83,6 +85,7 @@ void PlayerBoat::OnCollision(Collider& other)
 {
 	if (other.GetObject()->tag == ObjectTag::Pickup)
 	{
+		
 		if (!isInsidePickup)
 			randCleanupTries = std::rand() % 5 + 1;
 
@@ -99,7 +102,9 @@ void PlayerBoat::OnCollision(Collider& other)
 
 			std::cout << "Player collided with pickup!" << "\n";
 			AudioManager::instance->PlaySound(AudioManager::SoundTypes::Pickup);
+			
 			Game::instance->cleanedUpDebris++;
+			currentDebrisAmount++;
 
 			Game::instance->activeColliders.remove(&other);
 			Game::instance->objectsToDelete.push_back(other.GetObject());
