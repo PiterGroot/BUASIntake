@@ -18,8 +18,8 @@ public:
 	void OnUpdate(float deltaTime) override;
 
 private:
-	float debrisCapacity = 0;
-	float currentDebrisAmount = 0;
+	int storageCapacity = 0;
+	int currentStorageAmount = 0;
 
 	float fuel = 0;
 	float moveSpeed = 0;

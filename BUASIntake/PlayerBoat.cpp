@@ -6,9 +6,9 @@ void UpdateFuelLabel(float currentFuel);
 void UpdateDistanceLabel(sf::Vector2f currentPosition);
 void UpdateCleanupLabel();
 
-bool TryCleanupDebris();
+bool TryCleanupDebris(float currentStorageAmount, float storageCapacity);
 
-float startDebrisCapacity = 6;
+int startStorageAmount = 6;
 float startFuelAmount = 1000;
 float defaultMoveSpeed = 250;
 
@@ -26,7 +26,7 @@ void PlayerBoat::InitializePlayer(sf::Vector2f spawnPosition)
 	//initialize player stats
 	fuel = startFuelAmount;
 	moveSpeed = defaultMoveSpeed;
-	debrisCapacity = startDebrisCapacity;
+	storageCapacity = startStorageAmount;
 	
 	//load necessary direction texturess
 	upDirection.loadFromFile("Textures/Ship/ship1.png");
@@ -76,7 +76,6 @@ void PlayerBoat::OnUpdate(float deltaTime)
 	//Update UI info labelss
 	UpdateFuelLabel(fuel);
 	UpdateDistanceLabel(position);
-	UpdateCleanupLabel();
 	
 	MovePlayer(normalized(currentMoveDir) * moveSpeed, deltaTime);
 }
@@ -85,12 +84,13 @@ void PlayerBoat::OnCollision(Collider& other)
 {
 	if (other.GetObject()->tag == ObjectTag::Pickup)
 	{
+		//Generate random number for cleanup tries when player collides the pickup for the first time
 		if (!isInsidePickup)
 			randCleanupTries = std::rand() % 5 + 1;
 
 		isInsidePickup = true;
 
-		if (TryCleanupDebris()) {
+		if (TryCleanupDebris(currentStorageAmount, storageCapacity)) {
 			std::cout << "cleanup" << "\n";
 
 			//play random cleanup sound effect
@@ -99,14 +99,18 @@ void PlayerBoat::OnCollision(Collider& other)
 		}
 
 		if (randCleanupTries == 0) {
+			std::cout << "\nPlayer pickedup debris!" << "\n";
+			
 			isInsidePickup = false;
 			InputManager::instance->Reset();
-
-			std::cout << "\nPlayer pickedup debris!" << "\n";
-			AudioManager::instance->PlaySound(AudioManager::SoundTypes::Pickup);
 			
-			Game::instance->cleanedUpDebris++;
-			currentDebrisAmount++;
+			AudioManager::instance->PlaySound(AudioManager::SoundTypes::Pickup);
+			currentStorageAmount++;
+
+			sf::String storageText = std::to_string(currentStorageAmount) + "/" + std::to_string(startStorageAmount);
+			TextManager::instance->UpdateTextLabel("CurrentStorage", "Storage " + storageText);
+
+			UpdateCleanupLabel();
 
 			Game::instance->activeColliders.remove(&other);
 			Game::instance->objectsToDelete.push_back(other.GetObject());
@@ -115,10 +119,17 @@ void PlayerBoat::OnCollision(Collider& other)
 }
 
 //Cleanup "minigame" when floating ontop of debris
-bool TryCleanupDebris() 
+bool TryCleanupDebris(float currentStorageAmount, float storageCapacity) 
 {
 	if (InputManager::instance->GetKeyDown(sf::Keyboard::E)) 
 	{
+		//Check if there is enough space in storage before picking up
+		if (currentStorageAmount >= storageCapacity)
+		{
+			AudioManager::instance->PlaySound(AudioManager::SoundTypes::Deny);
+			return false;
+		}
+
 		randCleanupTries--;
 		return true;
 	}

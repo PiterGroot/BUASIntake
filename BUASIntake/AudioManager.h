@@ -14,10 +14,10 @@ public:
 	{
         MainMusic,
 		Pickup,
-
 		Cleanup,
         Cleanup1,
-        Cleanup2
+        Cleanup2,
+        Deny
 	};
 
 	AudioManager();

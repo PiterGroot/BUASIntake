@@ -8,11 +8,12 @@ AudioManager::AudioManager()
 	sf::String audioPath = "Resources/Audio/";
 
 	musicClips.insert(std::pair<SoundTypes, AudioMusicContainer*>(SoundTypes::MainMusic, new AudioMusicContainer(audioPath + "music.wav")));
-	audioClips.insert(std::pair<SoundTypes, AudioContainer*>(SoundTypes::Pickup, new AudioContainer(audioPath + "pickup.wav")));
 
+	audioClips.insert(std::pair<SoundTypes, AudioContainer*>(SoundTypes::Pickup, new AudioContainer(audioPath + "pickup.wav")));
 	audioClips.insert(std::pair<SoundTypes, AudioContainer*>(SoundTypes::Cleanup, new AudioContainer(audioPath + "cleanup.wav")));
 	audioClips.insert(std::pair<SoundTypes, AudioContainer*>(SoundTypes::Cleanup1, new AudioContainer(audioPath + "cleanup1.wav")));
 	audioClips.insert(std::pair<SoundTypes, AudioContainer*>(SoundTypes::Cleanup2, new AudioContainer(audioPath + "cleanup2.wav")));
+	audioClips.insert(std::pair<SoundTypes, AudioContainer*>(SoundTypes::Deny, new AudioContainer(audioPath + "deny.wav")));
 }
 
 void AudioManager::PlaySound(SoundTypes type)
