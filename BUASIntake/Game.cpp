@@ -32,7 +32,8 @@ Game::Game()
 	Waypoint* waypoint = new Waypoint("BaseWaypoint", "Textures/waypoint.png", sf::Vector2f(-300, 0));
 	waypoint->objectSprite.setColor(sf::Color::Green);
 	
-	HurricaneEnemy* enemy = new HurricaneEnemy("Hurricane", "Textures/vortex.png", sf::Vector2f(0, -250));
+	VortexEnemy* vortex = new VortexEnemy("Vortex", "Textures/vortex.png", sf::Vector2f(0, -250));
+	KrakenEnemy* kraken = new KrakenEnemy("Kraken", "Textures/tentacle.png", sf::Vector2f(0, 250));
 
 	for (int i = 0; i < plasticDebris; i++)
 	{

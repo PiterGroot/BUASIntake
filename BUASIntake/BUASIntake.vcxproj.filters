@@ -51,7 +51,7 @@
     <ClCompile Include="KrakenEnemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HurricaneEnemy.cpp">
+    <ClCompile Include="VortexEnemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -92,7 +92,7 @@
     <ClInclude Include="KrakenEnemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HurricaneEnemy.h">
+    <ClInclude Include="VortexEnemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

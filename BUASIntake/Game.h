@@ -6,10 +6,10 @@
 #include <list>
 
 #include "CollisionManager.h"
-#include "HurricaneEnemy.h"
 #include "AudioManager.h"
 #include "TextManager.h"
 #include "KrakenEnemy.h"
+#include "VortexEnemy.h"
 #include "BoxCollider.h"
 #include "GameObject.h"
 #include "PlayerBoat.h"

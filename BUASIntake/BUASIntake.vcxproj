@@ -148,7 +148,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="HurricaneEnemy.cpp" />
+    <ClCompile Include="VortexEnemy.cpp" />
     <ClCompile Include="KrakenEnemy.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PlayerBoat.cpp" />
@@ -163,7 +163,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="HurricaneEnemy.h" />
+    <ClInclude Include="VortexEnemy.h" />
     <ClInclude Include="KrakenEnemy.h" />
     <ClInclude Include="PlayerBoat.h" />
     <ClInclude Include="TextManager.h" />
