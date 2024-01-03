@@ -12,7 +12,7 @@ Game::Game()
 	OnInitializeWindow();
 
 	playerBoat = new PlayerBoat(sf::Vector2f(0,0));
-	PlayerHome* playerHome = new PlayerHome("TestBase", "Textures/rock.png", sf::Vector2f(-300, 65));
+	playerHome = new PlayerHome("PlayerHome", "Textures/Debug/rock.png", sf::Vector2f(-300, 65));
 
 	//create necessary managers
 	collisionManager = new CollisionManager();
@@ -169,7 +169,7 @@ void ScatterPickups(int pickupsAmount)
 	for (int i = 0; i < pickupsAmount; i++)
 	{
 		sf::Vector2f randPoint = RandomPointInCircle(5000);
-		BoxCollider* collider = new BoxCollider("Pickup " + i, "Textures/trash.png", randPoint, true);
+		BoxCollider* collider = new BoxCollider("Pickup " + i, "Textures/Other/trash.png", randPoint, true);
 		collider->objectSprite.setRotation(rand() % 360);
 
 		float randomScaler = 1.0f + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / 0.4f));

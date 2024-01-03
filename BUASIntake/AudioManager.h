@@ -17,7 +17,8 @@ public:
 		Cleanup,
         Cleanup1,
         Cleanup2,
-        Deny
+        Deny,
+        Deposit
 	};
 
 	AudioManager();

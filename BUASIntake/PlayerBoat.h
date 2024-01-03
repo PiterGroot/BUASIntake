@@ -13,10 +13,12 @@ public:
 	void OnCollision(Collider& other) override;
 	void OnUpdate(float deltaTime) override;
 
-	sf::Vector2f currentMoveDirection;
-private:
 	int storageCapacity = 0;
 	int currentStorageAmount = 0;
+	
+	sf::Vector2f currentMoveDirection;
+	
+private:
 
 	float fuel = 0;
 	float moveSpeed = 0;

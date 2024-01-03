@@ -8,7 +8,7 @@ TextManager::TextManager()
 
 	CreateTextLabel("Fuel", "Fuel ", sf::Vector2f(0, 0), 24);
 	CreateTextLabel("Distance", "Dist ", sf::Vector2f(0, 30), 24);
-	CreateTextLabel("PlasticStatus", "Lake cleanup %", sf::Vector2f(0, 60), 24);
+	CreateTextLabel("PlasticStatus", "Lake cleanup 100%", sf::Vector2f(0, 60), 24);
 	CreateTextLabel("CurrentStorage", "Storage: 0/0", sf::Vector2f(0, 90), 24);
 }
 

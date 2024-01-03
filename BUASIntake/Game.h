@@ -43,11 +43,13 @@ public:
 	Game();
 	virtual ~Game();
 
+	static Game* instance;
+
 	int plasticDebris = 300;
 	int cleanedUpDebris = 0;
 	
-	static Game* instance;
 	PlayerBoat* playerBoat = nullptr;
+	PlayerHome* playerHome = nullptr;
 
 	AudioManager* audioManager = nullptr;
 	CollisionManager* collisionManager = nullptr;
@@ -65,6 +67,7 @@ public:
 
 	sf::Event* GetWindowEvent();
 	sf::View* GetCameraView();
+
 	void OnUpdateWindowEvents();
 	void OnUpdate(float deltaTime);
 	void OnLateUpdate(float deltaTime);

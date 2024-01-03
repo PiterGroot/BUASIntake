@@ -2,10 +2,12 @@
 #include "Game.h"
 
 //forward declaration update methods
-void UpdateFuelLabel(float currentFuel);
 void UpdateDistanceLabel(sf::Vector2f currentPosition);
+void UpdateStorageLabel(PlayerBoat* player);
+void UpdateFuelLabel(float currentFuel);
 void UpdateCleanupLabel();
 
+void OnCollideWithPickup(Collider& other, PlayerBoat* player);
 bool TryCleanupDebris(float currentStorageAmount, float storageCapacity);
 
 int startStorageAmount = 6;
@@ -80,38 +82,49 @@ void PlayerBoat::OnUpdate(float deltaTime)
 void PlayerBoat::OnCollision(Collider& other) 
 {
 	if (other.GetObject()->tag == ObjectTag::Pickup)
+		OnCollideWithPickup(other, this);
+	
+	if (other.GetObject()->tag == ObjectTag::PlayerHome) 
 	{
-		//Generate random number for cleanup tries when player collides the pickup for the first time
-		if (!isInsidePickup)
-			randCleanupTries = std::rand() % 5 + 1;
+		if (InputManager::instance->GetKeyDown(sf::Keyboard::Key::E))
+			if (Game::instance->playerHome->DepositWaste(currentStorageAmount)) 
+			{
+				currentStorageAmount = 0;
+				UpdateStorageLabel(this);
+				UpdateCleanupLabel();
+			}
+	}
+}
 
-		isInsidePickup = true;
+void OnCollideWithPickup(Collider& other, PlayerBoat* player) 
+{
+	//Generate random number for cleanup tries when player collides the pickup for the first time
+	if (!isInsidePickup)
+		randCleanupTries = std::rand() % 5 + 1;
 
-		if (TryCleanupDebris(currentStorageAmount, storageCapacity)) {
-			std::cout << "cleanup" << "\n";
+	isInsidePickup = true;
 
-			//play random cleanup sound effect
-			int randomCleanUpSound = std::rand() % 3 + 2;
-			AudioManager::instance->PlaySound(static_cast<AudioManager::SoundTypes>(randomCleanUpSound));
-		}
+	if (TryCleanupDebris(player->currentStorageAmount, player->storageCapacity)) {
+		std::cout << "cleanup" << "\n";
 
-		if (randCleanupTries == 0) {
-			std::cout << "\nPlayer pickedup debris!" << "\n";
-			
-			isInsidePickup = false;
-			InputManager::instance->Reset();
-			
-			AudioManager::instance->PlaySound(AudioManager::SoundTypes::Pickup);
-			currentStorageAmount++;
+		//play random cleanup sound effect
+		int randomCleanUpSound = std::rand() % 3 + 2;
+		AudioManager::instance->PlaySound(static_cast<AudioManager::SoundTypes>(randomCleanUpSound));
+	}
 
-			sf::String storageText = std::to_string(currentStorageAmount) + "/" + std::to_string(startStorageAmount);
-			TextManager::instance->UpdateTextLabel("CurrentStorage", "Storage " + storageText);
+	if (randCleanupTries == 0) {
+		std::cout << "\nPlayer pickedup debris!" << "\n";
 
-			UpdateCleanupLabel();
+		isInsidePickup = false;
+		InputManager::instance->Reset();
 
-			Game::instance->activeColliders.remove(&other);
-			Game::instance->objectsToDelete.push_back(other.GetObject());
-		}
+		AudioManager::instance->PlaySound(AudioManager::SoundTypes::Pickup);
+		player->currentStorageAmount++;
+
+		UpdateStorageLabel(player);
+
+		Game::instance->activeColliders.remove(&other);
+		Game::instance->objectsToDelete.push_back(other.GetObject());
 	}
 }
 
@@ -130,6 +143,13 @@ bool TryCleanupDebris(float currentStorageAmount, float storageCapacity)
 		return true;
 	}
 	return false;
+}
+
+//Update player storage label based on current storage
+void UpdateStorageLabel(PlayerBoat* player) 
+{
+	sf::String storageText = std::to_string(player->currentStorageAmount) + "/" + std::to_string(startStorageAmount);
+	TextManager::instance->UpdateTextLabel("CurrentStorage", "Storage " + storageText);
 }
 
 //Update cleanup label based on how dirty the lake is
