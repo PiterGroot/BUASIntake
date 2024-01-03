@@ -8,15 +8,12 @@
 class PlayerBoat : public GameObject, public Collider
 {
 public:
-	PlayerBoat();
-
-	sf::Vector2f currentMoveDir;
-
-	void InitializePlayer(sf::Vector2f spawnPosition);
+	PlayerBoat(sf::Vector2f spawnPosition);
 
 	void OnCollision(Collider& other) override;
 	void OnUpdate(float deltaTime) override;
 
+	sf::Vector2f currentMoveDirection;
 private:
 	int storageCapacity = 0;
 	int currentStorageAmount = 0;

@@ -4,12 +4,14 @@
 void RotateTowardsBase(GameObject* waypoint, sf::Vector2f targetPosition);
 void ClampPosition(GameObject* waypoint, sf::Vector2f targetPosition);
 
-Waypoint::Waypoint(sf::String name, sf::String texturePath, sf::Vector2f targetPosition, bool doRotate)
+Waypoint::Waypoint(sf::String name, sf::String texturePath, sf::Vector2f targetPosition, sf::Color color, bool doRotate)
 {
     this->doRotate = doRotate;
 	this->targetPosition = targetPosition;
 
+    objectSprite.setColor(color);
 	InitializeGameobject(name, texturePath, this->targetPosition, false);
+
 	Game::instance->updatingGameobjects.push_back(this);
 }
 

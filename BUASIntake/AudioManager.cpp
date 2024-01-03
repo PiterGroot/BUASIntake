@@ -14,6 +14,8 @@ AudioManager::AudioManager()
 	audioClips.insert(std::pair<SoundTypes, AudioContainer*>(SoundTypes::Cleanup1, new AudioContainer(audioPath + "cleanup1.wav")));
 	audioClips.insert(std::pair<SoundTypes, AudioContainer*>(SoundTypes::Cleanup2, new AudioContainer(audioPath + "cleanup2.wav")));
 	audioClips.insert(std::pair<SoundTypes, AudioContainer*>(SoundTypes::Deny, new AudioContainer(audioPath + "deny.wav")));
+
+	PlayMusicSong(SoundTypes::MainMusic);
 }
 
 void AudioManager::PlaySound(SoundTypes type)

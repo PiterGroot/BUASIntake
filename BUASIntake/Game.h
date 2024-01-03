@@ -1,4 +1,5 @@
 #pragma once
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <sstream>
@@ -14,7 +15,7 @@
 #include "BoxCollider.h"
 #include "GameObject.h"
 #include "PlayerBoat.h"
-#include "Waypoint.h"
+#include "PlayerHome.h"
 #include "vec2.hpp"
 
 class Game
@@ -28,6 +29,7 @@ private:
 	sf::View cameraView;
 	sf::View staticView;
 
+	sf::Shader waterShader;
 	sf::RectangleShape waterShaderRect;
 	sf::Font textFont;
 

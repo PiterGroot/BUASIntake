@@ -11,7 +11,8 @@ public:
 		Default,
 		Pickup,
 		Hurricane,
-		Kraken
+		Kraken,
+		PlayerHome
 	};
 
 	sf::String name;

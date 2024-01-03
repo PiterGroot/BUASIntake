@@ -18,16 +18,13 @@ float passiveFuelConsumption = 1;
 bool isInsidePickup = false;
 int randCleanupTries = 0;
 
-// Call the Collider constructor
-PlayerBoat::PlayerBoat() : Collider(this, false) {}
-
-void PlayerBoat::InitializePlayer(sf::Vector2f spawnPosition) 
-{ 
+PlayerBoat::PlayerBoat(sf::Vector2f spawnPosition) : Collider(this, false) // call the Collider constructor
+{
 	//initialize player stats
 	fuel = startFuelAmount;
 	moveSpeed = defaultMoveSpeed;
 	storageCapacity = startStorageAmount;
-	
+
 	//load necessary direction texturess
 	upDirection.loadFromFile("Textures/Ship/ship1.png");
 	upRightDirection.loadFromFile("Textures/Ship/ship15.png");
@@ -68,16 +65,16 @@ void PlayerBoat::MovePlayer(sf::Vector2f newPosition, float deltaTime)
 
 void PlayerBoat::OnUpdate(float deltaTime)
 {
-	currentMoveDir = GetMovementDirection();
+	currentMoveDirection = GetMovementDirection();
 
-	if (currentMoveDir != sf::Vector2f(0, 0))
-		objectSprite.setTexture(getDirectionalSprite[currentMoveDir]);
+	if (currentMoveDirection != sf::Vector2f(0, 0))
+		objectSprite.setTexture(getDirectionalSprite[currentMoveDirection]);
 	
 	//Update UI info labelss
 	UpdateFuelLabel(fuel);
 	UpdateDistanceLabel(position);
 	
-	MovePlayer(normalized(currentMoveDir) * moveSpeed, deltaTime);
+	MovePlayer(normalized(currentMoveDirection) * moveSpeed, deltaTime);
 }
 
 void PlayerBoat::OnCollision(Collider& other) 
@@ -129,7 +126,6 @@ bool TryCleanupDebris(float currentStorageAmount, float storageCapacity)
 			AudioManager::instance->PlaySound(AudioManager::SoundTypes::Deny);
 			return false;
 		}
-
 		randCleanupTries--;
 		return true;
 	}

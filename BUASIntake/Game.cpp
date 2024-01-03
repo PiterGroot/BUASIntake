@@ -1,12 +1,7 @@
 #include "Game.h"
 
-//forward declaration random helper method
-sf::Vector2f RandomPointInCircle(float radius);
-
+void ScatterPickups(int pickupsAmount);
 Game* Game::instance = nullptr;
-
-sf::Shader waterShader;
-BoxCollider* testBase = nullptr;
 
 #pragma region 
 Game::Game()
@@ -16,35 +11,16 @@ Game::Game()
 	OnInitialize();
 	OnInitializeWindow();
 
-	playerBoat = new PlayerBoat();
-	playerBoat->InitializePlayer(sf::Vector2f(0,0));
+	playerBoat = new PlayerBoat(sf::Vector2f(0,0));
+	PlayerHome* playerHome = new PlayerHome("TestBase", "Textures/rock.png", sf::Vector2f(-300, 65));
 
-	testBase = new BoxCollider("TestBase", "Textures/rock.png", sf::Vector2f(-300, 65), false);
-	testBase->tag = testBase->ObjectTag::Default;
-	testBase->objectSprite.setScale(sf::Vector2f(6, 6));
-
+	//create necessary managers
 	collisionManager = new CollisionManager();
 	audioManager = new AudioManager();
 	textManager = new TextManager();
 	inputManager = new InputManager();
-
-	//audioManager->PlayMusicSong(AudioManager::SoundTypes::MainMusic);
 	
-	Waypoint* waypoint = new Waypoint("BaseWaypoint", "Textures/waypoint.png", sf::Vector2f(-300, 0));
-	waypoint->objectSprite.setColor(sf::Color::Green);
-	
-	VortexEnemy* vortex = new VortexEnemy("Vortex", "Textures/vortex.png", sf::Vector2f(0, -250));
-	KrakenEnemy* kraken = new KrakenEnemy("Kraken", "Textures/tentacle.png", sf::Vector2f(0, 250));
-	
-	for (int i = 0; i < plasticDebris; i++)
-	{
-		auto randPoint = RandomPointInCircle(5000);
-		BoxCollider* collider = new BoxCollider("Pickup " + i, "Textures/trash.png", randPoint, true);
-		collider->objectSprite.setRotation(rand() % 360);
-
-		float randomScaler = 1.0f + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / 0.4f));
-		collider->objectSprite.setScale(sf::Vector2f(1, 1) * randomScaler);
-	}
+	ScatterPickups(plasticDebris); //randomly spawn pickups
 }
 
 Game::~Game()
@@ -107,8 +83,8 @@ void Game::OnUpdate(float deltaTime)
 
 	//Pass necessary variables to the water shader
 	waterShader.setUniform("time", elapsedTime);
-	waterShader.setUniform("scrollDirX", (playerBoat->position.x + (-playerBoat->currentMoveDir.x)));
-	waterShader.setUniform("scrollDirY", (-playerBoat->position.y + (playerBoat->currentMoveDir.y)));
+	waterShader.setUniform("scrollDirX", (playerBoat->position.x + (-playerBoat->currentMoveDirection.x)));
+	waterShader.setUniform("scrollDirY", (-playerBoat->position.y + (playerBoat->currentMoveDirection.y)));
 }
 
 //Update loop after the render pass
@@ -176,6 +152,31 @@ void Game::OnUpdateWindowEvents()
 	}
 }
 
+//Returns a random point inside an arbitrary circle
+sf::Vector2f RandomPointInCircle(float radius) {
+	float angle = static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX) * 2.0f * PI;
+	float randomRadius = std::sqrt(static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX)) * radius;
+
+	float x = randomRadius * std::cos(angle);
+	float y = randomRadius * std::sin(angle);
+
+	return sf::Vector2f(x, y);
+}
+
+//Randomly scatter pickups inside a circular shape
+void ScatterPickups(int pickupsAmount) 
+{
+	for (int i = 0; i < pickupsAmount; i++)
+	{
+		sf::Vector2f randPoint = RandomPointInCircle(5000);
+		BoxCollider* collider = new BoxCollider("Pickup " + i, "Textures/trash.png", randPoint, true);
+		collider->objectSprite.setRotation(rand() % 360);
+
+		float randomScaler = 1.0f + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / 0.4f));
+		collider->objectSprite.setScale(sf::Vector2f(1, 1) * randomScaler);
+	}
+}
+
 //Get center of the screen resolution
 sf::Vector2f Game::GetScreenCenter() 
 {
@@ -197,15 +198,4 @@ sf::View* Game::GetCameraView()
 const bool Game::isWindowActive() const
 {
 	return window->isOpen();
-}
-
-//Gets a point inside an arbitrary circle
-sf::Vector2f RandomPointInCircle(float radius) {
-	float angle = static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX) * 2.0f * PI;
-	float randomRadius = std::sqrt(static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX)) * radius;
-
-	float x = randomRadius * std::cos(angle);
-	float y = randomRadius * std::sin(angle);
-
-	return sf::Vector2f(x, y);
 }

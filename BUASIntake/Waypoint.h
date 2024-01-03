@@ -7,7 +7,7 @@
 class Waypoint : public GameObject 
 {
 public:
-	Waypoint(sf::String name, sf::String texturePath, sf::Vector2f targetPosition, bool doRotate = true);
+	Waypoint(sf::String name, sf::String texturePath, sf::Vector2f targetPosition, sf::Color color, bool doRotate = true);
 	void OnUpdate(float deltaTime) override;
 
 private:
