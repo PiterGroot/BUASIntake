@@ -62,11 +62,12 @@ public:
 	std::list<GameObject*> updatingGameobjects;
 	std::list<GameObject*> objectsToDelete;
 	
-	sf::Vector2f GetScreenCenter();
 	const bool isWindowActive() const;
 
+	sf::Vector2f GetScreenCenter();
 	sf::Event* GetWindowEvent();
 	sf::View* GetCameraView();
+	sf::Vector2u GetScreenSize();
 
 	void OnUpdateWindowEvents();
 	void OnUpdate(float deltaTime);

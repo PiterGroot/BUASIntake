@@ -22,7 +22,7 @@ public:
 				text = new sf::Text();
 				text->setFont(*textFont);
 				
-				text->setFillColor(sf::Color::Black);
+				text->setFillColor(textColor);
 				text->setPosition(position);
 
 				text->setStyle(sf::Text::Bold);

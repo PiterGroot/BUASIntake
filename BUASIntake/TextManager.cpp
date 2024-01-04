@@ -1,4 +1,5 @@
 #include "TextManager.h"
+#include"Game.h";
 
 TextManager* TextManager::instance = nullptr;
 
@@ -10,6 +11,9 @@ TextManager::TextManager()
 	CreateTextLabel("Distance", "Dist ", sf::Vector2f(0, 30), 24);
 	CreateTextLabel("PlasticStatus", "Lake cleanup 100%", sf::Vector2f(0, 60), 24);
 	CreateTextLabel("CurrentStorage", "Storage: 0/0", sf::Vector2f(0, 90), 24);
+
+	int screenWidth = Game::instance->GetScreenSize().x;
+	CreateTextLabel("GameTimer", "0.00", sf::Vector2f((screenWidth / 2) - 40, 0), 30, sf::Color::White);
 }
 
 void TextManager::CreateTextLabel(sf::String labelId, sf::String initText, sf::Vector2f position, int fontSize, sf::Color textColor)

@@ -75,6 +75,10 @@ void Game::OnUpdate(float deltaTime)
 		object->OnUpdate(deltaTime);
 	}
 
+	std::ostringstream timerStringStream;
+	timerStringStream << std::fixed << std::setprecision(2) << elapsedTime;
+	textManager->UpdateTextLabel("GameTimer", timerStringStream.str());
+
 	//Resolve possible collisions
 	collisionManager->ResolveCollisions(activeColliders);
 	
@@ -175,6 +179,12 @@ void ScatterPickups(int pickupsAmount)
 		float randomScaler = 1.0f + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / 0.4f));
 		collider->objectSprite.setScale(sf::Vector2f(1, 1) * randomScaler);
 	}
+}
+
+//Gets the window width and height
+sf::Vector2u Game::GetScreenSize() 
+{
+	return window->getSize();
 }
 
 //Get center of the screen resolution
