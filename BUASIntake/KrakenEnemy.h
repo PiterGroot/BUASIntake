@@ -6,8 +6,12 @@ class KrakenEnemy : public Enemy
 {
 public:
     KrakenEnemy(sf::String name, sf::String texture, sf::Vector2f position);
-    void HandleDespawn(float deltaTime) override;
 
 private:
     void OnUpdate(float deltaTime) override;
+    void HandleDespawn(float deltaTime) override;
+
+    float despawnRange = 460;
+    float despawnTime = 10;
+    float despawnTimer = 0;
 };

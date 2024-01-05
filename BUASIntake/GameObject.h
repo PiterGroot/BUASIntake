@@ -10,7 +10,7 @@ public:
 	{
 		Default,
 		Pickup,
-		Hurricane,
+		Vortex,
 		Kraken,
 		PlayerHome
 	};

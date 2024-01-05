@@ -1,5 +1,6 @@
 #pragma once
 #include "Enemy.h"
+#include "Game.h"
 
 class VortexEnemy : public Enemy
 {
@@ -8,4 +9,9 @@ public:
 
 private:
     void OnUpdate(float deltaTime) override;
+    void HandleDespawn(float deltaTime) override;
+
+    float despawnRange = 650;
+    float despawnTime = 10;
+    float despawnTimer = 0;
 };

@@ -1,10 +1,6 @@
 #include "KrakenEnemy.h"
 
 float krakenMoveSpeed = 125;
-float passiveRange = 460;
-
-float despawnTime = 10;
-float despawnTimer = 0;
 
 KrakenEnemy::KrakenEnemy(sf::String name, sf::String texture, sf::Vector2f position) : Enemy(name, texture, position)
 {
@@ -16,9 +12,10 @@ KrakenEnemy::KrakenEnemy(sf::String name, sf::String texture, sf::Vector2f posit
 void KrakenEnemy::OnUpdate(float deltaTime) 
 {
 	moveDirection = GetPlayerDirection();
-	
 	float distance = magnitude(moveDirection);
-	if (distance >= passiveRange) {
+	
+	if (distance >= despawnRange) 
+	{
 		HandleDespawn(deltaTime);
 		return;
 	}

@@ -7,6 +7,7 @@ void UpdateStorageLabel(PlayerBoat* player);
 void UpdateFuelLabel(float currentFuel);
 void UpdateCleanupLabel();
 
+void OnCollideWithVortex(float currentFuel, PlayerBoat* player);
 void OnCollideWithPickup(Collider& other, PlayerBoat* player);
 void OnCollideWithKraken(Collider& other, float currentFuel, PlayerBoat* player);
 bool TryCleanupDebris(float currentStorageAmount, float storageCapacity);
@@ -24,7 +25,7 @@ int randWiggleTries = 0;
 float activeFuelConsumption = 25;
 float passiveFuelConsumption = 1;
 
-bool isInsideEnemy = false;
+bool isInsideKraken = false;
 bool isInsidePickup = false;
 int randCleanupTries = 0;
 
@@ -84,9 +85,12 @@ void PlayerBoat::OnUpdate(float deltaTime)
 	UpdateFuelLabel(fuel);
 	UpdateDistanceLabel(position);
 	
-	isInsideEnemy = Game::instance->collisionManager->HasCollision(this, ObjectTag::Kraken);
-	moveSpeedModifier = isInsideEnemy ? enemyMoveSpeedModifier : 1;
+	bool isInsideVortex = Game::instance->collisionManager->HasCollision(this, ObjectTag::Vortex);
+	isInsideKraken = Game::instance->collisionManager->HasCollision(this, ObjectTag::Kraken);
 
+	if (!isInsideVortex && !isInsideKraken) objectSprite.setRotation(0);
+
+	moveSpeedModifier = isInsideKraken || isInsideVortex ? enemyMoveSpeedModifier : 1;
 	MovePlayer(normalized(currentMoveDirection) * moveSpeed * moveSpeedModifier, deltaTime);
 }
 
@@ -103,6 +107,9 @@ void PlayerBoat::OnCollision(Collider& other)
 	if (other.GetObject()->tag == ObjectTag::Kraken) 
 		OnCollideWithKraken(other, fuel, this);
 
+	if (other.GetObject()->tag == ObjectTag::Vortex)
+		OnCollideWithVortex(fuel, this);
+
 	if (other.GetObject()->tag == ObjectTag::PlayerHome) 
 	{
 		if (InputManager::instance->GetKeyDown(sf::Keyboard::Key::E)) 
@@ -117,12 +124,19 @@ void PlayerBoat::OnCollision(Collider& other)
 	}
 }
 
+#pragma region OnCollision methods
+
+void OnCollideWithVortex(float currentFuel, PlayerBoat* player) 
+{
+	player->objectSprite.setRotation(rand() % 360);
+	player->SetFuel(currentFuel - 1.5f);
+}
+
 void OnCollideWithKraken(Collider& other, float currentFuel, PlayerBoat* player)
 {
-	if (!isInsideEnemy)
+	if (!isInsideKraken)
 		randWiggleTries = std::rand() % 10 + 3;
 
-	isInsideEnemy = true;
 	if (InputManager::instance->GetKeyDown(sf::Keyboard::Key::E))
 	{
 		randWiggleTries--;
@@ -146,7 +160,7 @@ void OnCollideWithKraken(Collider& other, float currentFuel, PlayerBoat* player)
 	}
 }
 
-void OnCollideWithPickup(Collider& other, PlayerBoat* player) 
+void OnCollideWithPickup(Collider& other, PlayerBoat* player)
 {
 	//Generate random number for cleanup tries when player collides the pickup for the first time
 	if (!isInsidePickup)
@@ -177,6 +191,7 @@ void OnCollideWithPickup(Collider& other, PlayerBoat* player)
 		Game::instance->objectsToDelete.push_back(other.GetObject());
 	}
 }
+#pragma endregion
 
 //Cleanup "minigame" when floating ontop of debris
 bool TryCleanupDebris(float currentStorageAmount, float storageCapacity) 
