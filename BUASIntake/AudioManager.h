@@ -18,7 +18,8 @@ public:
         Cleanup1,
         Cleanup2,
         Deny,
-        Deposit
+        Deposit,
+        Kill_Kraken
 	};
 
 	AudioManager();

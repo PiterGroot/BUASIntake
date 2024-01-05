@@ -1,4 +1,5 @@
 #include "CollisionManager.h"
+#include "Game.h"
 
 void CollisionManager::ResolveCollisions(std::list<Collider*> activeColliders)
 {
@@ -24,4 +25,24 @@ void CollisionManager::ResolveCollisions(std::list<Collider*> activeColliders)
             ++nextColliderIterator;
         }
     }
+}
+
+//Manual check if a collider has collision with another collider
+bool CollisionManager::HasCollision(Collider* collA, GameObject::ObjectTag tag) 
+{
+    auto colliders = Game::instance->activeColliders;
+    auto startIterator = colliders.cbegin();
+    auto endIterator = colliders.cend();
+
+    for (; startIterator != endIterator; ++startIterator) {
+        Collider* collB = *startIterator;
+        if (collA == collB) continue;
+
+        if (collA->CheckCollision(*collB, 0)) 
+        {
+            if (collB->GetObject()->tag == tag) 
+                return true;
+        }
+    }
+    return false;
 }

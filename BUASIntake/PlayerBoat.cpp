@@ -8,15 +8,23 @@ void UpdateFuelLabel(float currentFuel);
 void UpdateCleanupLabel();
 
 void OnCollideWithPickup(Collider& other, PlayerBoat* player);
+void OnCollideWithKraken(Collider& other, float currentFuel, PlayerBoat* player);
 bool TryCleanupDebris(float currentStorageAmount, float storageCapacity);
 
 int startStorageAmount = 6;
-float startFuelAmount = 1000;
 float defaultMoveSpeed = 250;
+
+float moveSpeedModifier = 1;
+float enemyMoveSpeedModifier = .35f;
+
+float startFuelAmount = 1000;
+float wiggleFuelCost = 20;
+int randWiggleTries = 0;
 
 float activeFuelConsumption = 25;
 float passiveFuelConsumption = 1;
 
+bool isInsideEnemy = false;
 bool isInsidePickup = false;
 int randCleanupTries = 0;
 
@@ -61,8 +69,8 @@ void PlayerBoat::MovePlayer(sf::Vector2f newPosition, float deltaTime)
 	sf::Vector2f currentPosition = position;
 	MoveGameObject(position += newPosition * deltaTime);
 
-	if (currentPosition != position) fuel -= deltaTime * activeFuelConsumption;
-	else fuel -= deltaTime * passiveFuelConsumption;
+	if (currentPosition != position) SetFuel(fuel - deltaTime * activeFuelConsumption);
+	else SetFuel(fuel - deltaTime * passiveFuelConsumption);
 }
 
 void PlayerBoat::OnUpdate(float deltaTime)
@@ -76,7 +84,15 @@ void PlayerBoat::OnUpdate(float deltaTime)
 	UpdateFuelLabel(fuel);
 	UpdateDistanceLabel(position);
 	
-	MovePlayer(normalized(currentMoveDirection) * moveSpeed, deltaTime);
+	isInsideEnemy = Game::instance->collisionManager->HasCollision(this, ObjectTag::Kraken);
+	moveSpeedModifier = isInsideEnemy ? enemyMoveSpeedModifier : 1;
+
+	MovePlayer(normalized(currentMoveDirection) * moveSpeed * moveSpeedModifier, deltaTime);
+}
+
+void PlayerBoat::SetFuel(float newFuel) 
+{
+	fuel = abs(fuel = newFuel);
 }
 
 void PlayerBoat::OnCollision(Collider& other) 
@@ -84,15 +100,49 @@ void PlayerBoat::OnCollision(Collider& other)
 	if (other.GetObject()->tag == ObjectTag::Pickup)
 		OnCollideWithPickup(other, this);
 	
+	if (other.GetObject()->tag == ObjectTag::Kraken) 
+		OnCollideWithKraken(other, fuel, this);
+
 	if (other.GetObject()->tag == ObjectTag::PlayerHome) 
 	{
-		if (InputManager::instance->GetKeyDown(sf::Keyboard::Key::E))
+		if (InputManager::instance->GetKeyDown(sf::Keyboard::Key::E)) 
+		{
 			if (Game::instance->playerHome->DepositWaste(currentStorageAmount)) 
 			{
 				currentStorageAmount = 0;
 				UpdateStorageLabel(this);
 				UpdateCleanupLabel();
 			}
+		}
+	}
+}
+
+void OnCollideWithKraken(Collider& other, float currentFuel, PlayerBoat* player)
+{
+	if (!isInsideEnemy)
+		randWiggleTries = std::rand() % 10 + 3;
+
+	isInsideEnemy = true;
+	if (InputManager::instance->GetKeyDown(sf::Keyboard::Key::E))
+	{
+		randWiggleTries--;
+		player->SetFuel(currentFuel - wiggleFuelCost);
+
+		int randomCleanUpSound = std::rand() % 3 + 2;
+		AudioManager::instance->PlaySound(static_cast<AudioManager::SoundTypes>(randomCleanUpSound));
+		player->objectSprite.setRotation(rand() % 360);
+	}
+
+	if (randWiggleTries == 0)
+	{
+		std::cout << "\nPlayer freed from kraken!" << "\n";
+		InputManager::instance->Reset();
+		player->objectSprite.setRotation(0);
+
+		AudioManager::instance->PlaySound(AudioManager::SoundTypes::Kill_Kraken);
+
+		Game::instance->activeColliders.remove(&other);
+		Game::instance->objectsToDelete.push_back(other.GetObject());
 	}
 }
 
@@ -131,7 +181,7 @@ void OnCollideWithPickup(Collider& other, PlayerBoat* player)
 //Cleanup "minigame" when floating ontop of debris
 bool TryCleanupDebris(float currentStorageAmount, float storageCapacity) 
 {
-	if (InputManager::instance->GetKeyDown(sf::Keyboard::E)) 
+	if (InputManager::instance->GetKeyDown(sf::Keyboard::Space)) 
 	{
 		//Check if there is enough space in storage before picking up
 		if (currentStorageAmount >= storageCapacity)

@@ -14,6 +14,8 @@ Game::Game()
 	playerBoat = new PlayerBoat(sf::Vector2f(0,0));
 	playerHome = new PlayerHome("PlayerHome", "Textures/Debug/rock.png", sf::Vector2f(-300, 65));
 
+	KrakenEnemy* kraken = new KrakenEnemy("Kraken", "Textures/Enemy/tentacle.png", sf::Vector2f(0, 250));
+
 	//create necessary managers
 	collisionManager = new CollisionManager();
 	audioManager = new AudioManager();

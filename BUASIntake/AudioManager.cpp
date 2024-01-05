@@ -15,6 +15,7 @@ AudioManager::AudioManager()
 	audioClips.insert(std::pair<SoundTypes, AudioContainer*>(SoundTypes::Cleanup2, new AudioContainer(audioPath + "cleanup2.wav")));
 	audioClips.insert(std::pair<SoundTypes, AudioContainer*>(SoundTypes::Deny, new AudioContainer(audioPath + "deny.wav")));
 	audioClips.insert(std::pair<SoundTypes, AudioContainer*>(SoundTypes::Deposit, new AudioContainer(audioPath + "deposit.wav")));
+	audioClips.insert(std::pair<SoundTypes, AudioContainer*>(SoundTypes::Kill_Kraken, new AudioContainer(audioPath + "kill_kraken.wav")));
 
 	PlayMusicSong(SoundTypes::MainMusic);
 }

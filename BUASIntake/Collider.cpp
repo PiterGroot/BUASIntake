@@ -33,6 +33,9 @@ bool Collider::CheckCollision(Collider& other, float pushBack)
 
 void Collider::AdjustPositions(Collider& other, sf::Vector2f intersect, sf::Vector2f deltaPosition, float pushBack)
 {
+    if (isTriggerCollider || other.isTriggerCollider)
+        return;
+
     pushBack = std::min(std::max(pushBack, 0.0f), 1.0f);
 
     if (intersect.x > intersect.y && deltaPosition.x > 0.0f)
@@ -47,9 +50,6 @@ void Collider::AdjustPositions(Collider& other, sf::Vector2f intersect, sf::Vect
 
 void Collider::MoveBodies(Collider& other, float thisDeltaX, float thisDeltaY, float otherDeltaX, float otherDeltaY)
 {
-    if (isTriggerCollider || other.isTriggerCollider)
-        return;
-
     MoveBody(sf::Vector2f(thisDeltaX, thisDeltaY));
     other.MoveBody(sf::Vector2f(otherDeltaX, otherDeltaY));
 }

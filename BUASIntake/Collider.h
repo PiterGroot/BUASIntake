@@ -1,14 +1,13 @@
 #pragma once
 #include "SFML/Graphics.hpp"
 #include "GameObject.h"
-#include <functional>
 
 class Collider
 {
 public:
     Collider(GameObject* object, bool isTrigger);
-
     bool CheckCollision(Collider& other, float pushBack);
+
     void SetTrigger(bool isTrigger) { isTriggerCollider = isTrigger; }
     virtual void OnCollision(Collider& other) {};
 

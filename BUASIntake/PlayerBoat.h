@@ -1,7 +1,7 @@
 #pragma once
+
 #include "GameObject.h"
 #include "Collider.h"
-#include "AudioManager.h"
 #include <iostream>
 #include <map>
 
@@ -12,6 +12,7 @@ public:
 
 	void OnCollision(Collider& other) override;
 	void OnUpdate(float deltaTime) override;
+	void SetFuel(float newFuel);
 
 	int storageCapacity = 0;
 	int currentStorageAmount = 0;
