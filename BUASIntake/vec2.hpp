@@ -15,13 +15,27 @@
 
 typedef sf::Vector2f Vec2;
 
+
+//Vector2f equals check
 struct Vector2fEquals {
     bool operator()(const Vec2& vecA, const Vec2& vecB) const {
         return std::tie(vecA.x, vecA.y) < std::tie(vecB.x, vecB.y);
     }
 };
 
-static inline Vec2 clampVec2(const sf::Vector2f& vector, const sf::Vector2f& min, const sf::Vector2f& max) {
+//Returns a random point inside an arbitrary circle
+static Vec2 RandomPointInCircle(float xCenter, float yCenter, float radius) {
+    float angle = static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX) * 2.0f * PI;
+    float randomRadius = std::sqrt(static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX)) * radius;
+
+    float x = randomRadius + xCenter * std::cos(angle);
+    float y = randomRadius + yCenter * std::sin(angle);
+
+    return Vec2(x, y);
+}
+
+//Clamp helper function
+static inline Vec2 ClampVec2(const sf::Vector2f& vector, const sf::Vector2f& min, const sf::Vector2f& max) {
     float clampedX = std::max(min.x, std::min(vector.x, max.x));
     float clampedY = std::max(min.y, std::min(vector.y, max.y));
 

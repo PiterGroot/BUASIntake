@@ -64,7 +64,7 @@ PlayerBoat::PlayerBoat(sf::Vector2f spawnPosition) : Collider(this, false) // ca
 
 void PlayerBoat::MovePlayer(sf::Vector2f newPosition, float deltaTime)
 {
-	if (fuel <= 0)
+	if (fuel <= 0.1f)
 		return;
 
 	sf::Vector2f currentPosition = position;

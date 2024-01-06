@@ -7,11 +7,10 @@
 #include <list>
 
 #include "CollisionManager.h"
+#include "EnemySpawner.h"
 #include "InputManager.h"
 #include "AudioManager.h"
 #include "TextManager.h"
-#include "KrakenEnemy.h"
-#include "VortexEnemy.h"
 #include "BoxCollider.h"
 #include "GameObject.h"
 #include "PlayerBoat.h"
@@ -55,6 +54,7 @@ public:
 	CollisionManager* collisionManager = nullptr;
 	TextManager* textManager = nullptr;
 	InputManager* inputManager = nullptr;
+	EnemySpawner* enemySpawner = nullptr;
 
 	std::list<GameObject*> gameobjects;
 	std::list<GameObject*> hudGameobjects;

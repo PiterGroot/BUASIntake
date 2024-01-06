@@ -14,15 +14,13 @@ Game::Game()
 	playerBoat = new PlayerBoat(sf::Vector2f(0,0));
 	playerHome = new PlayerHome("PlayerHome", "Textures/Debug/rock.png", sf::Vector2f(-300, 65));
 
-	KrakenEnemy* kraken = new KrakenEnemy("Kraken", "Textures/Enemy/tentacle.png", sf::Vector2f(0, -250));
-	VortexEnemy* vortex = new VortexEnemy("Vortex", "Textures/Enemy/vortex.png", sf::Vector2f(0, 250));
-
-	//create necessary managers
+	//create necessary managers / systems
 	collisionManager = new CollisionManager();
 	audioManager = new AudioManager();
 	textManager = new TextManager();
 	inputManager = new InputManager();
-	
+	enemySpawner = new EnemySpawner();
+
 	ScatterPickups(plasticDebris); //randomly spawn pickups
 }
 
@@ -159,23 +157,12 @@ void Game::OnUpdateWindowEvents()
 	}
 }
 
-//Returns a random point inside an arbitrary circle
-sf::Vector2f RandomPointInCircle(float radius) {
-	float angle = static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX) * 2.0f * PI;
-	float randomRadius = std::sqrt(static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX)) * radius;
-
-	float x = randomRadius * std::cos(angle);
-	float y = randomRadius * std::sin(angle);
-
-	return sf::Vector2f(x, y);
-}
-
 //Randomly scatter pickups inside a circular shape
 void ScatterPickups(int pickupsAmount) 
 {
 	for (int i = 0; i < pickupsAmount; i++)
 	{
-		sf::Vector2f randPoint = RandomPointInCircle(5000);
+		sf::Vector2f randPoint = RandomPointInCircle(0,0, 5000);
 		BoxCollider* collider = new BoxCollider("Pickup " + i, "Textures/Other/trash.png", randPoint, true);
 		collider->objectSprite.setRotation(rand() % 360);
 

@@ -45,7 +45,7 @@ void ClampPosition(GameObject* waypoint, sf::Vector2f targetPosition) {
     sf::Vector2f minBounds = cameraCenterPosition - screenCenter + spriteHalfSize;
     sf::Vector2f maxBounds = cameraCenterPosition + screenCenter - spriteHalfSize;
 
-    sf::Vector2f clampedPosition = clampVec2(waypoint->position, minBounds, maxBounds);
+    sf::Vector2f clampedPosition = ClampVec2(waypoint->position, minBounds, maxBounds);
 
     // clamp position to the screen
     waypoint->MoveGameObject(waypoint->position = clampedPosition);
