@@ -23,13 +23,23 @@ struct Vector2fEquals {
     }
 };
 
-//Returns a random point inside an arbitrary circle
+// Returns a random point inside an arbitrary circle
 static Vec2 RandomPointInCircle(float xCenter, float yCenter, float radius) {
     float angle = static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX) * 2.0f * PI;
     float randomRadius = std::sqrt(static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX)) * radius;
 
-    float x = randomRadius + xCenter * std::cos(angle);
-    float y = randomRadius + yCenter * std::sin(angle);
+    float x = randomRadius * std::cos(angle) + xCenter;
+    float y = randomRadius * std::sin(angle) + yCenter;
+
+    return Vec2(x, y);
+}
+
+// Returns a random point on the edge of an arbitrary circle
+static Vec2 RandomPointOnCircleEdge(float xCenter, float yCenter, float radius) {
+    float angle = static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX) * 2.0f * PI;
+
+    float x = radius * std::cos(angle) + xCenter;
+    float y = radius * std::sin(angle) + yCenter;
 
     return Vec2(x, y);
 }

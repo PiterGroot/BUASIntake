@@ -1,8 +1,9 @@
 #pragma once
 
 #include "GameObject.h"
+#include "vec2.hpp"
 #include "Enemy.h"
-#include <list>
+#include <vector>
 
 class EnemySpawner : private GameObject
 {
@@ -11,7 +12,8 @@ public:
 
 private:
 	void OnUpdate(float deltaTime) override;
-	void SpawnRandomEnemy(sf::Vector2f position);
+	void SpawnEnemyWave(sf::Vector2f position);
+	void SpawnRandomEnemy(sf::Vector2f spawnPosition);
 
-	std::list<ObjectTag> possibleEnemies;
+	std::vector<ObjectTag> possibleEnemies;
 };

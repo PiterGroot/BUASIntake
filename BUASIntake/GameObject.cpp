@@ -6,8 +6,12 @@ void GameObject::InitializeGameobject(sf::String name, sf::String texturePath, s
     this->name = name;
     this->position = position;
 
-    objectTexture.loadFromFile(texturePath);
-    objectSprite.setTexture(objectTexture);
+    if (!texturePath.isEmpty()) 
+    {
+        objectTexture.loadFromFile(texturePath);
+        objectSprite.setTexture(objectTexture);
+    }
+
     objectSprite.setOrigin(sf::Vector2f(objectTexture.getSize()) * .5f);
     objectSprite.setPosition(this->position);
 
