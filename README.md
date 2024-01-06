@@ -1,4 +1,4 @@
-## BUASIntake: EcoClean Adventures
+## BUASIntake: EcoClean Adventure
 
 ### Game description:
 In this game, you (the player) are tasked to clean up the environment. Navigate your boat to locate and collect floating plastic, garbage, and other waste. What is your ultimate goal? Clean the whole lake!
