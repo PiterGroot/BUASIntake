@@ -1,6 +1,7 @@
 ## BUASIntake: EcoClean Adventure (wip)
 
 ### Important code quick access:
+Main.cpp [here](https://github.com/PiterGroot/BUASIntake/blob/main/BUASIntake/Main.cpp)\
 Player-related code logic [here](https://github.com/PiterGroot/BUASIntake/blob/main/BUASIntake/PlayerBoat.cpp)\
 General game-related code logic [here](https://github.com/PiterGroot/BUASIntake/blob/main/BUASIntake/Game.cpp)\
 Collision-related code logic: 
