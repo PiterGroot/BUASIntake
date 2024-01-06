@@ -6,8 +6,10 @@ int currentWave = 0;
 float waveTimer = 10;
 
 float secondsBetweenWaves = 20;
-float minSecondsBetweenWaves = 5;
+float minSecondsBetweenWaves = 10;
+float timeBetweenWavesDecrement = .5f;
 
+int waveEnemyIncrementThreshold = 15;
 int currrentEnemiesToSpawn = 3;
 
 EnemySpawner::EnemySpawner() 
@@ -26,14 +28,17 @@ void EnemySpawner::OnUpdate(float deltaTime)
 	if (waveTimer >= secondsBetweenWaves) {
 		waveTimer = 0;
 
-		if(secondsBetweenWaves > minSecondsBetweenWaves) secondsBetweenWaves -= .5f;
+		if(secondsBetweenWaves > minSecondsBetweenWaves) secondsBetweenWaves -= timeBetweenWavesDecrement;
+		if (secondsBetweenWaves <= waveEnemyIncrementThreshold) currrentEnemiesToSpawn++;
 
+		currentWave++;
 		SpawnEnemyWave(Game::instance->playerBoat->position);
 	}
 }
 
 void EnemySpawner::SpawnEnemyWave(sf::Vector2f position) 
 {
+	srand(time(0));
 	for (int i = 0; i < currrentEnemiesToSpawn; i++)
 	{
 		SpawnRandomEnemy(RandomPointOnCircleEdge(position.x, position.y, 600));

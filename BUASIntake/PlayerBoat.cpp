@@ -20,7 +20,7 @@ float enemyMoveSpeedModifier = .35f;
 
 float startFuelAmount = 1000;
 float wiggleFuelCost = 20;
-int randWiggleTries = 0;
+float spinFuelCost = 1.5f;
 
 float activeFuelConsumption = 25;
 float passiveFuelConsumption = 1;
@@ -28,6 +28,7 @@ float passiveFuelConsumption = 1;
 bool isInsideKraken = false;
 bool isInsidePickup = false;
 int randCleanupTries = 0;
+int randWiggleTries = 0;
 
 PlayerBoat::PlayerBoat(sf::Vector2f spawnPosition) : Collider(this, false) // call the Collider constructor
 {
@@ -129,7 +130,9 @@ void PlayerBoat::OnCollision(Collider& other)
 void OnCollideWithVortex(float currentFuel, PlayerBoat* player) 
 {
 	player->objectSprite.setRotation(rand() % 360);
-	player->SetFuel(currentFuel - 1.5f);
+
+	if (currentFuel >= spinFuelCost)
+		player->SetFuel(currentFuel - spinFuelCost);
 }
 
 void OnCollideWithKraken(Collider& other, float currentFuel, PlayerBoat* player)
@@ -140,7 +143,8 @@ void OnCollideWithKraken(Collider& other, float currentFuel, PlayerBoat* player)
 	if (InputManager::instance->GetKeyDown(sf::Keyboard::Key::E))
 	{
 		randWiggleTries--;
-		player->SetFuel(currentFuel - wiggleFuelCost);
+		if(currentFuel >= wiggleFuelCost)
+			player->SetFuel(currentFuel - wiggleFuelCost);
 
 		int randomCleanUpSound = std::rand() % 3 + 2;
 		AudioManager::instance->PlaySound(static_cast<AudioManager::SoundTypes>(randomCleanUpSound));
@@ -149,6 +153,7 @@ void OnCollideWithKraken(Collider& other, float currentFuel, PlayerBoat* player)
 
 	if (randWiggleTries == 0)
 	{
+		isInsideKraken = false;
 		std::cout << "\nPlayer freed from kraken!" << "\n";
 		InputManager::instance->Reset();
 		player->objectSprite.setRotation(0);
