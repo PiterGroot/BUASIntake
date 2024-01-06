@@ -1,27 +1,12 @@
 #include "Game.h"
-
-void ScatterPickups(int pickupsAmount);
 Game* Game::instance = nullptr;
 
-#pragma region 
 Game::Game()
 {
 	instance = this;
 
-	OnInitialize();
 	OnInitializeWindow();
-
-	playerBoat = new PlayerBoat(sf::Vector2f(0,0));
-	playerHome = new PlayerHome("PlayerHome", "Textures/Debug/rock.png", sf::Vector2f(-300, 65));
-
-	//create necessary managers / systems
-	collisionManager = new CollisionManager();
-	audioManager = new AudioManager();
-	textManager = new TextManager();
-	inputManager = new InputManager();
-	enemySpawner = new EnemySpawner();
-
-	ScatterPickups(plasticDebris); //randomly spawn pickups
+	OnInitialize();
 }
 
 Game::~Game()
@@ -29,14 +14,23 @@ Game::~Game()
 	delete window;
 	delete playerBoat;
 }
-#pragma endregion
 
 //game initialization
 void Game::OnInitialize()
 {
-	window = nullptr;
-	waterColor = sf::Color(3, 165, 252); //out of bounds background color
+	playerBoat = new PlayerBoat(sf::Vector2f(0, 0));
+	playerHome = new PlayerHome("PlayerHome", "Textures/Debug/rock.png", sf::Vector2f(-300, 65));
 
+	//create necessary managers / systems
+	collisionManager = new CollisionManager();
+	audioManager = new AudioManager();
+	textManager = new TextManager();
+	inputManager = new InputManager();
+
+	enemySpawner = new EnemySpawner();
+	new PickupScatter(plasticDebris);
+
+	waterColor = sf::Color(3, 165, 252); //out of bounds background color
 	srand(time(0)); //set random seed
 }
 
@@ -154,20 +148,6 @@ void Game::OnUpdateWindowEvents()
 			if (windowEvent.key.code == sf::Keyboard::Escape)
 				window->close();
 		}
-	}
-}
-
-//Randomly scatter pickups inside a circular shape
-void ScatterPickups(int pickupsAmount) 
-{
-	for (int i = 0; i < pickupsAmount; i++)
-	{
-		sf::Vector2f randPoint = RandomPointInCircle(0,0, 5000);
-		BoxCollider* collider = new BoxCollider("Pickup " + i, "Textures/Other/trash.png", randPoint, true);
-		collider->objectSprite.setRotation(rand() % 360);
-
-		float randomScaler = 1.0f + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / 0.4f));
-		collider->objectSprite.setScale(sf::Vector2f(1, 1) * randomScaler);
 	}
 }
 

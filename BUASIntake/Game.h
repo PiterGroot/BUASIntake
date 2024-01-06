@@ -7,6 +7,7 @@
 #include <list>
 
 #include "CollisionManager.h"
+#include "PickupScatter.h"
 #include "EnemySpawner.h"
 #include "InputManager.h"
 #include "AudioManager.h"
@@ -20,7 +21,7 @@
 class Game
 {
 private:
-	sf::RenderWindow* window;
+	sf::RenderWindow* window = nullptr;
 	sf::Event windowEvent;
 	sf::VideoMode videoMode;
 	sf::Color waterColor;
