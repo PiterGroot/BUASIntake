@@ -31,6 +31,7 @@ bool Collider::CheckCollision(Collider& other, float pushBack)
     return false;
 }
 
+//AABB collison check
 void Collider::AdjustPositions(Collider& other, sf::Vector2f intersect, sf::Vector2f deltaPosition, float pushBack)
 {
     if (isTriggerCollider || other.isTriggerCollider)
@@ -48,6 +49,7 @@ void Collider::AdjustPositions(Collider& other, sf::Vector2f intersect, sf::Vect
         MoveBodies(other, 0.0f, -intersect.y * (1.0f - pushBack), 0.0f, intersect.y * pushBack);
 }
 
+//Push back objects based on initial pushback value
 void Collider::MoveBodies(Collider& other, float thisDeltaX, float thisDeltaY, float otherDeltaX, float otherDeltaY)
 {
     MoveBody(sf::Vector2f(thisDeltaX, thisDeltaY));

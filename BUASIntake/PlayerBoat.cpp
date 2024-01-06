@@ -63,6 +63,7 @@ PlayerBoat::PlayerBoat(sf::Vector2f spawnPosition) : Collider(this, false) // ca
 	Game::instance->updatingGameobjects.push_back(this);
 }
 
+//Move player if it has enough fuel
 void PlayerBoat::MovePlayer(sf::Vector2f newPosition, float deltaTime)
 {
 	if (fuel <= 0.1f)
@@ -75,6 +76,7 @@ void PlayerBoat::MovePlayer(sf::Vector2f newPosition, float deltaTime)
 	else SetFuel(fuel - deltaTime * passiveFuelConsumption);
 }
 
+//Player update loop
 void PlayerBoat::OnUpdate(float deltaTime)
 {
 	currentMoveDirection = GetMovementDirection();
@@ -95,11 +97,13 @@ void PlayerBoat::OnUpdate(float deltaTime)
 	MovePlayer(normalized(currentMoveDirection) * moveSpeed * moveSpeedModifier, deltaTime);
 }
 
+//Set current player fuel
 void PlayerBoat::SetFuel(float newFuel) 
 {
 	fuel = abs(fuel = newFuel);
 }
 
+//Callback method when player collided with another collider
 void PlayerBoat::OnCollision(Collider& other) 
 {
 	if (other.GetObject()->tag == ObjectTag::Pickup)
@@ -137,9 +141,11 @@ void OnCollideWithVortex(float currentFuel, PlayerBoat* player)
 
 void OnCollideWithKraken(Collider& other, float currentFuel, PlayerBoat* player)
 {
+	//Generate random number for kraken wiggle "minigame" to escape
 	if (!isInsideKraken)
 		randWiggleTries = std::rand() % 10 + 3;
 
+	//Try escape kraken
 	if (InputManager::instance->GetKeyDown(sf::Keyboard::Key::E))
 	{
 		randWiggleTries--;
@@ -151,10 +157,12 @@ void OnCollideWithKraken(Collider& other, float currentFuel, PlayerBoat* player)
 		player->objectSprite.setRotation(rand() % 360);
 	}
 
+	//Player escaped kraken
 	if (randWiggleTries == 0)
 	{
-		isInsideKraken = false;
 		std::cout << "\nPlayer freed from kraken!" << "\n";
+		isInsideKraken = false;
+
 		InputManager::instance->Reset();
 		player->objectSprite.setRotation(0);
 
@@ -181,6 +189,7 @@ void OnCollideWithPickup(Collider& other, PlayerBoat* player)
 		AudioManager::instance->PlaySound(static_cast<AudioManager::SoundTypes>(randomCleanUpSound));
 	}
 
+	//Player succesfully cleaned up "waste" (pickup)
 	if (randCleanupTries == 0) {
 		std::cout << "\nPlayer pickedup debris!" << "\n";
 
@@ -190,7 +199,7 @@ void OnCollideWithPickup(Collider& other, PlayerBoat* player)
 		AudioManager::instance->PlaySound(AudioManager::SoundTypes::Pickup);
 		player->currentStorageAmount++;
 
-		UpdateStorageLabel(player);
+		UpdateStorageLabel(player); //update storage label after pickup
 
 		Game::instance->activeColliders.remove(&other);
 		Game::instance->objectsToDelete.push_back(other.GetObject());

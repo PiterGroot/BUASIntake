@@ -7,6 +7,7 @@ Enemy::Enemy(sf::String name, sf::String texture, sf::Vector2f position) : Colli
 	Game::instance->updatingGameobjects.push_back(this);
 }
 
+//Calculates and returns direction to the player
 sf::Vector2f Enemy::GetPlayerDirection() 
 {
 	sf::Vector2f playerPosition = Game::instance->playerBoat->position;

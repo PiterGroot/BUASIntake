@@ -15,13 +15,14 @@ PlayerHome::PlayerHome(sf::String name, sf::String texture, sf::Vector2f positio
 	InitializeGameobject(name, texture, position, false);
 }
 
+//Returns true if player actually deposited anything
 bool PlayerHome::DepositWaste(int amount) 
 {
 	if (amount <= 0)
 		return false;
 
 	std::cout << "deposit" << "\n";
-	Game::instance->cleanedUpDebris += amount;
+	Game::instance->cleanedUpDebris += amount; //update cleanup amount for cleanup percentage label
 	AudioManager::instance->PlaySound(AudioManager::SoundTypes::Deposit);
 
 	return true;

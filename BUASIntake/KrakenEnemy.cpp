@@ -21,16 +21,18 @@ void KrakenEnemy::OnUpdate(float deltaTime)
 	}
 
 	despawnTimer = 0;
-	if (distance <= .5f)
+	if (distance <= .5f) //sit still when kraken is approximately on player to prevent visible jitter
 		return;
 
+	//move towards current player position
 	MoveGameObject(position += normalized(moveDirection) * moveSpeed * deltaTime);
 }
 
+//Despawn if enemy is to far away from player
 void KrakenEnemy::HandleDespawn(float deltaTime) 
 {
 	despawnTimer += deltaTime;
-	if (despawnTimer >= despawnTime) {
+	if (despawnTimer >= despawnTime) { //despawning
 		Game::instance->activeColliders.remove(this);
 		Game::instance->objectsToDelete.push_back(this);
 	}

@@ -2,17 +2,17 @@
 
 int main()
 {
-    Game game;
+    Game* game = new Game();
     sf::Clock clock;
 
-    // run the program as long as the window is open
-    while (game.isWindowActive())
+    // Run game as long as the window is open
+    while (game->isWindowActive())
     {
-        float deltaTime = clock.restart().asSeconds();
+        float deltaTime = clock.restart().asSeconds(); //calculate deltatime
 
-        game.OnUpdate(deltaTime);
-        game.OnRender();
-        game.OnLateUpdate(deltaTime);
+        game->OnUpdate(deltaTime); //call game main update loop
+        game->OnRender(); //call game render loop
+        game->OnLateUpdate(deltaTime); //call game late update loop
     }
 
     return 0;

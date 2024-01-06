@@ -25,12 +25,17 @@ void EnemySpawner::OnUpdate(float deltaTime)
 {
 	waveTimer += deltaTime;
 
+	//Before spawning a new enemy wave
 	if (waveTimer >= secondsBetweenWaves) {
 		waveTimer = 0;
 
+		//while secondsBetweenWaves is bigger than the minSecondsBetweenWaves decrement
+		//current timeBetweenWavesDecrement to increase difficulity while time is goin on
 		if(secondsBetweenWaves > minSecondsBetweenWaves) secondsBetweenWaves -= timeBetweenWavesDecrement;
+		//Also increment currrentEnemiesToSpawn when secondsBetweenWaves is less than waveEnemyIncrementThreshold 
 		if (secondsBetweenWaves <= waveEnemyIncrementThreshold) currrentEnemiesToSpawn++;
 
+		//Spawn new wave
 		currentWave++;
 		SpawnEnemyWave(Game::instance->playerBoat->position);
 	}
@@ -45,10 +50,12 @@ void EnemySpawner::SpawnEnemyWave(sf::Vector2f position)
 	}
 }
 
+//Spawn a random enemy on given spawnPosition
 void EnemySpawner::SpawnRandomEnemy(sf::Vector2f spawnPosition) 
 {
 	std::cout << spawnPosition.x << " " << spawnPosition.y << "\n";
 
+	//Get random enemy ObjectTag index
 	int randomEnemyIndex = rand() % possibleEnemies.size();
 	ObjectTag enemyTag = possibleEnemies[randomEnemyIndex];
 

@@ -3,8 +3,6 @@ Game* Game::instance = nullptr;
 
 Game::Game()
 {
-	instance = this;
-
 	OnInitializeWindow();
 	OnInitialize();
 }
@@ -15,13 +13,15 @@ Game::~Game()
 	delete playerBoat;
 }
 
-//game initialization
+//Game initialization
 void Game::OnInitialize()
 {
+	instance = this;
+
 	playerBoat = new PlayerBoat(sf::Vector2f(0, 0));
 	playerHome = new PlayerHome("PlayerHome", "Textures/Debug/rock.png", sf::Vector2f(-300, 65));
 
-	//create necessary managers / systems
+	//Create necessary managers / systems
 	collisionManager = new CollisionManager();
 	audioManager = new AudioManager();
 	textManager = new TextManager();
@@ -163,6 +163,7 @@ sf::Vector2f Game::GetScreenCenter()
 	return sf::Vector2f(videoMode.width / 2, videoMode.height / 2);
 }
 
+//Gets current windowEvent
 sf::Event* Game::GetWindowEvent() 
 {
 	return &windowEvent;

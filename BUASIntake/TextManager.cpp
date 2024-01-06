@@ -16,14 +16,16 @@ TextManager::TextManager()
 	CreateTextLabel("GameTimer", "0.00", sf::Vector2f((screenWidth / 2) - 40, 0), 30, sf::Color::White);
 }
 
+//Helper method for easily creating text labels on the screen with a given string, position, fontsize and color
 void TextManager::CreateTextLabel(sf::String labelId, sf::String initText, sf::Vector2f position, int fontSize, sf::Color textColor)
 {
 	textLabels.insert(std::pair<sf::String, TextLabelContainer*>(labelId, new TextLabelContainer(initText, position, fontSize, textColor)));
 }
 
+//Helper method for updating textlabels based on a label id
 void TextManager::UpdateTextLabel(sf::String labelId, sf::String newText) 
 {
-	if (textLabels[labelId] == nullptr) {
+	if (textLabels[labelId] == nullptr) { //check if label exist before trying to update it
 		std::cout << "\nCouldn't update text label of id" << labelId.toAnsiString() << "! Forgot to initialize it?" << "\n";
 		return;
 	}
@@ -31,16 +33,18 @@ void TextManager::UpdateTextLabel(sf::String labelId, sf::String newText)
 	textLabels[labelId]->UpdateText(newText);
 }
 
+//Returns a textlabel based on a label id
 TextManager::TextLabelContainer* TextManager::GetTextlabel(sf::String labelId)
 {
-	if (textLabels[labelId] == nullptr) {
+	if (textLabels[labelId] == nullptr) { //check if label exist before trying to return it
 		std::cout << "\nCouldn't return text label of id" << labelId.toAnsiString() << "! Forgot to initialize it?" << "\n";
-		return NULL;
+		return nullptr;
 	}
 	
 	return textLabels[labelId];
 }
 
+//Draw all textlabels to the screen
 void TextManager::Draw(sf::RenderWindow* window)
 {
 	for (const auto& labelPair : TextManager::textLabels) 

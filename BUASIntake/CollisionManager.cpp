@@ -27,7 +27,7 @@ void CollisionManager::ResolveCollisions(std::list<Collider*> activeColliders)
     }
 }
 
-//Manual check if a collider has collision with another collider
+//Manual check if a collider has collision with a specific ObjectTag
 bool CollisionManager::HasCollision(Collider* collA, GameObject::ObjectTag tag) 
 {
     auto colliders = Game::instance->activeColliders;

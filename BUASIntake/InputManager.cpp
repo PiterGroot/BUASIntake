@@ -9,6 +9,7 @@ InputManager::InputManager()
     instance = this;
 }
 
+//Helper method for getting a checking single inputs
 bool InputManager::GetKeyDown(sf::Keyboard::Key key) {
 	if (sf::Keyboard::isKeyPressed(key) && canPressKey) {
 		canPressKey = false;
