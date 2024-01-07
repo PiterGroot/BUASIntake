@@ -7,7 +7,7 @@ float defaultMoveSpeed = 250;
 float moveSpeedModifier = 1;
 float enemyMoveSpeedModifier = .35f;
 
-float startFuelAmount = 1000;
+float startFuelAmount = 100;
 float wiggleFuelCost = 20;
 float spinFuelCost = 1.5f;
 
@@ -170,7 +170,7 @@ void PlayerBoat::OnCollideWithKraken(Collider& other, PlayerBoat* player)
 		InputManager::instance->Reset();
 		player->objectSprite.setRotation(0);
 
-		AudioManager::instance->PlaySound(AudioManager::SoundTypes::Kill_Kraken);
+		AudioManager::instance->PlaySound(AudioManager::SoundTypes::KillKraken);
 
 		Game::instance->activeColliders.remove(&other);
 		Game::instance->objectsToDelete.push_back(other.GetObject());
@@ -291,10 +291,17 @@ void PlayerBoat::HandleGameOver(float deltaTime)
 	if (gameOverTimer >= gameOverTime)
 	{
 		std::cout << "game over" << "\n";
-		AudioManager::instance->audioClips[AudioManager::SoundTypes::Engine]->SetLoop(false);
+		AudioManager::instance->PlaySound(AudioManager::SoundTypes::GameOver);
+
+		//Create "Game Over" text label
+		float screenWidth = Game::instance->GetScreenSize().x;	
+		sf::Vector2f labelPosition = sf::Vector2f((screenWidth / 2) - 120, 150);
+		TextManager::instance->CreateTextLabel("GameOver", "Game Over", labelPosition, 50);
 
 		//unsubscribe from receiving updates
 		Game* game = Game::instance;
+		game->isGameOver = true;
+
 		auto iterator = std::remove(game->updatingGameobjects.begin(), game->updatingGameobjects.end(), this);
 		game->updatingGameobjects.erase(iterator, game->updatingGameobjects.end());
 	}

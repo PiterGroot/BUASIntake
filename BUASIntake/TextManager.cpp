@@ -13,7 +13,7 @@ TextManager::TextManager()
 	CreateTextLabel("PlasticStatus", "Lake cleanup 100%", sf::Vector2f(0, 60), 24);
 	CreateTextLabel("CurrentStorage", "Storage: 0/6", sf::Vector2f(0, 90), 24);
 
-	CreateTextLabel("GameTimer", "0.00", sf::Vector2f((screenSize.x / 2) - 40, 0), 30, sf::Color::White);
+	CreateTextLabel("GameTimer", "0.00", sf::Vector2f((screenSize.x / 2) - 40, 0), 30);
 	CreateTextLabel("PowerupCounter", "0/10", sf::Vector2f(-335, 140), 30, sf::Color::White, false);
 }
 

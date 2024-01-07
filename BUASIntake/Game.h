@@ -26,6 +26,7 @@ public:
 
 	static Game* instance;
 
+	bool isGameOver = false;
 	int plasticDebris = 300;
 	int cleanedUpDebris = 0;
 	

@@ -14,7 +14,7 @@ public:
 		sf::Font* textFont = nullptr;
 		sf::Text* text = nullptr;
 
-		TextLabelContainer(sf::String initText, sf::Vector2f position, int fontSize = 24, sf::Color textColor = sf::Color::Black, bool isStatic = false) {
+		TextLabelContainer(sf::String initText, sf::Vector2f position, int fontSize = 24, sf::Color textColor = sf::Color::White, bool isStatic = false) {
 			textFont = new sf::Font();
 			textFont->setSmooth(false);
 			
@@ -42,7 +42,7 @@ public:
 
 	TextManager();
 	
-	void CreateTextLabel(sf::String labelId, sf::String initText, sf::Vector2f position, int fontSize, sf::Color textColor = sf::Color::Black, bool isStatic = true);
+	void CreateTextLabel(sf::String labelId, sf::String initText, sf::Vector2f position, int fontSize, sf::Color textColor = sf::Color::White, bool isStatic = true);
 	void UpdateTextLabel(sf::String labelId, sf::String newText);
 
 	void Draw(sf::RenderWindow* window);

@@ -70,7 +70,7 @@ void Game::OnUpdate(float deltaTime)
 	}
 
 	//Update game timer if player is not in the "shop"
-	if (!playerHome->isChoosingUpgrade) 
+	if (!playerHome->isChoosingUpgrade && !isGameOver)
 	{
 		std::ostringstream timerStringStream;
 		timerStringStream << std::fixed << std::setprecision(2) << elapsedTime;

@@ -65,9 +65,10 @@ public:
         Cleanup2,
         Deny,
         Deposit,
-        Kill_Kraken,
+        KillKraken,
         Powerup,
-        Engine
+        Ocean,
+        GameOver
 	};
 
 	AudioManager();
