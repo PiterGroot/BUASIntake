@@ -1,7 +1,7 @@
 #include "VortexEnemy.h"
 
-float hurricaneMoveSpeed = 100;
-float rotationSpeed = 300;
+float hurricaneMoveSpeed = 220;
+float rotationSpeed = 350;
 
 VortexEnemy::VortexEnemy(sf::String name, sf::String texture, sf::Vector2f position) : Enemy(name, texture, position)
 {

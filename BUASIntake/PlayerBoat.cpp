@@ -1,8 +1,6 @@
 #include "PlayerBoat.h"
 #include "Game.h"
 
-//forward declaration update methods
-
 int startStorageAmount = 6;
 float defaultMoveSpeed = 250;
 
@@ -13,22 +11,21 @@ float startFuelAmount = 1000;
 float wiggleFuelCost = 20;
 float spinFuelCost = 1.5f;
 
-float activeFuelConsumption = 25;
-float passiveFuelConsumption = 1;
+float startActiveFuelConsumption = 25;
+float startPassiveFuelConsumption = 1;
 
 bool isInsideKraken = false;
 bool isInsidePickup = false;
 
-int randCleanupTries = 0;
-int randWiggleTries = 0;
-
-float gameOverTimer = 0;
 float gameOverTime = 10;
 
 PlayerBoat::PlayerBoat(sf::Vector2f spawnPosition) : Collider(this, false) // call the Collider constructor
 {
 	//initialize player stats
 	fuel = startFuelAmount;
+	activeFuelConsumption = startActiveFuelConsumption;
+	passiveFuelConsumption = startPassiveFuelConsumption;
+
 	moveSpeed = defaultMoveSpeed;
 	storageCapacity = startStorageAmount;
 
@@ -63,17 +60,7 @@ void PlayerBoat::MovePlayer(sf::Vector2f newPosition, float deltaTime)
 {
 	if (fuel <= 0.1f) 
 	{
-		gameOverTimer += deltaTime;
-
-		if (gameOverTimer >= gameOverTime)
-		{
-			std::cout << "game over" << "\n";
-
-			//unsubscribe from receiving updates
-			Game* game = Game::instance;
-			auto iterator = std::remove(game->updatingGameobjects.begin(), game->updatingGameobjects.end(), this);
-			game->updatingGameobjects.erase(iterator, game->updatingGameobjects.end());
-		}
+		HandleGameOver(deltaTime);
 		return;
 	}
 
@@ -247,7 +234,7 @@ bool PlayerBoat::TryCleanupDebris(float currentStorageAmount, float storageCapac
 //Update player storage label based on current storage
 void PlayerBoat::UpdateStorageLabel(PlayerBoat* player)
 {
-	sf::String storageText = std::to_string(player->currentStorageAmount) + "/" + std::to_string(startStorageAmount);
+	sf::String storageText = std::to_string(player->currentStorageAmount) + "/" + std::to_string(storageCapacity);
 	TextManager::instance->UpdateTextLabel("CurrentStorage", "Storage " + storageText);
 }
 
@@ -298,4 +285,20 @@ sf::Vector2f PlayerBoat::GetMovementDirection() {
 	}
 
 	return direction;
+}
+
+//If player has no fuel and is afk for to long, game over
+void PlayerBoat::HandleGameOver(float deltaTime) 
+{
+	gameOverTimer += deltaTime;
+
+	if (gameOverTimer >= gameOverTime)
+	{
+		std::cout << "game over" << "\n";
+
+		//unsubscribe from receiving updates
+		Game* game = Game::instance;
+		auto iterator = std::remove(game->updatingGameobjects.begin(), game->updatingGameobjects.end(), this);
+		game->updatingGameobjects.erase(iterator, game->updatingGameobjects.end());
+	}
 }

@@ -12,21 +12,30 @@ public:
 
 	void OnCollision(Collider& other) override;
 	void OnUpdate(float deltaTime) override;
+	void HandleGameOver(float deltaTime);
+	
 	void SetFuel(float newFuel);
 	float GetFuel();
 
-	int storageCapacity = 0;
-	int currentStorageAmount = 0;
-	
+	void UpdateStorageLabel(PlayerBoat* player);
+
 	sf::Vector2f currentMoveDirection;
 	
-private:
+	int storageCapacity = 0;
+	int currentStorageAmount = 0;
 
-	float fuel = 0;
-	float moveSpeed = 0;
-
-	sf::Vector2f GetMovementDirection();
+	float activeFuelConsumption = 0;
+	float passiveFuelConsumption = 0;
 	
+	float moveSpeed = 0;
+	
+private:
+	float fuel = 0;
+	float gameOverTimer = 0;
+
+	int randCleanupTries = 0;
+	int randWiggleTries = 0;
+
 	sf::Texture upDirection;
 	sf::Texture upRightDirection;
 	sf::Texture rightDirection;
@@ -37,10 +46,11 @@ private:
 	sf::Texture leftUpDirection;
 
 	std::map<sf::Vector2f, sf::Texture, Vector2fEquals> getDirectionalSprite;
+
+	sf::Vector2f GetMovementDirection();
 	void MovePlayer(sf::Vector2f newPosition, float deltaTime);
 
 	void UpdateDistanceLabel(sf::Vector2f currentPosition);
-	void UpdateStorageLabel(PlayerBoat* player);
 	void UpdateFuelLabel(float currentFuel);
 	void UpdateCleanupLabel();
 

@@ -6,6 +6,7 @@ float randomSpriteScaler = .4f;
 //Randomly scatter pickups inside a circular shape
 PickupScatter::PickupScatter(int pickupAmount) 
 {
+	srand(time(0)); //random seed based on current time
 	for (int i = 0; i < pickupAmount; i++)
 	{
 		//spawn pickup on random point

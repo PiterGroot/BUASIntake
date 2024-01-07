@@ -3,10 +3,13 @@
 
 float waypointYOffset = 70;
 float wasteFuelReward = 75;
-int depositsNeededToPowerup = 10;
 
-int lastProgress = 0;
-GameObject* powerupScreen = nullptr;
+int moveSpeedBonus = 10;
+int storageBonus = 1;
+int activeTankBonus = 2;
+int passiveTankBonus = 0.05f;
+
+int depositsNeededToPowerup = 10;
 
 PlayerHome::PlayerHome(sf::String name, sf::String texture, sf::Vector2f position) : Collider(this, false)
 {
@@ -24,6 +27,31 @@ PlayerHome::PlayerHome(sf::String name, sf::String texture, sf::Vector2f positio
 
 	objectSprite.setScale(sf::Vector2f(6, 6));
 	InitializeGameobject(name, texture, position, false);
+	Game::instance->updatingGameobjects.push_back(this);
+}
+
+void PlayerHome::OnUpdate(float deltaTime) 
+{
+	if (!isChoosingUpgrade)
+		return;
+
+	if (InputManager::instance->GetKeyDown(sf::Keyboard::Key::Num1)) //choose speed upgrade
+	{
+		Game::instance->playerBoat->moveSpeed += moveSpeedBonus;
+		TogglePowerupScreen();
+	}
+	if (InputManager::instance->GetKeyDown(sf::Keyboard::Key::Num2)) //choose storage upgrade
+	{
+		Game::instance->playerBoat->storageCapacity += storageBonus;
+		Game::instance->playerBoat->UpdateStorageLabel(Game::instance->playerBoat);
+		TogglePowerupScreen();
+	}
+	if (InputManager::instance->GetKeyDown(sf::Keyboard::Key::Num3)) //choose tank upgrade
+	{
+		Game::instance->playerBoat->activeFuelConsumption -= activeTankBonus;
+		Game::instance->playerBoat->passiveFuelConsumption -= passiveTankBonus;
+		TogglePowerupScreen();
+	}
 }
 
 //Returns true if player actually deposited anything
@@ -42,17 +70,26 @@ bool PlayerHome::DepositWaste(int amount)
 	Game::instance->cleanedUpDebris += amount; //update cleanup amount for cleanup percentage label
 	AudioManager::instance->PlaySound(AudioManager::SoundTypes::Deposit);
 
+	//Update upgrade couter text label
 	int progress = Game::instance->cleanedUpDebris % depositsNeededToPowerup;
 	TextManager::instance->UpdateTextLabel("PowerupCounter", std::to_string(progress) + "/10");
 	
-	if (progress < lastProgress) {
-		Game::instance->enemySpawner->canUpdate = false;
-		Game::instance->playerBoat->isActive = false;
-
-		powerupScreen->isActive = true;
-		std::cout << "Powerup" << "\n";
-	}
+	//Player has deposited enough to get a powerup
+	if (progress < lastProgress) 
+		TogglePowerupScreen();
 
 	lastProgress = progress;
 	return true;
+}
+
+//Toggle upgrade "shop"
+void PlayerHome::TogglePowerupScreen() 
+{
+	isChoosingUpgrade = !isChoosingUpgrade;
+	if(isChoosingUpgrade) std::cout << "\nPowerup!" << "\n";
+
+	Game::instance->enemySpawner->canUpdate = !isChoosingUpgrade; //temporary disable enemy spawner while in shop
+	Game::instance->playerBoat->isActive = !isChoosingUpgrade;
+
+	powerupScreen->isActive = isChoosingUpgrade;
 }

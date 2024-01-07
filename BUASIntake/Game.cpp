@@ -31,7 +31,6 @@ void Game::OnInitialize()
 	new PickupScatter(plasticDebris);
 
 	waterColor = sf::Color(3, 165, 252); //out of bounds background color
-	srand(time(0)); //set random seed
 }
 
 //window initialization
@@ -70,9 +69,13 @@ void Game::OnUpdate(float deltaTime)
 		object->OnUpdate(deltaTime);
 	}
 
-	std::ostringstream timerStringStream;
-	timerStringStream << std::fixed << std::setprecision(2) << elapsedTime;
-	textManager->UpdateTextLabel("GameTimer", timerStringStream.str());
+	//Update game timer if player is not in the "shop"
+	if (!playerHome->isChoosingUpgrade) 
+	{
+		std::ostringstream timerStringStream;
+		timerStringStream << std::fixed << std::setprecision(2) << elapsedTime;
+		textManager->UpdateTextLabel("GameTimer", timerStringStream.str());
+	}
 
 	//Resolve possible collisions
 	collisionManager->ResolveCollisions(activeColliders);
@@ -103,7 +106,7 @@ void Game::OnLateUpdate(float deltaTime)
 
 		delete objectToDelete;
 	}
-	objectsToDelete.clear(); // Clear the list for the next frame
+	objectsToDelete.clear(); // clear the list for the next frame
 }
 
 //Rendering game
@@ -112,14 +115,10 @@ void Game::OnRender()
 	// Clear the window
 	window->clear(waterColor);
 	
-	//Draw water shader with static view
-	window->draw(waterShaderRect, &waterShader);
+	window->draw(waterShaderRect, &waterShader); //draw water shader with static view
+	window->setView(cameraView); // draw objects in world space
 
-	// Draw objects in world space
-	window->setView(cameraView);
-
-	//Draw active text labels that need to move along with camera
-	textManager->DrawInWorld(window);
+	textManager->DrawInWorld(window); //draw active text labels that need to move along with camera
 	for (GameObject* object : Game::gameobjects) //draw all active gameobjects in worldspace
 	{
 		if (object->isActive)
@@ -134,8 +133,7 @@ void Game::OnRender()
 			window->draw(object->objectSprite);
 	}
 
-	//Draw active text labels stuck on the screen
-	textManager->Draw(window);
+	textManager->Draw(window); //Draw active text labels stuck on the screen
 
 	window->display(); //display to window
 }
