@@ -14,9 +14,6 @@ float spinFuelCost = 1.5f;
 float startActiveFuelConsumption = 25;
 float startPassiveFuelConsumption = 1;
 
-bool isInsideKraken = false;
-bool isInsidePickup = false;
-
 float gameOverTime = 10;
 
 PlayerBoat::PlayerBoat(sf::Vector2f spawnPosition) : Collider(this, false) // call the Collider constructor
@@ -76,8 +73,8 @@ void PlayerBoat::OnUpdate(float deltaTime)
 {
 	currentMoveDirection = GetMovementDirection();
 
-	if (currentMoveDirection != sf::Vector2f(0, 0))
-		objectSprite.setTexture(getDirectionalSprite[currentMoveDirection]);
+	isMoving = currentMoveDirection != sf::Vector2f(0, 0);
+	if (isMoving) objectSprite.setTexture(getDirectionalSprite[currentMoveDirection]);
 	
 	//Update UI info labelss
 	UpdateFuelLabel(fuel);
@@ -187,7 +184,6 @@ void PlayerBoat::OnCollideWithPickup(Collider& other, PlayerBoat* player)
 		randCleanupTries = std::rand() % 5 + 1;
 
 	isInsidePickup = true;
-
 	if (TryCleanupDebris(player->currentStorageAmount, player->storageCapacity)) {
 		std::cout << "cleanup" << "\n";
 

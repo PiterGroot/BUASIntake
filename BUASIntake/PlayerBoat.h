@@ -36,6 +36,11 @@ private:
 	int randCleanupTries = 0;
 	int randWiggleTries = 0;
 
+	bool isInsideKraken = false;
+	bool isInsidePickup = false;
+
+	bool isMoving = false;
+
 	sf::Texture upDirection;
 	sf::Texture upRightDirection;
 	sf::Texture rightDirection;
