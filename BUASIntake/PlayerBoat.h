@@ -13,6 +13,7 @@ public:
 	void OnCollision(Collider& other) override;
 	void OnUpdate(float deltaTime) override;
 	void SetFuel(float newFuel);
+	float GetFuel();
 
 	int storageCapacity = 0;
 	int currentStorageAmount = 0;
@@ -37,4 +38,14 @@ private:
 
 	std::map<sf::Vector2f, sf::Texture, Vector2fEquals> getDirectionalSprite;
 	void MovePlayer(sf::Vector2f newPosition, float deltaTime);
+
+	void UpdateDistanceLabel(sf::Vector2f currentPosition);
+	void UpdateStorageLabel(PlayerBoat* player);
+	void UpdateFuelLabel(float currentFuel);
+	void UpdateCleanupLabel();
+
+	void OnCollideWithVortex(PlayerBoat* player);
+	void OnCollideWithPickup(Collider& other, PlayerBoat* player);
+	void OnCollideWithKraken(Collider& other, PlayerBoat* player);
+	bool TryCleanupDebris(float currentStorageAmount, float storageCapacity);
 };

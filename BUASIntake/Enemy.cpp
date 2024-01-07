@@ -15,3 +15,9 @@ sf::Vector2f Enemy::GetPlayerDirection()
 
 	return dir;
 }
+
+float Enemy::GetRandomScaler(float min, float max) 
+{
+	float randomSpeedScaler = static_cast<float>(std::rand()) / RAND_MAX;
+	return randomSpeedScaler = min + randomSpeedScaler * (max - min);
+}

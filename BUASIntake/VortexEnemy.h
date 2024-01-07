@@ -11,7 +11,7 @@ private:
     void OnUpdate(float deltaTime) override;
     void HandleDespawn(float deltaTime) override;
 
-    float despawnRange = 650;
+    float despawnRange = 800;
     float despawnTime = 10;
     float despawnTimer = 0;
 };

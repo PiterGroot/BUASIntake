@@ -1,11 +1,12 @@
 #include "PlayerHome.h"
 #include "Waypoint.h"
 
-float waypointOffset = 70;
+float waypointYOffset = 70;
+float wasteFuelReward = 75;
 
 PlayerHome::PlayerHome(sf::String name, sf::String texture, sf::Vector2f position) : Collider(this, false)
 {
-	sf::Vector2f wayPointPosition = sf::Vector2f(position.x, position.y - waypointOffset);
+	sf::Vector2f wayPointPosition = sf::Vector2f(position.x, position.y - waypointYOffset);
 	Waypoint* waypoint = new Waypoint("BaseWaypoint", "Textures/Debug/waypoint.png", wayPointPosition, sf::Color::Green);
 
 	BoxCollider* homeTriggerCollider = new BoxCollider("HomeTrigger", "Textures/Debug/boxcollider.png", position, true);
@@ -22,6 +23,12 @@ bool PlayerHome::DepositWaste(int amount)
 		return false;
 
 	std::cout << "deposit" << "\n";
+	for (int i = 0; i < amount; i++)
+	{
+		float currentFuel = Game::instance->playerBoat->GetFuel();
+		Game::instance->playerBoat->SetFuel(currentFuel + wasteFuelReward);
+	}
+
 	Game::instance->cleanedUpDebris += amount; //update cleanup amount for cleanup percentage label
 	AudioManager::instance->PlaySound(AudioManager::SoundTypes::Deposit);
 

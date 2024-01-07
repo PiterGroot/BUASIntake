@@ -16,5 +16,6 @@ protected:
     float moveSpeed = 100;
     float despawnTimer = 0;
 
+    float GetRandomScaler(float min, float max);
     sf::Vector2f moveDirection;
 };

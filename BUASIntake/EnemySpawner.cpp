@@ -23,6 +23,9 @@ EnemySpawner::EnemySpawner()
 
 void EnemySpawner::OnUpdate(float deltaTime) 
 {
+	if (!canUpdateTimer)
+		return;
+
 	waveTimer += deltaTime;
 
 	//Before spawning a new enemy wave
@@ -37,16 +40,16 @@ void EnemySpawner::OnUpdate(float deltaTime)
 
 		//Spawn new wave
 		currentWave++;
+		srand(time(0));
 		SpawnEnemyWave(Game::instance->playerBoat->position);
 	}
 }
 
 void EnemySpawner::SpawnEnemyWave(sf::Vector2f position) 
 {
-	srand(time(0));
 	for (int i = 0; i < currrentEnemiesToSpawn; i++)
 	{
-		SpawnRandomEnemy(RandomPointOnCircleEdge(position.x, position.y, 600));
+		SpawnRandomEnemy(RandomPointOnCircleEdge(position.x, position.y, 650));
 	}
 }
 

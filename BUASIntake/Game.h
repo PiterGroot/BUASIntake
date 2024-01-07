@@ -20,25 +20,6 @@
 
 class Game
 {
-private:
-	sf::RenderWindow* window = nullptr;
-	sf::Event windowEvent;
-	sf::VideoMode videoMode;
-	sf::Color waterColor;
-
-	sf::View cameraView;
-	sf::View staticView;
-
-	sf::Shader waterShader;
-	sf::RectangleShape waterShaderRect;
-	sf::Font textFont;
-
-	float deltaTime;
-	float elapsedTime;
-
-	void OnInitialize();
-	void OnInitializeWindow();
-
 public:
 	Game();
 	virtual ~Game();
@@ -74,4 +55,23 @@ public:
 	void OnUpdate(float deltaTime);
 	void OnLateUpdate(float deltaTime);
 	void OnRender();
+
+private:
+	sf::RenderWindow* window = nullptr;
+	sf::Event windowEvent;
+	sf::VideoMode videoMode;
+	sf::Color waterColor;
+
+	sf::View cameraView;
+	sf::View staticView;
+
+	sf::Shader waterShader;
+	sf::RectangleShape waterShaderRect;
+	sf::Font textFont;
+
+	float deltaTime;
+	float elapsedTime;
+
+	void OnInitialize();
+	void OnInitializeWindow();
 };

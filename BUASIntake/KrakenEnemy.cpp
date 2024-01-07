@@ -5,7 +5,8 @@ float krakenMoveSpeed = 125;
 KrakenEnemy::KrakenEnemy(sf::String name, sf::String texture, sf::Vector2f position) : Enemy(name, texture, position)
 {
 	tag = ObjectTag::Kraken;
-	moveSpeed = krakenMoveSpeed;
+
+	moveSpeed = krakenMoveSpeed * GetRandomScaler(.8f, 1.25f);
 	objectSprite.setScale(sf::Vector2f(2, 2));
 }
 

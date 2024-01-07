@@ -6,7 +6,8 @@ float rotationSpeed = 300;
 VortexEnemy::VortexEnemy(sf::String name, sf::String texture, sf::Vector2f position) : Enemy(name, texture, position)
 {
 	tag = ObjectTag::Vortex;
-	moveSpeed = hurricaneMoveSpeed;
+	moveSpeed = hurricaneMoveSpeed * GetRandomScaler(.85f, 1.3f);
+	
 	objectSprite.setScale(sf::Vector2f(2, 2));
 	moveDirection = normalized(GetPlayerDirection()); //only get player direction on spawn
 }

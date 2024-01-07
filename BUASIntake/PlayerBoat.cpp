@@ -2,15 +2,6 @@
 #include "Game.h"
 
 //forward declaration update methods
-void UpdateDistanceLabel(sf::Vector2f currentPosition);
-void UpdateStorageLabel(PlayerBoat* player);
-void UpdateFuelLabel(float currentFuel);
-void UpdateCleanupLabel();
-
-void OnCollideWithVortex(float currentFuel, PlayerBoat* player);
-void OnCollideWithPickup(Collider& other, PlayerBoat* player);
-void OnCollideWithKraken(Collider& other, float currentFuel, PlayerBoat* player);
-bool TryCleanupDebris(float currentStorageAmount, float storageCapacity);
 
 int startStorageAmount = 6;
 float defaultMoveSpeed = 250;
@@ -27,6 +18,7 @@ float passiveFuelConsumption = 1;
 
 bool isInsideKraken = false;
 bool isInsidePickup = false;
+
 int randCleanupTries = 0;
 int randWiggleTries = 0;
 
@@ -92,7 +84,7 @@ void PlayerBoat::OnUpdate(float deltaTime)
 	isInsideKraken = Game::instance->collisionManager->HasCollision(this, ObjectTag::Kraken);
 
 	if (!isInsideVortex && !isInsideKraken) objectSprite.setRotation(0);
-
+	
 	moveSpeedModifier = isInsideKraken || isInsideVortex ? enemyMoveSpeedModifier : 1;
 	MovePlayer(normalized(currentMoveDirection) * moveSpeed * moveSpeedModifier, deltaTime);
 }
@@ -103,6 +95,12 @@ void PlayerBoat::SetFuel(float newFuel)
 	fuel = abs(fuel = newFuel);
 }
 
+//Gets current fuel
+float PlayerBoat::GetFuel()
+{
+	return fuel;
+}
+
 //Callback method when player collided with another collider
 void PlayerBoat::OnCollision(Collider& other) 
 {
@@ -110,10 +108,10 @@ void PlayerBoat::OnCollision(Collider& other)
 		OnCollideWithPickup(other, this);
 	
 	if (other.GetObject()->tag == ObjectTag::Kraken) 
-		OnCollideWithKraken(other, fuel, this);
+		OnCollideWithKraken(other, this);
 
 	if (other.GetObject()->tag == ObjectTag::Vortex)
-		OnCollideWithVortex(fuel, this);
+		OnCollideWithVortex(this);
 
 	if (other.GetObject()->tag == ObjectTag::PlayerHome) 
 	{
@@ -131,15 +129,16 @@ void PlayerBoat::OnCollision(Collider& other)
 
 #pragma region OnCollision methods
 
-void OnCollideWithVortex(float currentFuel, PlayerBoat* player) 
+void PlayerBoat::OnCollideWithVortex(PlayerBoat* player)
 {
 	player->objectSprite.setRotation(rand() % 360);
 
+	float currentFuel = player->GetFuel();
 	if (currentFuel >= spinFuelCost)
 		player->SetFuel(currentFuel - spinFuelCost);
 }
 
-void OnCollideWithKraken(Collider& other, float currentFuel, PlayerBoat* player)
+void PlayerBoat::OnCollideWithKraken(Collider& other, PlayerBoat* player)
 {
 	//Generate random number for kraken wiggle "minigame" to escape
 	if (!isInsideKraken)
@@ -149,6 +148,8 @@ void OnCollideWithKraken(Collider& other, float currentFuel, PlayerBoat* player)
 	if (InputManager::instance->GetKeyDown(sf::Keyboard::Key::E))
 	{
 		randWiggleTries--;
+
+		float currentFuel = player->GetFuel();
 		if(currentFuel >= wiggleFuelCost)
 			player->SetFuel(currentFuel - wiggleFuelCost);
 
@@ -173,7 +174,7 @@ void OnCollideWithKraken(Collider& other, float currentFuel, PlayerBoat* player)
 	}
 }
 
-void OnCollideWithPickup(Collider& other, PlayerBoat* player)
+void PlayerBoat::OnCollideWithPickup(Collider& other, PlayerBoat* player)
 {
 	//Generate random number for cleanup tries when player collides the pickup for the first time
 	if (!isInsidePickup)
@@ -208,7 +209,7 @@ void OnCollideWithPickup(Collider& other, PlayerBoat* player)
 #pragma endregion
 
 //Cleanup "minigame" when floating ontop of debris
-bool TryCleanupDebris(float currentStorageAmount, float storageCapacity) 
+bool PlayerBoat::TryCleanupDebris(float currentStorageAmount, float storageCapacity)
 {
 	if (InputManager::instance->GetKeyDown(sf::Keyboard::Space)) 
 	{
@@ -225,14 +226,14 @@ bool TryCleanupDebris(float currentStorageAmount, float storageCapacity)
 }
 
 //Update player storage label based on current storage
-void UpdateStorageLabel(PlayerBoat* player) 
+void PlayerBoat::UpdateStorageLabel(PlayerBoat* player)
 {
 	sf::String storageText = std::to_string(player->currentStorageAmount) + "/" + std::to_string(startStorageAmount);
 	TextManager::instance->UpdateTextLabel("CurrentStorage", "Storage " + storageText);
 }
 
 //Update cleanup label based on how dirty the lake is
-void UpdateCleanupLabel() 
+void PlayerBoat::UpdateCleanupLabel()
 {
 	float startDebris = Game::instance->plasticDebris;
 	float cleanedUp = Game::instance->cleanedUpDebris;
@@ -244,14 +245,14 @@ void UpdateCleanupLabel()
 }
 
 //Update fuel text label
-void UpdateFuelLabel(float currentFuel) {
+void PlayerBoat::UpdateFuelLabel(float currentFuel) {
 	std::ostringstream fuelStringStream;
 	fuelStringStream << std::fixed << std::setprecision(2) << currentFuel;
-	TextManager::instance->UpdateTextLabel("Fuel", "Fuel " + fuelStringStream.str());
+	TextManager::instance->UpdateTextLabel("Fuel", "Fuel " + fuelStringStream.str() + " L");
 }
 
 //Update distance text label
-void UpdateDistanceLabel(sf::Vector2f currentPosition) 
+void PlayerBoat::UpdateDistanceLabel(sf::Vector2f currentPosition)
 {
 	std::ostringstream distanceStream;
 	sf::Vector2f diff = currentPosition - sf::Vector2f(-300, 65); //hardcoded testbase coords for testing
