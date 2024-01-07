@@ -8,26 +8,6 @@ struct AudioContainer;
 
 class AudioManager
 {
-
-public:
-	enum SoundTypes
-	{
-        MainMusic,
-		Pickup,
-		Cleanup,
-        Cleanup1,
-        Cleanup2,
-        Deny,
-        Deposit,
-        Kill_Kraken
-	};
-
-	AudioManager();
-	static AudioManager* instance;
-
-	void PlaySound(SoundTypes type);
-    void PlayMusicSong(SoundTypes type, bool loop = true);
-
 private:
     struct AudioContainer {
         sf::SoundBuffer* audioBuffer = nullptr;
@@ -46,12 +26,16 @@ private:
             }
         }
 
+        void SetLoop(bool loop) {
+            sound->setLoop(loop);
+        }
+
         void PlaySound() {
             sound->play();
         }
     };
 
-    struct AudioMusicContainer 
+    struct AudioMusicContainer
     {
         sf::Music* music = nullptr;
         bool loopSong = true;
@@ -71,6 +55,27 @@ private:
         }
     };
 
-	std::map<SoundTypes, AudioContainer*> audioClips;
+public:
+	enum SoundTypes
+	{
+        MainMusic,
+		Pickup,
+		Cleanup,
+        Cleanup1,
+        Cleanup2,
+        Deny,
+        Deposit,
+        Kill_Kraken,
+        Powerup,
+        Engine
+	};
+
+	AudioManager();
+	static AudioManager* instance;
+
+	void PlaySound(SoundTypes type);
+    void PlayMusicSong(SoundTypes type, bool loop = true);
+    
+    std::map<SoundTypes, AudioContainer*> audioClips;
     std::map<SoundTypes, AudioMusicContainer*> musicClips;
 };

@@ -291,6 +291,7 @@ void PlayerBoat::HandleGameOver(float deltaTime)
 	if (gameOverTimer >= gameOverTime)
 	{
 		std::cout << "game over" << "\n";
+		AudioManager::instance->audioClips[AudioManager::SoundTypes::Engine]->SetLoop(false);
 
 		//unsubscribe from receiving updates
 		Game* game = Game::instance;

@@ -82,11 +82,13 @@ bool PlayerHome::DepositWaste(int amount)
 	return true;
 }
 
-//Toggle upgrade "shop"
+//Toggle upgrade "shop" state
 void PlayerHome::TogglePowerupScreen() 
 {
 	isChoosingUpgrade = !isChoosingUpgrade;
-	if(isChoosingUpgrade) std::cout << "\nPowerup!" << "\n";
+
+	if (isChoosingUpgrade) std::cout << "\nPowerup!" << "\n";
+	if (!isChoosingUpgrade) AudioManager::instance->PlaySound(AudioManager::SoundTypes::Powerup);
 
 	Game::instance->enemySpawner->canUpdate = !isChoosingUpgrade; //temporary disable enemy spawner while in shop
 	Game::instance->playerBoat->isActive = !isChoosingUpgrade;
