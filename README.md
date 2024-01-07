@@ -23,7 +23,7 @@ In this game, you (the player) are tasked to clean up the environment. Navigate 
 
 But beware, the polluted waters are not the only challenge you'll face. Menacing enemies, such as the formidable Kraken and treacherous Vortex, lurk beneath the surface. Avoid these threats to ensure a successful cleanup mission. 
 
-Manage your resources wisely, as running out of fuel means game over. To replenish your energy, deposit the collected waste on your home island. Receive random power-ups to aid you in your environmental quest
+Manage your resources wisely, as running out of fuel means game over. To replenish your fuel, deposit the collected waste on your home island. Receive power-ups to become more effective in your aid to clean up the lake.
 
 ### Controls:
 
