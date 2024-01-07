@@ -101,6 +101,9 @@ void PlayerBoat::OnUpdate(float deltaTime)
 
 	if (!isInsideVortex && !isInsideKraken) objectSprite.setRotation(0);
 	
+	if (!isActive)
+		return;
+
 	moveSpeedModifier = isInsideKraken || isInsideVortex ? enemyMoveSpeedModifier : 1;
 	MovePlayer(normalized(currentMoveDirection) * moveSpeed * moveSpeedModifier, deltaTime);
 }

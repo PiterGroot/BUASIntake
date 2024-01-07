@@ -4,7 +4,6 @@
 
 class GameObject 
 {
-	
 public:
 	enum ObjectTag
 	{
@@ -20,9 +19,10 @@ public:
 	sf::Sprite objectSprite;
 	sf::Vector2f position;
 
+	bool isActive = true;
 	ObjectTag tag = ObjectTag::Default;
 
 	void MoveGameObject(sf::Vector2f newPosition);
-	void InitializeGameobject(sf::String name, sf::String texturePath, sf::Vector2f position, bool isHudObject = false);
 	virtual void OnUpdate(float deltaTime) {};
+	void InitializeGameobject(sf::String name, sf::String texturePath, sf::Vector2f position, bool isHudObject = false);
 };

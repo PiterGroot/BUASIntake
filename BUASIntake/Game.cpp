@@ -111,20 +111,10 @@ void Game::OnRender()
 {
 	// Clear the window
 	window->clear(waterColor);
-
-	// Draw objects that need to be stuck to the screen (UI/HUD elements)
-	window->setView(staticView);
-	for (GameObject* object : Game::hudGameobjects)
-	{
-		window->draw(object->objectSprite);
-	}
-
+	
 	//Draw water shader with static view
 	window->draw(waterShaderRect, &waterShader);
 
-	//Draw active text labels stuck on the screen
-	textManager->Draw(window);
-	
 	// Draw objects in world space
 	window->setView(cameraView);
 
@@ -132,8 +122,20 @@ void Game::OnRender()
 	textManager->DrawInWorld(window);
 	for (GameObject* object : Game::gameobjects) //draw all active gameobjects in worldspace
 	{
-		window->draw(object->objectSprite);
+		if (object->isActive)
+			window->draw(object->objectSprite);
 	}
+
+	// Draw objects that need to be stuck to the screen (UI/HUD elements)
+	window->setView(staticView);
+	for (GameObject* object : Game::hudGameobjects)
+	{
+		if (object->isActive)
+			window->draw(object->objectSprite);
+	}
+
+	//Draw active text labels stuck on the screen
+	textManager->Draw(window);
 
 	window->display(); //display to window
 }
