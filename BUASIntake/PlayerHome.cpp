@@ -3,6 +3,7 @@
 
 float waypointYOffset = 70;
 float wasteFuelReward = 75;
+int depositsNeededToPowerup = 10;
 
 PlayerHome::PlayerHome(sf::String name, sf::String texture, sf::Vector2f position) : Collider(this, false)
 {
@@ -28,9 +29,12 @@ bool PlayerHome::DepositWaste(int amount)
 		float currentFuel = Game::instance->playerBoat->GetFuel();
 		Game::instance->playerBoat->SetFuel(currentFuel + wasteFuelReward);
 	}
-
+	
 	Game::instance->cleanedUpDebris += amount; //update cleanup amount for cleanup percentage label
 	AudioManager::instance->PlaySound(AudioManager::SoundTypes::Deposit);
 
+	int progress = Game::instance->cleanedUpDebris % depositsNeededToPowerup;
+	TextManager::instance->UpdateTextLabel("PowerupCounter", std::to_string(progress) + "/10");
+	
 	return true;
 }

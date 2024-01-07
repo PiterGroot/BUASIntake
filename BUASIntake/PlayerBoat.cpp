@@ -22,6 +22,9 @@ bool isInsidePickup = false;
 int randCleanupTries = 0;
 int randWiggleTries = 0;
 
+float gameOverTimer = 0;
+float gameOverTime = 10;
+
 PlayerBoat::PlayerBoat(sf::Vector2f spawnPosition) : Collider(this, false) // call the Collider constructor
 {
 	//initialize player stats
@@ -58,8 +61,21 @@ PlayerBoat::PlayerBoat(sf::Vector2f spawnPosition) : Collider(this, false) // ca
 //Move player if it has enough fuel
 void PlayerBoat::MovePlayer(sf::Vector2f newPosition, float deltaTime)
 {
-	if (fuel <= 0.1f)
+	if (fuel <= 0.1f) 
+	{
+		gameOverTimer += deltaTime;
+
+		if (gameOverTimer >= gameOverTime)
+		{
+			std::cout << "game over" << "\n";
+
+			//unsubscribe from receiving updates
+			Game* game = Game::instance;
+			auto iterator = std::remove(game->updatingGameobjects.begin(), game->updatingGameobjects.end(), this);
+			game->updatingGameobjects.erase(iterator, game->updatingGameobjects.end());
+		}
 		return;
+	}
 
 	sf::Vector2f currentPosition = position;
 	MoveGameObject(position += newPosition * deltaTime);

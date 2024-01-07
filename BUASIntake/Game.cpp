@@ -122,17 +122,20 @@ void Game::OnRender()
 	//Draw water shader with static view
 	window->draw(waterShaderRect, &waterShader);
 
-	//Draw active text labels
+	//Draw active text labels stuck on the screen
 	textManager->Draw(window);
 	
 	// Draw objects in world space
 	window->setView(cameraView);
-	for (GameObject* object : Game::gameobjects)
+
+	//Draw active text labels that need to move along with camera
+	textManager->DrawInWorld(window);
+	for (GameObject* object : Game::gameobjects) //draw all active gameobjects in worldspace
 	{
 		window->draw(object->objectSprite);
 	}
 
-	window->display();
+	window->display(); //display to window
 }
 
 //Handle window polling events
