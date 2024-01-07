@@ -12,6 +12,9 @@ KrakenEnemy::KrakenEnemy(sf::String name, sf::String texture, sf::Vector2f posit
 
 void KrakenEnemy::OnUpdate(float deltaTime) 
 {
+	if (!Game::instance->enemySpawner->canUpdate)
+		return;
+
 	moveDirection = GetPlayerDirection();
 	float distance = magnitude(moveDirection);
 	

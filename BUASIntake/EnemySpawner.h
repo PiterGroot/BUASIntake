@@ -9,7 +9,7 @@ class EnemySpawner : private GameObject
 {
 public:
 	EnemySpawner();
-	bool canUpdateTimer = true;
+	bool canUpdate = true;
 
 private:
 	void OnUpdate(float deltaTime) override;

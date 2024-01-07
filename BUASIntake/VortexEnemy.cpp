@@ -14,6 +14,9 @@ VortexEnemy::VortexEnemy(sf::String name, sf::String texture, sf::Vector2f posit
 
 void VortexEnemy::OnUpdate(float deltaTime)
 {
+	if (!Game::instance->enemySpawner->canUpdate)
+		return;
+
 	sf::Vector2f playerDirection = GetPlayerDirection();
 	float distance = magnitude(playerDirection);
 	

@@ -23,7 +23,7 @@ EnemySpawner::EnemySpawner()
 
 void EnemySpawner::OnUpdate(float deltaTime) 
 {
-	if (!canUpdateTimer)
+	if (!canUpdate)
 		return;
 
 	waveTimer += deltaTime;

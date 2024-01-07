@@ -5,6 +5,8 @@ float waypointYOffset = 70;
 float wasteFuelReward = 75;
 int depositsNeededToPowerup = 10;
 
+int lastProgress = 0;
+
 PlayerHome::PlayerHome(sf::String name, sf::String texture, sf::Vector2f position) : Collider(this, false)
 {
 	sf::Vector2f wayPointPosition = sf::Vector2f(position.x, position.y - waypointYOffset);
@@ -36,5 +38,11 @@ bool PlayerHome::DepositWaste(int amount)
 	int progress = Game::instance->cleanedUpDebris % depositsNeededToPowerup;
 	TextManager::instance->UpdateTextLabel("PowerupCounter", std::to_string(progress) + "/10");
 	
+	if (progress < lastProgress) {
+		Game::instance->enemySpawner->canUpdate = false;
+		std::cout << "Powerup" << "\n";
+	}
+
+	lastProgress = progress;
 	return true;
 }
