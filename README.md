@@ -2,12 +2,13 @@
 
 ### Important code quick access:
 Main.cpp [here](https://github.com/PiterGroot/BUASIntake/blob/main/BUASIntake/Main.cpp)\
+Gameobject base [here](https://github.com/PiterGroot/BUASIntake/blob/main/BUASIntake/GameObject.cpp)\
+GLSL background shader [here](https://github.com/PiterGroot/BUASIntake/blob/main/BUASIntake/Resources/Shader/water_shader.frag)\
 Player-related code logic [here](https://github.com/PiterGroot/BUASIntake/blob/main/BUASIntake/PlayerBoat.cpp)\
 General game-related code logic [here](https://github.com/PiterGroot/BUASIntake/blob/main/BUASIntake/Game.cpp)\
 Collision-related code logic: 
 [AABB detection](https://github.com/PiterGroot/BUASIntake/blob/main/BUASIntake/Collider.cpp)
-[CollisionManager](https://github.com/PiterGroot/BUASIntake/blob/main/BUASIntake/CollisionManager.cpp)\
-Gameobject base [here](https://github.com/PiterGroot/BUASIntake/blob/main/BUASIntake/GameObject.cpp)
+[CollisionManager](https://github.com/PiterGroot/BUASIntake/blob/main/BUASIntake/CollisionManager.cpp)
 
 Several important managers:
 [Audio manager](https://github.com/PiterGroot/BUASIntake/blob/main/BUASIntake/AudioManager.cpp)
