@@ -10,13 +10,14 @@ Collision-related code logic:
 [AABB detection](https://github.com/PiterGroot/BUASIntake/blob/main/BUASIntake/Collider.cpp)
 [CollisionManager](https://github.com/PiterGroot/BUASIntake/blob/main/BUASIntake/CollisionManager.cpp)
 
-Several important managers:
+Important managers:
 [Audio manager](https://github.com/PiterGroot/BUASIntake/blob/main/BUASIntake/AudioManager.cpp)
 [Text Label manager](https://github.com/PiterGroot/BUASIntake/blob/main/BUASIntake/TextManager.cpp)
 [Input manager](https://github.com/PiterGroot/BUASIntake/blob/main/BUASIntake/InputManager.cpp)\
 Other systems:
 [Enemy spawner](https://github.com/PiterGroot/BUASIntake/blob/main/BUASIntake/EnemySpawner.cpp)
 [Pickup scatter](https://github.com/PiterGroot/BUASIntake/blob/main/BUASIntake/PickupScatter.cpp)
+[Start screens](https://github.com/PiterGroot/BUASIntake/blob/main/BUASIntake/StartScreens.cpp)
 
 ### Game description:
 In this game, you (the player) are tasked to clean up the environment. Navigate your boat to locate and collect floating plastic, garbage, and other waste. What is your ultimate goal? Clean the whole lake!
