@@ -28,6 +28,8 @@ Manage your resources wisely, as running out of fuel means game over. To repleni
 
 ### Controls:
 
+Advance intro screens: "Space bar"
+
 Movement: "WASD" keys\
 Clean up: "Space bar" (when floating above waste)\
 Escape Kraken: Rapidly press "E" key (consumes fuel!)\
