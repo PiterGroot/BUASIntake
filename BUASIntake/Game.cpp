@@ -21,20 +21,22 @@ void Game::OnInitialize()
 	playerBoat = new PlayerBoat(sf::Vector2f(0, 0));
 	playerHome = new PlayerHome("PlayerHome", "Textures/Debug/rock.png", sf::Vector2f(-300, 65));
 
-	//Create necessary managers / systems
+	//Create necessary managers
 	collisionManager = new CollisionManager();
 	audioManager = new AudioManager();
 	textManager = new TextManager();
 	inputManager = new InputManager();
 
+	//Create necessary systems
+	enemySpawner = new EnemySpawner();
 	new PickupScatter(plasticDebris);
-	waterColor = sf::Color(3, 165, 252); //out of bounds background color
-	startScreens = new StartScreens(GetScreenCenter());
+	new StartScreens(GetScreenCenter());
 }
 
 //window initialization
 void Game::OnInitializeWindow()
 {
+	//Set window resolution
 	videoMode.width = 900;
 	videoMode.height = 700;
 
@@ -52,6 +54,7 @@ void Game::OnInitializeWindow()
 	waterShaderRect = sf::RectangleShape(sf::Vector2f(videoMode.width, videoMode.height));
 	waterShaderRect.setOrigin(GetScreenCenter());
 	waterShaderRect.setPosition(GetScreenCenter());
+	waterColor = sf::Color(3, 165, 252); //out of bounds background color
 	
 	//Load water shader
 	waterShader.loadFromFile("Resources/Shader/water_shader.frag", sf::Shader::Fragment);

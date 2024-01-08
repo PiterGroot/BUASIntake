@@ -61,7 +61,6 @@ public:
 	void OnRender();
 
 private:
-	StartScreens* startScreens = nullptr;
 	sf::RenderWindow* window = nullptr;
 	sf::Image windowIcon;
 	sf::Event windowEvent;

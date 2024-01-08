@@ -27,13 +27,19 @@ void StartScreens::OnUpdate(float deltaTime)
 	if (InputManager::instance->GetKeyDown(sf::Keyboard::Key::Space)) {
 		screens[currentScreen].isActive = false;
 		currentScreen++;
+		
+		//play random "confirmation" sound
+		int randomCleanUpSound = std::rand() % 3 + 2;
+		AudioManager::instance->PlaySound(static_cast<AudioManager::SoundTypes>(randomCleanUpSound));
 
+		//Start game
 		if (currentScreen > screenCount) {
 			Game::instance->isGameStarted = true;
 			Game::instance->playerBoat->isActive = true;
-			Game::instance->updatingGameobjects.push_back(Game::instance->playerBoat);
+			Game::instance->enemySpawner->canUpdate = true;
 
 			hasShownAllScreens = true;
+			Game::instance->updatingGameobjects.push_back(Game::instance->playerBoat);
 			return;
 		}
 			
