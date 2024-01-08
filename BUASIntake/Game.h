@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
+#include <vector>
 #include <list>
 
 #include "CollisionManager.h"
@@ -42,6 +43,7 @@ public:
 	InputManager* inputManager = nullptr;
 	EnemySpawner* enemySpawner = nullptr;
 
+	std::vector<BoxCollider*> pickups;
 	std::list<GameObject*> gameobjects;
 	std::list<GameObject*> hudGameobjects;
 	std::list<Collider*> activeColliders;

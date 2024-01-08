@@ -1,5 +1,6 @@
 #pragma once
 
+#include "BoxCollider.h"
 #include "GameObject.h"
 #include "Collider.h"
 #include <iostream>
@@ -58,6 +59,7 @@ private:
 	std::map<sf::Vector2f, sf::Texture, Vector2fEquals> getDirectionalSprite;
 
 	sf::Vector2f GetMovementDirection();
+	sf::Vector2f GetClosestPickupPosition(const std::vector<BoxCollider*>& pickups);
 	void MovePlayer(sf::Vector2f newPosition, float deltaTime);
 
 	void UpdateDistanceLabel(sf::Vector2f currentPosition);

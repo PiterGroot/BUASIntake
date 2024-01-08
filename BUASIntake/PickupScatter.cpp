@@ -1,4 +1,5 @@
 #include "PickupScatter.h"
+#include "Game.h"
 
 float spawnRange = 5000;
 float randomSpriteScaler = .4f;
@@ -17,5 +18,7 @@ PickupScatter::PickupScatter(int pickupAmount)
 		//randomly scale pickup sprite a little bit
 		float randomScaler = 1.0f + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / randomSpriteScaler));
 		collider->objectSprite.setScale(sf::Vector2f(1, 1) * randomScaler);
+		
+		Game::instance->pickups.push_back(collider);
 	}
 }

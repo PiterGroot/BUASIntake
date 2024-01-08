@@ -1,4 +1,5 @@
 #include "PlayerBoat.h"
+#include "Waypoint.h"
 #include "Game.h"
 
 int startStorageAmount = 6;
@@ -15,6 +16,9 @@ float startActiveFuelConsumption = 25;
 float startPassiveFuelConsumption = 1;
 
 float gameOverTime = 10;
+
+float platicWaypointLerpTime = 10;
+Waypoint* plasticWaypoint = nullptr; //waypoint that points to the closest pickup
 
 PlayerBoat::PlayerBoat(sf::Vector2f spawnPosition) : Collider(this, false) // call the Collider constructor
 {
@@ -47,6 +51,8 @@ PlayerBoat::PlayerBoat(sf::Vector2f spawnPosition) : Collider(this, false) // ca
 		{ sf::Vector2f(-1, -1), leftUpDirection}
 	};
 
+	plasticWaypoint = new Waypoint("PickupWaypoint", "Textures/Debug/waypoint.png", sf::Vector2f(0, 1000), sf::Color::Red);
+	
 	objectSprite.setScale(sf::Vector2f(2, 2));
 	GameObject::InitializeGameobject("Player", "Textures/Ship/ship1.png", spawnPosition);
 	
@@ -89,6 +95,9 @@ void PlayerBoat::OnUpdate(float deltaTime)
 	if (!isActive)
 		return;
 
+	sf::Vector2f closestPickupPosition = GetClosestPickupPosition(Game::instance->pickups) + sf::Vector2f(0, -100);
+	plasticWaypoint->targetPosition = lerp(plasticWaypoint->targetPosition, closestPickupPosition, platicWaypointLerpTime * deltaTime);
+	
 	moveSpeedModifier = isInsideKraken || isInsideVortex ? enemyMoveSpeedModifier : 1;
 	MovePlayer(normalized(currentMoveDirection) * moveSpeed * moveSpeedModifier, deltaTime);
 }
@@ -306,4 +315,25 @@ void PlayerBoat::HandleGameOver(float deltaTime)
 		auto iterator = std::remove(game->updatingGameobjects.begin(), game->updatingGameobjects.end(), this);
 		game->updatingGameobjects.erase(iterator, game->updatingGameobjects.end());
 	}
+}
+
+//Find closest pickup for plastic waypoint
+sf::Vector2f PlayerBoat::GetClosestPickupPosition(const std::vector<BoxCollider*>& pickups)
+{
+	sf::Vector2f bestTarget;
+	float closestDistanceSqr = INFINITY;
+
+	for (const auto& potentialTarget : pickups)
+	{
+		sf::Vector2f directionToTarget = potentialTarget->position - position;
+		float distToTarget = directionToTarget.x * directionToTarget.x + directionToTarget.y * directionToTarget.y;
+
+		if (distToTarget < closestDistanceSqr)
+		{
+			closestDistanceSqr = distToTarget;
+			bestTarget = potentialTarget->position;
+		}
+	}
+
+	return bestTarget;
 }
