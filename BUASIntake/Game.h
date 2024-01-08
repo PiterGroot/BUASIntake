@@ -59,6 +59,7 @@ public:
 
 private:
 	sf::RenderWindow* window = nullptr;
+	sf::Image windowIcon;
 	sf::Event windowEvent;
 	sf::VideoMode videoMode;
 	sf::Color waterColor;

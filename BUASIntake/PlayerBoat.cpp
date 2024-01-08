@@ -7,7 +7,7 @@ float defaultMoveSpeed = 250;
 float moveSpeedModifier = 1;
 float enemyMoveSpeedModifier = .35f;
 
-float startFuelAmount = 100;
+float startFuelAmount = 1000;
 float wiggleFuelCost = 20;
 float spinFuelCost = 1.5f;
 

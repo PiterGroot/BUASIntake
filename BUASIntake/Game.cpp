@@ -40,7 +40,12 @@ void Game::OnInitializeWindow()
 	videoMode.height = 700;
 
 	//Create window
-	window = new sf::RenderWindow(videoMode, "Untitled boat game", sf::Style::Titlebar | sf::Style::Close);
+	window = new sf::RenderWindow(videoMode, "EcoClean Adventure", sf::Style::Titlebar | sf::Style::Close);
+	windowIcon.loadFromFile("Textures/Other/trash.png");
+
+	sf::Vector2u iconSize = windowIcon.getSize();
+	window->setIcon(iconSize.x, iconSize.y, windowIcon.getPixelsPtr());
+
 	cameraView = window->getDefaultView();
 	staticView = window->getDefaultView();
 
