@@ -21,11 +21,16 @@ public:
 
 	sf::Vector2f currentMoveDirection;
 	
+	int maxStorage = 10;
+
 	int storageCapacity = 0;
 	int currentStorageAmount = 0;
 
 	float activeFuelConsumption = 0;
 	float passiveFuelConsumption = 0;
+
+	float minActiveFuelConsumption = 10;
+	float minPassiveFuelConsumption = .5f;
 	
 	float moveSpeed = 0;
 	
