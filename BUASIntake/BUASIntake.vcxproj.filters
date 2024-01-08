@@ -127,7 +127,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="water_shader.frag">
+    <None Include="Resources\Shader\water_shader.frag">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

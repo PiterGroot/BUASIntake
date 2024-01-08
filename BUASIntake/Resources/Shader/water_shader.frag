@@ -6,6 +6,12 @@ uniform float scrollDirX;
 uniform float scrollDirY;
 uniform vec2 resolution;
 
+float threshold = 0.7; // Threshold the noise value to create sharp edges
+float movementInputIntensity = 0.011f;
+float pixelationFactor = 250.0f; // Pixelation factor (adjust this to control the size of the pixels)
+vec3 lightBlueColor = vec3(0.294, 0.471, 0.98);
+vec3 darkBlueColor = vec3(0.118, 0.282, 0.671);
+
 vec3 mod289(vec3 x) {
   return x - floor(x * (1.0 / 289.0)) * 289.0;
 }
@@ -102,21 +108,16 @@ void main()
     // Normalize the coordinates to the range [0, 1]
     vec2 uv = gl_FragCoord.xy / resolution;
 
-    // Pixelation factor (adjust this to control the size of the pixels)
-    float pixelationFactor = 250.0f;
-
     // Quantize UV coordinates to create pixelation effect
     vec2 quantizedUV = floor(uv * pixelationFactor) / pixelationFactor;
 
     // Use the Perlin noise function on quantized UV coordinates
-    float noiseValue = snoise(vec3(quantizedUV * 10.0 + vec2(scrollDirX * 0.011f, scrollDirY * 0.011f), time * 0.1f));
+    float noiseValue = snoise(vec3(quantizedUV * 10.0 + vec2(scrollDirX, scrollDirY) * movementInputIntensity, time * 0.1f));
 
-    // Threshold the noise value to create sharp edges
-    float threshold = 0.7;
     float binaryValue = step(noiseValue, threshold);
 
     // Map the binary value to color (dark blue and light blue)
-    vec3 color = mix(vec3(0.294, 0.471, 0.98), vec3(0.118, 0.282, 0.671), binaryValue);
+    vec3 color = mix(lightBlueColor, darkBlueColor, binaryValue);
 
     // Output the final color
     gl_FragColor = vec4(color, 1);

@@ -187,7 +187,7 @@
     <ClInclude Include="Waypoint.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="water_shader.frag" />
+    <None Include="Resources\Shader\water_shader.frag" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="VCR_OSD_MONO_1.001.ttf" />
