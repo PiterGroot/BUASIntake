@@ -158,6 +158,7 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="PickupScatter.cpp" />
     <ClCompile Include="PlayerHome.cpp" />
+    <ClCompile Include="StartScreens.cpp" />
     <ClCompile Include="VortexEnemy.cpp" />
     <ClCompile Include="KrakenEnemy.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="PickupScatter.h" />
     <ClInclude Include="PlayerHome.h" />
+    <ClInclude Include="StartScreens.h" />
     <ClInclude Include="VortexEnemy.h" />
     <ClInclude Include="KrakenEnemy.h" />
     <ClInclude Include="PlayerBoat.h" />

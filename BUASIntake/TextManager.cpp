@@ -50,6 +50,9 @@ TextManager::TextLabelContainer* TextManager::GetTextlabel(sf::String labelId)
 //Draw all textlabels that move along with the camera
 void TextManager::DrawInWorld(sf::RenderWindow* window)
 {
+	if (!Game::instance->isGameStarted)
+		return;
+
 	for (const auto& labelPair : TextManager::textLabels)
 	{
 		if (labelPair.second->isStatic)
@@ -62,6 +65,9 @@ void TextManager::DrawInWorld(sf::RenderWindow* window)
 //Draw all textlabels to the screen
 void TextManager::Draw(sf::RenderWindow* window)
 {
+	if (!Game::instance->isGameStarted)
+		return;
+
 	for (const auto& labelPair : TextManager::textLabels) 
 	{
 		if (!labelPair.second->isStatic)

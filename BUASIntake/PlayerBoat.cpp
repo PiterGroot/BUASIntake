@@ -49,7 +49,8 @@ PlayerBoat::PlayerBoat(sf::Vector2f spawnPosition) : Collider(this, false) // ca
 
 	objectSprite.setScale(sf::Vector2f(2, 2));
 	GameObject::InitializeGameobject("Player", "Textures/Ship/ship1.png", spawnPosition);
-	Game::instance->updatingGameobjects.push_back(this);
+	
+	isActive = false;
 }
 
 //Move player if it has enough fuel

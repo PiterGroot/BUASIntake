@@ -27,10 +27,9 @@ void Game::OnInitialize()
 	textManager = new TextManager();
 	inputManager = new InputManager();
 
-	enemySpawner = new EnemySpawner();
 	new PickupScatter(plasticDebris);
-
 	waterColor = sf::Color(3, 165, 252); //out of bounds background color
+	startScreens = new StartScreens(GetScreenCenter());
 }
 
 //window initialization
@@ -64,6 +63,9 @@ void Game::OnUpdate(float deltaTime)
 {
 	this->deltaTime = deltaTime;
 	elapsedTime += deltaTime;
+	
+	if(!isGameStarted) //while game has not yet started, increment startup time
+		startupTime += deltaTime;
 
 	//Update window polling events
 	OnUpdateWindowEvents();
@@ -75,10 +77,10 @@ void Game::OnUpdate(float deltaTime)
 	}
 
 	//Update game timer if player is not in the "shop"
-	if (!playerHome->isChoosingUpgrade && !isGameOver)
+	if (!playerHome->isChoosingUpgrade && !isGameOver && isGameStarted)
 	{
 		std::ostringstream timerStringStream;
-		timerStringStream << std::fixed << std::setprecision(2) << elapsedTime;
+		timerStringStream << std::fixed << std::setprecision(2) << abs(elapsedTime - startupTime);
 		textManager->UpdateTextLabel("GameTimer", timerStringStream.str());
 	}
 

@@ -66,6 +66,9 @@
     <ClCompile Include="PickupScatter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StartScreens.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vec2.hpp">
@@ -117,6 +120,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PickupScatter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StartScreens.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

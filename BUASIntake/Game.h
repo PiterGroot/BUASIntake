@@ -11,6 +11,7 @@
 #include "EnemySpawner.h"
 #include "InputManager.h"
 #include "AudioManager.h"
+#include "StartScreens.h"
 #include "TextManager.h"
 #include "BoxCollider.h"
 #include "GameObject.h"
@@ -27,6 +28,8 @@ public:
 	static Game* instance;
 
 	bool isGameOver = false;
+	bool isGameStarted = false;
+
 	int plasticDebris = 300;
 	int cleanedUpDebris = 0;
 	
@@ -58,6 +61,7 @@ public:
 	void OnRender();
 
 private:
+	StartScreens* startScreens = nullptr;
 	sf::RenderWindow* window = nullptr;
 	sf::Image windowIcon;
 	sf::Event windowEvent;
@@ -73,6 +77,7 @@ private:
 
 	float deltaTime;
 	float elapsedTime;
+	float startupTime;
 
 	void OnInitialize();
 	void OnInitializeWindow();
