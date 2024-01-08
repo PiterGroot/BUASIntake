@@ -8,6 +8,7 @@ Collider::Collider(GameObject* object, bool isTrigger) : object(object)
     Game::instance->activeColliders.push_back(this);
 }
 
+//AABB collison check
 bool Collider::CheckCollision(Collider& other, float pushBack)
 {
     sf::Vector2f otherPosition = other.GetBodyPosition();
@@ -31,7 +32,7 @@ bool Collider::CheckCollision(Collider& other, float pushBack)
     return false;
 }
 
-//AABB collison check
+//Check if intersects overlap
 void Collider::AdjustPositions(Collider& other, sf::Vector2f intersect, sf::Vector2f deltaPosition, float pushBack)
 {
     if (isTriggerCollider || other.isTriggerCollider)
@@ -54,4 +55,34 @@ void Collider::MoveBodies(Collider& other, float thisDeltaX, float thisDeltaY, f
 {
     MoveBody(sf::Vector2f(thisDeltaX, thisDeltaY));
     other.MoveBody(sf::Vector2f(otherDeltaX, otherDeltaY));
+}
+
+//Actual move object
+void Collider::MoveBody(sf::Vector2f deltaPosition)
+{
+    object->MoveGameObject(object->position += deltaPosition);
+}
+
+//Set if this collider should act as a trigger
+void Collider::SetTrigger(bool trigger) 
+{
+    isTriggerCollider = trigger;
+}
+
+//Get current object position
+sf::Vector2f Collider::GetBodyPosition() 
+{
+    return object->position;
+}
+
+//Get current object half size
+sf::Vector2f Collider::GetHalfBodySize()
+{
+    return sf::Vector2f(object->objectTexture.getSize()) * .5f;
+}
+
+//Get reference to current gameobject
+GameObject* Collider::GetObject() 
+{
+    return object;
 }
