@@ -189,6 +189,9 @@ void PlayerBoat::OnCollideWithKraken(Collider& other, PlayerBoat* player)
 
 void PlayerBoat::OnCollideWithPickup(Collider& other, PlayerBoat* player)
 {
+	if (!isActive) //return if player is not active
+		return;
+
 	//Generate random number for cleanup tries when player collides the pickup for the first time
 	if (!isInsidePickup)
 		randCleanupTries = std::rand() % 5 + 1;
