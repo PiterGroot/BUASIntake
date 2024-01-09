@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Collider.h"
+#include "../Framework/Collider.h"
 #include <list>
 
 class CollisionManager 

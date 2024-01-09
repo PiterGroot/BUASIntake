@@ -147,50 +147,50 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AudioManager.cpp" />
-    <ClCompile Include="BoxCollider.cpp" />
-    <ClCompile Include="Collider.cpp" />
-    <ClCompile Include="CollisionManager.cpp" />
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="EnemySpawner.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="PickupScatter.cpp" />
-    <ClCompile Include="PlayerHome.cpp" />
-    <ClCompile Include="StartScreens.cpp" />
-    <ClCompile Include="VortexEnemy.cpp" />
-    <ClCompile Include="KrakenEnemy.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="PlayerBoat.cpp" />
-    <ClCompile Include="TextManager.cpp" />
-    <ClCompile Include="Waypoint.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AudioManager.h" />
-    <ClInclude Include="BoxCollider.h" />
-    <ClInclude Include="Collider.h" />
-    <ClInclude Include="CollisionManager.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="EnemySpawner.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="InputManager.h" />
-    <ClInclude Include="PickupScatter.h" />
-    <ClInclude Include="PlayerHome.h" />
-    <ClInclude Include="StartScreens.h" />
-    <ClInclude Include="VortexEnemy.h" />
-    <ClInclude Include="KrakenEnemy.h" />
-    <ClInclude Include="PlayerBoat.h" />
-    <ClInclude Include="TextManager.h" />
-    <ClInclude Include="vec2.hpp" />
-    <ClInclude Include="Waypoint.h" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Shader\water_shader.frag" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="VCR_OSD_MONO_1.001.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Scripts\Framework\BoxCollider.h" />
+    <ClInclude Include="Scripts\Framework\Collider.h" />
+    <ClInclude Include="Scripts\Framework\Enemy.h" />
+    <ClInclude Include="Scripts\Framework\GameObject.h" />
+    <ClInclude Include="Scripts\Framework\vec2.hpp" />
+    <ClInclude Include="Scripts\Game.h" />
+    <ClInclude Include="Scripts\Gameplay\KrakenEnemy.h" />
+    <ClInclude Include="Scripts\Gameplay\PlayerBoat.h" />
+    <ClInclude Include="Scripts\Gameplay\PlayerHome.h" />
+    <ClInclude Include="Scripts\Gameplay\VortexEnemy.h" />
+    <ClInclude Include="Scripts\Gameplay\Waypoint.h" />
+    <ClInclude Include="Scripts\Managers\AudioManager.h" />
+    <ClInclude Include="Scripts\Managers\CollisionManager.h" />
+    <ClInclude Include="Scripts\Managers\InputManager.h" />
+    <ClInclude Include="Scripts\Managers\TextManager.h" />
+    <ClInclude Include="Scripts\Systems\EnemySpawner.h" />
+    <ClInclude Include="Scripts\Systems\PickupScatter.h" />
+    <ClInclude Include="Scripts\Systems\StartScreens.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Scripts\Framework\BoxCollider.cpp" />
+    <ClCompile Include="Scripts\Framework\Collider.cpp" />
+    <ClCompile Include="Scripts\Framework\Enemy.cpp" />
+    <ClCompile Include="Scripts\Framework\GameObject.cpp" />
+    <ClCompile Include="Scripts\Game.cpp" />
+    <ClCompile Include="Scripts\Gameplay\KrakenEnemy.cpp" />
+    <ClCompile Include="Scripts\Gameplay\PlayerBoat.cpp" />
+    <ClCompile Include="Scripts\Gameplay\PlayerHome.cpp" />
+    <ClCompile Include="Scripts\Gameplay\VortexEnemy.cpp" />
+    <ClCompile Include="Scripts\Gameplay\Waypoint.cpp" />
+    <ClCompile Include="Scripts\Main.cpp" />
+    <ClCompile Include="Scripts\Managers\AudioManager.cpp" />
+    <ClCompile Include="Scripts\Managers\CollisionManager.cpp" />
+    <ClCompile Include="Scripts\Managers\InputManager.cpp" />
+    <ClCompile Include="Scripts\Managers\TextManager.cpp" />
+    <ClCompile Include="Scripts\Systems\EnemySpawner.cpp" />
+    <ClCompile Include="Scripts\Systems\PickupScatter.cpp" />
+    <ClCompile Include="Scripts\Systems\StartScreens.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

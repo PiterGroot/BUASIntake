@@ -1,6 +1,6 @@
 #pragma once
-#include "GameObject.h"
-#include "Collider.h"
+#include "../Framework/GameObject.h"
+#include "../Framework/Collider.h"
 
 class PlayerHome : public GameObject, public Collider
 {

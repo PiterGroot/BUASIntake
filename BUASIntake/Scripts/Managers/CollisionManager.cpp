@@ -1,5 +1,5 @@
 #include "CollisionManager.h"
-#include "Game.h"
+#include "../Game.h"
 
 void CollisionManager::ResolveCollisions(std::list<Collider*> activeColliders)
 {

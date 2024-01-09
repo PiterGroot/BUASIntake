@@ -1,5 +1,5 @@
 #include "PickupScatter.h"
-#include "Game.h"
+#include "../Game.h"
 
 float spawnRange = 5000;
 float randomSpriteScaler = .4f;

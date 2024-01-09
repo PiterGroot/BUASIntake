@@ -1,5 +1,5 @@
 #include "TextManager.h"
-#include"Game.h";
+#include "../Game.h";
 
 TextManager* TextManager::instance = nullptr;
 

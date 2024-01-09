@@ -1,5 +1,5 @@
 #include "StartScreens.h"
-#include "Game.h"
+#include "../Game.h"
 
 StartScreens::StartScreens(sf::Vector2f screenCenter)
 {

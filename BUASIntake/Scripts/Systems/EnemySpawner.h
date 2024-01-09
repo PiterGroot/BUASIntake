@@ -1,8 +1,8 @@
 #pragma once
 
-#include "GameObject.h"
-#include "vec2.hpp"
-#include "Enemy.h"
+#include "../Framework/GameObject.h"
+#include "../Framework/vec2.hpp"
+#include "../Framework/Enemy.h"
 #include <vector>
 
 class EnemySpawner : private GameObject

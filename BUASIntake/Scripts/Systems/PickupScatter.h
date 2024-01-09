@@ -1,5 +1,5 @@
 #pragma once
-#include "BoxCollider.h"
+#include "../Framework/BoxCollider.h"
 
 class PickupScatter 
 {

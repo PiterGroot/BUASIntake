@@ -1,8 +1,8 @@
 #pragma once
 
-#include "GameObject.h"
+#include "../Framework/GameObject.h"
+#include "../Game.h"
 #include <iostream>
-#include "Game.h"
 
 class Waypoint : public GameObject 
 {

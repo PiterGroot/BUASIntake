@@ -1,6 +1,6 @@
 #include "PlayerBoat.h"
 #include "Waypoint.h"
-#include "Game.h"
+#include "../Game.h"
 
 int startStorageAmount = 6;
 float defaultMoveSpeed = 250;
@@ -214,6 +214,7 @@ void PlayerBoat::OnCollideWithPickup(Collider& other, PlayerBoat* player)
 
 		UpdateStorageLabel(player); //update storage label after pickup
 
+		Game::instance->pickups.remove(other.GetObject());
 		Game::instance->activeColliders.remove(&other);
 		Game::instance->objectsToDelete.push_back(other.GetObject());
 	}
@@ -318,20 +319,23 @@ void PlayerBoat::HandleGameOver(float deltaTime)
 }
 
 //Find closest pickup for plastic waypoint
-sf::Vector2f PlayerBoat::GetClosestPickupPosition(const std::vector<BoxCollider*>& pickups)
+sf::Vector2f PlayerBoat::GetClosestPickupPosition(const std::list<GameObject*>& pickups)
 {
 	sf::Vector2f bestTarget;
 	float closestDistanceSqr = INFINITY;
 
 	for (const auto& potentialTarget : pickups)
 	{
-		sf::Vector2f directionToTarget = potentialTarget->position - position;
+		GameObject* object = potentialTarget;
+		
+
+		sf::Vector2f directionToTarget = object->position - position;
 		float distToTarget = directionToTarget.x * directionToTarget.x + directionToTarget.y * directionToTarget.y;
 
 		if (distToTarget < closestDistanceSqr)
 		{
 			closestDistanceSqr = distToTarget;
-			bestTarget = potentialTarget->position;
+			bestTarget = object->position;
 		}
 	}
 

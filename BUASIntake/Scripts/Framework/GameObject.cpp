@@ -1,5 +1,5 @@
 #include "GameObject.h"
-#include "Game.h"
+#include "../Game.h"
 
 //Set necessary gameobject values and create/initialize gameobject for rendering and updating 
 void GameObject::InitializeGameobject(sf::String name, sf::String texturePath, sf::Vector2f position, bool isHudObject)

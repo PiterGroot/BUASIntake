@@ -7,18 +7,18 @@
 #include <vector>
 #include <list>
 
-#include "CollisionManager.h"
-#include "PickupScatter.h"
-#include "EnemySpawner.h"
-#include "InputManager.h"
-#include "AudioManager.h"
-#include "StartScreens.h"
-#include "TextManager.h"
-#include "BoxCollider.h"
-#include "GameObject.h"
-#include "PlayerBoat.h"
-#include "PlayerHome.h"
-#include "vec2.hpp"
+#include "Managers/CollisionManager.h"
+#include "Systems/PickupScatter.h"
+#include "Managers/InputManager.h"
+#include "Managers/AudioManager.h"
+#include "Framework/BoxCollider.h"
+#include "Systems/StartScreens.h"
+#include "Systems/EnemySpawner.h"
+#include "Managers/TextManager.h"
+#include "Framework/GameObject.h"
+#include "Gameplay/PlayerBoat.h"
+#include "Gameplay/PlayerHome.h"
+#include "Framework/vec2.hpp"
 
 class Game
 {
@@ -43,7 +43,7 @@ public:
 	InputManager* inputManager = nullptr;
 	EnemySpawner* enemySpawner = nullptr;
 
-	std::vector<BoxCollider*> pickups;
+	std::list<GameObject*> pickups;
 	std::list<GameObject*> gameobjects;
 	std::list<GameObject*> hudGameobjects;
 	std::list<Collider*> activeColliders;

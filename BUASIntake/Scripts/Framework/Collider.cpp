@@ -1,6 +1,6 @@
 #include "Collider.h"
 #include <iostream>
-#include "Game.h"
+#include "../Game.h"
 
 Collider::Collider(GameObject* object, bool isTrigger) : object(object)
 {

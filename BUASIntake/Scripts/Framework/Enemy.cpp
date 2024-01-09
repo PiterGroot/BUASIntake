@@ -1,5 +1,5 @@
 #include "Enemy.h"
-#include "Game.h"`
+#include "../Game.h"`
 
 Enemy::Enemy(sf::String name, sf::String texture, sf::Vector2f position) : Collider(this, true)
 {

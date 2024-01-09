@@ -1,6 +1,6 @@
 #include "EnemySpawner.h"
-#include "VortexEnemy.h"
-#include "KrakenEnemy.h"
+#include "../Gameplay/VortexEnemy.h"
+#include "../Gameplay/KrakenEnemy.h"
 
 int currentWave = 0;
 float waveTimer = 10;

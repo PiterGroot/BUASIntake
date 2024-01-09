@@ -1,6 +1,6 @@
 #include <iostream>
 #include "InputManager.h"
-#include "Game.h"
+#include "../Game.h"
 
 InputManager* InputManager::instance = nullptr;
 
