@@ -156,7 +156,7 @@ void Game::OnUpdateWindowEvents()
 		if (windowEvent.type == sf::Event::Closed)
 			window->close();
 
-		if (sf::Event::KeyPressed)
+		if (windowEvent.type == sf::Event::KeyPressed)
 		{
 			if (windowEvent.key.code == sf::Keyboard::Escape)
 				window->close();

@@ -332,12 +332,18 @@ void PlayerBoat::HandleGameOver(float deltaTime)
 		//Create "Game Over" text label
 		float screenWidth = Game::instance->GetScreenSize().x;	
 		sf::Vector2f labelPosition = sf::Vector2f((screenWidth / 2) - 120, 150);
-		TextManager::instance->CreateTextLabel("GameOver", "Game Over", labelPosition, 50);
+		sf::Vector2f subLabelPosition = sf::Vector2f((screenWidth / 2) - 140, 210);
 
-		//unsubscribe from receiving updates
+		Game::instance->playerHome->DepositWaste(currentStorageAmount); //try deposit waste in current storage
+
+		sf::String subLabelText = "You cleaned up " + std::to_string(Game::instance->cleanedUpDebris) + " waste";
+		TextManager::instance->CreateTextLabel("GameOver", "Game Over", labelPosition, 50);
+		TextManager::instance->CreateTextLabel("SubGameOver", subLabelText, subLabelPosition, 20);
+
 		Game* game = Game::instance;
 		game->isGameOver = true;
 
+		//unsubscribe from receiving updates
 		auto iterator = std::remove(game->updatingGameobjects.begin(), game->updatingGameobjects.end(), this);
 		game->updatingGameobjects.erase(iterator, game->updatingGameobjects.end());
 	}
@@ -353,7 +359,6 @@ sf::Vector2f PlayerBoat::GetClosestPickupPosition(const std::list<GameObject*>& 
 	{
 		GameObject* object = potentialTarget;
 		
-
 		sf::Vector2f directionToTarget = object->position - position;
 		float distToTarget = directionToTarget.x * directionToTarget.x + directionToTarget.y * directionToTarget.y;
 
