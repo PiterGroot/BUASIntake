@@ -10,7 +10,7 @@ TextManager::TextManager()
 
 	CreateTextLabel("Fuel", "Fuel ", sf::Vector2f(0, 0), 24);
 	CreateTextLabel("Distance", "Dist ", sf::Vector2f(0, 30), 24);
-	CreateTextLabel("PlasticStatus", "Lake cleanup 100%", sf::Vector2f(0, 60), 24);
+	CreateTextLabel("PlasticStatus", "Lake pollution 100%", sf::Vector2f(0, 60), 24);
 	CreateTextLabel("CurrentStorage", "Storage: 0/6", sf::Vector2f(0, 90), 24);
 
 	CreateTextLabel("GameTimer", "0.00", sf::Vector2f((screenSize.x / 2) - 40, 0), 30);

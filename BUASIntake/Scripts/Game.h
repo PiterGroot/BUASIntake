@@ -30,8 +30,8 @@ public:
 	bool isGameOver = false;
 	bool isGameStarted = false;
 
-	int initialPickupSpawnRange = 3000;
-	int plasticDebris = 50;
+	int initialPickupSpawnRange = 2500;
+	int plasticDebris = 40;
 	int cleanedUpDebris = 0;
 	
 	PlayerBoat* playerBoat = nullptr;

@@ -279,7 +279,7 @@ void PlayerBoat::UpdateCleanupLabel()
 
 	std::ostringstream cleanupStringStream;
 	cleanupStringStream << std::fixed << std::setprecision(2) << dirtyPerc;
-	TextManager::instance->UpdateTextLabel("PlasticStatus", "Lake cleanup " + cleanupStringStream.str() + " %");
+	TextManager::instance->UpdateTextLabel("PlasticStatus", "Lake pollution " + cleanupStringStream.str() + " %");
 }
 
 //Update fuel text label
