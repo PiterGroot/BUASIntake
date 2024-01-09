@@ -23,10 +23,10 @@ PlayerHome::PlayerHome(sf::String name, sf::String texture, sf::Vector2f positio
 
 	//Create home waypoint
 	sf::Vector2f wayPointPosition = sf::Vector2f(position.x, position.y - waypointYOffset);
-	Waypoint* waypoint = new Waypoint("BaseWaypoint", "Textures/Debug/waypoint.png", wayPointPosition, sf::Color::Green);
+	Waypoint* waypoint = new Waypoint("BaseWaypoint", "Textures/DebugTextures/waypoint.png", wayPointPosition, sf::Color::Green);
 
 	//Initialize external trigger collider for depositing
-	BoxCollider* homeTriggerCollider = new BoxCollider("HomeTrigger", "Textures/Debug/boxcollider.png", position, true);
+	BoxCollider* homeTriggerCollider = new BoxCollider("HomeTrigger", "Textures/DebugTextures/boxcollider.png", position, true);
 	homeTriggerCollider->tag = ObjectTag::PlayerHome;
 
 	objectSprite.setScale(sf::Vector2f(6, 6));

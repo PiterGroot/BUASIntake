@@ -51,7 +51,7 @@ PlayerBoat::PlayerBoat(sf::Vector2f spawnPosition) : Collider(this, false) // ca
 		{ sf::Vector2f(-1, -1), leftUpDirection}
 	};
 
-	plasticWaypoint = new Waypoint("PickupWaypoint", "Textures/Debug/waypoint.png", sf::Vector2f(0, 1000), sf::Color::Red);
+	plasticWaypoint = new Waypoint("PickupWaypoint", "Textures/DebugTextures/waypoint.png", sf::Vector2f(0, 1000), sf::Color::Red);
 	
 	objectSprite.setScale(sf::Vector2f(2, 2));
 	GameObject::InitializeGameobject("Player", "Textures/Ship/ship1.png", spawnPosition);

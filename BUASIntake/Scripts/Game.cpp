@@ -19,7 +19,7 @@ void Game::OnInitialize()
 	instance = this;
 
 	playerBoat = new PlayerBoat(sf::Vector2f(0, 0));
-	playerHome = new PlayerHome("PlayerHome", "Textures/Debug/rock.png", sf::Vector2f(-300, 65));
+	playerHome = new PlayerHome("PlayerHome", "Textures/DebugTextures/rock.png", sf::Vector2f(-300, 65));
 
 	//Create necessary managers
 	collisionManager = new CollisionManager();
