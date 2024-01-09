@@ -1,11 +1,10 @@
 #include "PickupScatter.h"
 #include "../Game.h"
 
-float spawnRange = 5000;
 float randomSpriteScaler = .4f;
 
 //Randomly scatter pickups inside a circular shape
-PickupScatter::PickupScatter(int pickupAmount) 
+PickupScatter::PickupScatter(int pickupAmount, int spawnRange) 
 {
 	srand(time(0)); //random seed based on current time
 	for (int i = 0; i < pickupAmount; i++)

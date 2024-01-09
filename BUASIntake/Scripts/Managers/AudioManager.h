@@ -68,7 +68,8 @@ public:
         KillKraken,
         Powerup,
         Ocean,
-        GameOver
+        GameOver,
+        Victory,
 	};
 
 	AudioManager();

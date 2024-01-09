@@ -29,7 +29,7 @@ void Game::OnInitialize()
 
 	//Create necessary systems
 	enemySpawner = new EnemySpawner();
-	new PickupScatter(plasticDebris);
+	new PickupScatter(plasticDebris, initialPickupSpawnRange);
 	new StartScreens(GetScreenCenter());
 }
 

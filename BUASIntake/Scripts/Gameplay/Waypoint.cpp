@@ -1,9 +1,5 @@
 #include "Waypoint.h"
 
-//forward declaration helper methods
-void RotateTowardsBase(GameObject* waypoint, sf::Vector2f targetPosition);
-void ClampPosition(GameObject* waypoint, sf::Vector2f targetPosition);
-
 Waypoint::Waypoint(sf::String name, sf::String texturePath, sf::Vector2f targetPosition, sf::Color color, bool doRotate)
 {
     this->doRotate = doRotate;
@@ -23,7 +19,7 @@ void Waypoint::OnUpdate(float deltaTime)
 }
 
 //Rotate waypoint towards its base point
-void RotateTowardsBase(GameObject* waypoint, sf::Vector2f targetPosition)
+void Waypoint::RotateTowardsBase(GameObject* waypoint, sf::Vector2f targetPosition)
 {
     sf::Vector2f basePosition = targetPosition + sf::Vector2f(0, 10);
     float angle = std::atan2(basePosition.y - waypoint->position.y, basePosition.x - waypoint->position.x) * 180 / PI;
@@ -31,7 +27,7 @@ void RotateTowardsBase(GameObject* waypoint, sf::Vector2f targetPosition)
 }
 
 //Clamps sprite to the screen to make sure it is always visible
-void ClampPosition(GameObject* waypoint, sf::Vector2f targetPosition) {
+void Waypoint::ClampPosition(GameObject* waypoint, sf::Vector2f targetPosition) {
     // move to desired target position
     waypoint->MoveGameObject(waypoint->position = targetPosition);
 

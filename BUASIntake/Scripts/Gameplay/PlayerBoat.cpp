@@ -64,7 +64,7 @@ void PlayerBoat::MovePlayer(sf::Vector2f newPosition, float deltaTime)
 {
 	if (fuel <= 0.1f) 
 	{
-		HandleGameOver(deltaTime);
+		HandleGameOver(deltaTime); //Check if game needs to be ended
 		return;
 	}
 
@@ -217,6 +217,31 @@ void PlayerBoat::OnCollideWithPickup(Collider& other, PlayerBoat* player)
 		Game::instance->pickups.remove(other.GetObject());
 		Game::instance->activeColliders.remove(&other);
 		Game::instance->objectsToDelete.push_back(other.GetObject());
+
+		//Player succesfully collected all pickups
+		if (Game::instance->pickups.size() == 0) 
+		{
+			Game::instance->isGameOver = true;
+			Game::instance->enemySpawner->canUpdate = false;
+
+			float screenWidth = Game::instance->GetScreenSize().x;
+			sf::Vector2f labelPosition = sf::Vector2f((screenWidth / 2) - 120, 150);
+			sf::Vector2f subLabelPosition = sf::Vector2f((screenWidth / 2) - 200, 210);
+
+			AudioManager::instance->PlaySound(AudioManager::SoundTypes::Victory); //play victory sound
+			
+			//Show victory labels
+			TextManager::instance->CreateTextLabel("Victory", "Victory!", labelPosition, 50);
+			TextManager::instance->CreateTextLabel("SubVictory", "You cleaned up the entire lake!", subLabelPosition, 20);
+
+			plasticWaypoint->isActive = false;
+			
+			//Disable pickup waypointer
+			activeFuelConsumption = 0; 
+			passiveFuelConsumption = 0;
+
+			printf("You win!\n");
+		}
 	}
 }
 #pragma endregion

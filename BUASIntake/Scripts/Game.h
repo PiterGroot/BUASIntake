@@ -4,7 +4,6 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
-#include <vector>
 #include <list>
 
 #include "Managers/CollisionManager.h"
@@ -31,7 +30,8 @@ public:
 	bool isGameOver = false;
 	bool isGameStarted = false;
 
-	int plasticDebris = 300;
+	int initialPickupSpawnRange = 3000;
+	int plasticDebris = 50;
 	int cleanedUpDebris = 0;
 	
 	PlayerBoat* playerBoat = nullptr;

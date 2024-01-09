@@ -4,5 +4,5 @@
 class PickupScatter 
 {
 public:
-	PickupScatter(int pickupAmount);
+	PickupScatter(int pickupAmount, int spawnRange);
 };
