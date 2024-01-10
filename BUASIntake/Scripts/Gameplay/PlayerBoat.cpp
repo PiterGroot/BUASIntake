@@ -343,12 +343,8 @@ void PlayerBoat::HandleGameOver(float deltaTime)
 		TextManager::instance->CreateTextLabel("GameOver", "Game Over", labelPosition, 50);
 		TextManager::instance->CreateTextLabel("SubGameOver", subLabelText, subLabelPosition, 20);
 
-		Game* game = Game::instance;
-		game->isGameOver = true;
-
-		//unsubscribe from receiving updates
-		auto iterator = std::remove(game->updatingGameobjects.begin(), game->updatingGameobjects.end(), this);
-		game->updatingGameobjects.erase(iterator, game->updatingGameobjects.end());
+		Game::instance->isGameOver = true;
+		isActive = false;
 	}
 }
 
